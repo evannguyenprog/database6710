@@ -85,7 +85,6 @@ public class UsersDao {
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
             String birthday = resultSet.getString("birthday");
-            String address = resultSet.getString("address");
             double ppsBalance = resultSet.getDouble("ppsBalance");
             double dollarBalance = resultSet.getDouble("dollarBalance");
              
@@ -102,14 +101,14 @@ public class UsersDao {
     // table of the PPS database in mysql.
     public void insert(Users user) throws SQLException {
     	connect_func();
-    	String sql = "insert into  user (email, firstName, lastName, birthday, address, ppsBalance, dollarBalance) values (?, ?, ?, ?, ?, ?, ?)";
+    	String sql = "insert into  user (email, firstName, lastName, birthday,  ppsBalance, dollarBalance) values (?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, user.getEmail());
 		preparedStatement.setString(2, user.getFirstName());
 		preparedStatement.setString(3, user.getLastName());
 		preparedStatement.setString(4, user.getBirthday());
-		preparedStatement.setDouble(6, user.getPpsBalance());
-		preparedStatement.setDouble(7, user.getDollarBalance());
+		preparedStatement.setDouble(5, user.getPpsBalance());
+		preparedStatement.setDouble(6, user.getDollarBalance());
 
 		preparedStatement.executeUpdate();
         preparedStatement.close();
