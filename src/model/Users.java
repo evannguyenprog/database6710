@@ -10,7 +10,6 @@ public class Users {
 	private String firstName;
 	private String lastName;
 	private String birthday;
-	private String address;
 	private double ppsBalance;
 	private double dollarBalance;
 	
@@ -19,16 +18,15 @@ public class Users {
 	public Users(int id) {
         this.id = id;
     }
-	public Users(int id, String email, String firstName, String lastName, String birthday, String address, double ppsBalance, double dollarBalance) {
-		this(email, firstName, lastName, birthday, address, ppsBalance, dollarBalance);
+	public Users(int id, String email, String firstName, String lastName, String birthday, double ppsBalance, double dollarBalance) {
+		this(email, firstName, lastName, birthday, ppsBalance, dollarBalance);
 		this.id = id;
 	}
-	public Users(String email, String firstName, String lastName, String birthday, String address, double ppsBalance, double dollarBalance) {
+	public Users(String email, String firstName, String lastName, String birthday, double ppsBalance, double dollarBalance) {
 		this.email = email;
 		this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
-        this.address = address;
         this.ppsBalance = ppsBalance;
         this.dollarBalance = dollarBalance;
     }
@@ -63,12 +61,7 @@ public class Users {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
 	public double getPpsBalance() {
 		return ppsBalance;
 	}
