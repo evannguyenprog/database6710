@@ -20,7 +20,7 @@
 	
 	<form method="post" action="login">
 		<center>
-			<table border="10" width="30%" cellpadding="4" bgcolor="grey">
+			<table border="10" width="30%" cellpadding="4" bgcolor="white">
 				<thead>
 					<tr>
 						<th colspan="2">Login</th>

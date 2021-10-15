@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
+// Importing the Users class from model package
+// to perform various operations for the Users table :
 import model.Users;
 
 
@@ -41,7 +42,8 @@ public class UsersDao {
 		
 	}
 	
-	//db connection
+	//The below function connect_func(), is used for connecting with the 
+	// mySQL database.
 	protected void connect_func() throws SQLException {
         if (connect == null || connect.isClosed()) {
             try {
@@ -51,24 +53,30 @@ public class UsersDao {
             }
             connect = (Connection) DriverManager
             		.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?"
-            			    + "user=john&password=pass1234");
+            			    + "user=john&password=john1234");
             System.out.println(connect);
         }
     }
 
 	
-	//db disconnection
+	//The below function disconnect(), is used for disconnecting with the 
+	// mySQL database.
     protected void disconnect() throws SQLException {
         if (connect != null && !connect.isClosed()) {
         	connect.close();
         }
     }
     
+    // Function "listAllUsers()" is for printing all the rows/records
+    // of 'Users' table(i.e User model/class in Java terminology.)
     public List<Users> listAllUsers() throws SQLException {
-        List<Users> listUsers = new ArrayList<Users>();        
-        String sql = "SELECT * FROM Users";      
+        List<Users> listUsers = new ArrayList<Users>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "SELECT * FROM Users"; 
+        // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
         ResultSet resultSet = statement.executeQuery(sql);
          
         while (resultSet.next()) {
@@ -81,7 +89,7 @@ public class UsersDao {
             double ppsBalance = resultSet.getDouble("ppsBalance");
             double dollarBalance = resultSet.getDouble("dollarBalance");
              
-            Users users = new Users(id, email, firstName, lastName, birthday, address, ppsBalance, dollarBalance);
+            Users users = new Users(id, email, firstName, lastName, birthday, ppsBalance, dollarBalance);
             listUsers.add(users);
         }        
         resultSet.close();
@@ -90,16 +98,16 @@ public class UsersDao {
         return listUsers;
     }
     
-    //insert user function
+    //Function 'insert' below is to insert a row/record in the 'Users'
+    // table of the PPS database in mysql.
     public void insert(Users user) throws SQLException {
-    	connect_func();         
+    	connect_func();
     	String sql = "insert into  user (email, firstName, lastName, birthday, address, ppsBalance, dollarBalance) values (?, ?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, user.getEmail());
 		preparedStatement.setString(2, user.getFirstName());
 		preparedStatement.setString(3, user.getLastName());
 		preparedStatement.setString(4, user.getBirthday());
-		preparedStatement.setString(5, user.getAddress());
 		preparedStatement.setDouble(6, user.getPpsBalance());
 		preparedStatement.setDouble(7, user.getDollarBalance());
 
@@ -117,16 +125,30 @@ public class UsersDao {
  					"email VARCHAR(30) NOT NULL," +
  					"firstName VARCHAR(20) NOT NULL," +
  					"lastName VARCHAR(20) NOT NULL," +
- 					"birthday VARCHAR(15) NOT NULL," +
- 					"address VARCHAR(50) NOT NULL," +
+ 					// changed the birthday datatype to 'DATE'
+ 					"birthday DATE NOT NULL," +
+ 					// removed Address attribute here. 
  					"ppsBalance DOUBLE(10,2)," +
  					"dollarBalance DOUBLE(10,2)," +
- 					"PRIMARY KEY(id));";
+ 					"PRIMARY KEY(id)," +
+ 					"UNIQUE(email);";
  			//todo: add more users here
  			//might have to change how address is stored
- 			String s2 = "INSERT INTO Users(id, email, firstName, lastName, birthday, address, ppsBalance, dollarBalance) VALUES" +
- 					"('root', 'root@admin.com', 'Root', 'Man', '1/1/2021', '100 white street detroit michigan 48236', '100000000.00', '0.00'), " +
- 					"('NULL', 'evan@gmail.com', 'Evan', 'Nguyen', '10/10/2021', '100 barnes rd detroit michigan 48236', '0.00', '0.00');";
+ 			// Removed the address attribute and its values in then below INSERT statement of 'Users' table.
+ 			// 
+ 			String s2 = "INSERT INTO Users(email, firstName, lastName, birthday, ppsBalance, dollarBalance) VALUES" +
+ 					"('root@admin.com', 'Root', 'Man', NOW(), '100000000.00', '0.00'), " +
+ 					"('evan@gmail.com', 'Evan', 'Nguyen', NOW(),  '0.00', '0.00')," +
+ 					"('smit@gmail.com', 'Smit', 'Patel', NOW(),  '0.00', '0.00'),"+
+ 					"('john@gmail.com', 'John', 'Holdings', NOW(),  '0.00', '0.00'),"+
+ 					"('mihir@gmail.com', 'Mihir', 'Patel', NOW(),  '0.00', '0.00'),"+
+ 					"('varun@gmail.com', 'Varun', 'Sharma', NOW(),  '0.00', '0.00'),"+
+ 					"('Tej@gmail.com', 'Tej', 'Singh', NOW(),  '0.00', '0.00'),"+
+ 					"('mike@gmail.com', 'Mike', 'Hussey', NOW(),  '0.00', '0.00'),"+
+ 					"('tenisee@gmail.com', 'Tenise', 'McCullum', NOW(),  '0.00', '0.00'),"+
+ 					"('Ghanu@gmail.com', 'Ghanshyam', 'Mahaprabhu', NOW(),  '0.00', '0.00'),"+
+ 					"('trott@gmail.com', 'Jonathan', 'Trott', NOW(),  '0.00', '0.00');";
+ 
  			statement.executeUpdate(s);
  			System.out.println("'Users' table created.");
  			statement.executeUpdate(s2);
