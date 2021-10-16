@@ -130,9 +130,11 @@ public class AddressDao {
  					"zipcode INT NOT NULL," +
  					"PRIMARY KEY(user_id)," +
  					"FOREIGN_KEY(user_id) REFERRENCES Users(id);";
- 			//todo: add an insert statement below. 
+ 			
+ 			//ToDo: add an insert statement below. 
  			// The insertion in 'Address' table has a foreign key attribute of 
  			// user_id referring to users(id). 
+ 			
    
  			
  			
