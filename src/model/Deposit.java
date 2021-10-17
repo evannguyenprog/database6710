@@ -4,13 +4,33 @@ import java.util.Date;
 
 public class Deposit {
 	
-	// deposit_id is going to be the primary_key for 
+	// 'deposit_id' is going to be the primary_key for 
 	// Deposit table.
 	int deposit_id;
 	// Foreign key referring to the "Id" in "Users" table.
 	int user_id;
 	double deposit_amount;
 	Date deposit_date;
+	
+	// Constructors :
+	public Deposit() {
+		
+	}
+	
+	public Deposit(int deposit_id, int user_id, double deposit_amount, Date deposit_date) {
+		this.deposit_id = deposit_id;
+		this.user_id = user_id;
+		this.deposit_amount = deposit_amount;
+		this.deposit_date = deposit_date;
+	}
+	
+	public Deposit(int user_id, double deposit_amount, Date deposit_date) {
+		this.user_id = user_id;
+		this.deposit_amount = deposit_amount;
+		this.deposit_date = deposit_date;
+	}
+	
+	
 	
 	
 	

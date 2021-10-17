@@ -86,9 +86,9 @@ public class UsersDao {
             String lastName = resultSet.getString("lastName");
             String birthday = resultSet.getString("birthday");
             double ppsBalance = resultSet.getDouble("ppsBalance");
-            double dollarBalance = resultSet.getDouble("dollarBalance");
+            
              
-            Users users = new Users(id, email, firstName, lastName, birthday, ppsBalance, dollarBalance);
+            Users users = new Users(id, email, firstName, lastName, birthday, ppsBalance);
             listUsers.add(users);
         }        
         resultSet.close();
@@ -108,7 +108,7 @@ public class UsersDao {
 		preparedStatement.setString(3, user.getLastName());
 		preparedStatement.setString(4, user.getBirthday());
 		preparedStatement.setDouble(5, user.getPpsBalance());
-		preparedStatement.setDouble(6, user.getDollarBalance());
+		
 
 		preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -151,7 +151,7 @@ public class UsersDao {
  			statement.executeUpdate(s);
  			System.out.println("'Users' table created.");
  			statement.executeUpdate(s2);
- 			System.out.println("2 users added.");
+ 			System.out.println("Multiple users added.");
  			
  		} catch (Exception e) {
  			System.out.println(e);

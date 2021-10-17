@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class Follow {
+public class FollowUser {
     
 	// 'id' below would be the Primay_Key.
 	int id;
@@ -13,9 +13,29 @@ public class Follow {
 	// It is also a foreign_key referring to the 'Id' column of 'Users' table.
 	int followed_user_id;
 	// Date when the follow happens.
-	Date follow;
+	Date followed_date;
 	
 	
+	// Constructor :
+	public FollowUser() {
+		
+	}
+	
+	public FollowUser(int id, int following_user_id, int followed_user_id, Date followed_date) {
+		this.id = id;
+		this.following_user_id = following_user_id;
+		this.followed_user_id = followed_user_id;
+		this.followed_date = followed_date;
+	}
+	
+	public FollowUser(int following_user_id, int followed_user_id, Date followed_date) {
+		this.following_user_id = following_user_id;
+		this.followed_user_id = followed_user_id;
+		this.followed_date = followed_date;
+	}
+	
+	
+	// Getters and Setters :
 	public int getId() {
 		return id;
 	}
@@ -34,11 +54,11 @@ public class Follow {
 	public void setFollowed_user_id(int followed_user_id) {
 		this.followed_user_id = followed_user_id;
 	}
-	public Date getFollow() {
-		return follow;
+	public Date getFollowed_date() {
+		return followed_date;
 	}
-	public void setFollow(Date follow) {
-		this.follow = follow;
+	public void setFollowed_date(Date followed_date) {
+		this.followed_date = followed_date;
 	}
 	
 	

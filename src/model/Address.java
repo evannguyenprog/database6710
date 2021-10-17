@@ -2,11 +2,16 @@ package model;
 
 public class Address {
 	
-	private int user_id;
-	private String street;
-	private String city;
-	private String state;
-	private int zipcode;
+	int user_id;
+	String street;
+	String city;
+	String state;
+	int zipcode;
+	
+	// Constructors :
+	public Address() {
+		
+	}
 	
 	public Address(int user_id, String street, String city, String state, int zipcode) {
 		this.user_id = user_id;
@@ -24,7 +29,7 @@ public class Address {
 	}
 	
 	
-	
+	// Getters and Setters :
 	public String getStreet() {
 		return street;
 	}

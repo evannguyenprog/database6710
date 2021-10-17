@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class Users {
 	
@@ -9,26 +10,26 @@ public class Users {
 	private String email;
 	private String firstName;
 	private String lastName;
-	private String birthday;
+	private Date birthday;
 	private double ppsBalance;
-	private double dollarBalance;
+	
 	
 	public Users() {
     }
 	public Users(int id) {
         this.id = id;
     }
-	public Users(int id, String email, String firstName, String lastName, String birthday, double ppsBalance, double dollarBalance) {
-		this(email, firstName, lastName, birthday, ppsBalance, dollarBalance);
+	public Users(int id, String email, String firstName, String lastName, Date birthday, double ppsBalance) {
+		this(email, firstName, lastName, birthday, ppsBalance);
 		this.id = id;
 	}
-	public Users(String email, String firstName, String lastName, String birthday, double ppsBalance, double dollarBalance) {
+	public Users(String email, String firstName, String lastName, Date birthday, double ppsBalance) {
 		this.email = email;
 		this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.ppsBalance = ppsBalance;
-        this.dollarBalance = dollarBalance;
+        
     }
     
 	public int getId() {
@@ -55,10 +56,10 @@ public class Users {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(String birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 	
@@ -68,12 +69,7 @@ public class Users {
 	public void setPpsBalance(double ppsBalance) {
 		this.ppsBalance = ppsBalance;
 	}
-	public double getDollarBalance() {
-		return dollarBalance;
-	}
-	public void setDollarBalance(double dollarBalance) {
-		this.dollarBalance = dollarBalance;
-	}
+	
 	
 	
 }

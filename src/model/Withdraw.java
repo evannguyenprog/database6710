@@ -16,7 +16,31 @@ public class Withdraw {
 	Date withdrawal_date;
 	
 	
+	// Constructors for 'Withdraw' class :
 	
+	public Withdraw() {
+    }
+	
+	public Withdraw(int user_id) {
+        this.user_id = user_id;
+    }
+	
+	public Withdraw(int withdraw_id, int user_id, double withdraw_amount, Date withdrawal_date) {
+		this.withdraw_id = withdraw_id;
+		this.user_id = user_id;
+		this.withdraw_amount = withdraw_amount;
+		this.withdrawal_date = withdrawal_date;
+	}
+	
+	public Withdraw(int user_id, double withdraw_amount, Date withdrawal_date) {
+		this.user_id = user_id;
+		this.withdraw_amount = withdraw_amount;
+		this.withdrawal_date = withdrawal_date;
+	}
+	
+	
+	
+	// Getters and Setters for 'Withdraw' class :
 	public Date getWithdrawal_date() {
 		return withdrawal_date;
 	}
