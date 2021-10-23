@@ -2,13 +2,13 @@ package model;
 
 public class SpecialUserRoot {
 	
-	String id;
+	private String id;
 	
-	double balance_of_money;
+	private double balance_of_money;
 	
-	int balance_of_pps;
+	private int balance_of_pps;
 	
-	double price_of_pps;
+	private double price_of_pps;
 	
 	
 	public SpecialUserRoot() {

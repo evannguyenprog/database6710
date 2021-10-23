@@ -6,13 +6,13 @@ import java.util.Date;
 public class SellPPS {
 	
 	// Primary_Key of the table :
-    int id;
+	private int id;
 	// The user who sells the PPS :
-	int user_id;
+	private String user_email;
 	// Number of PPS sold :
-	int number_pps_sold;
+	private int number_pps_sold;
 	// Date on which the PPS is sold :
-	Date pps_sold_date;
+	private String pps_sold_date;
 	
     // Constructors :
 	
@@ -20,15 +20,15 @@ public class SellPPS {
 		
 	}
 	
-	public SellPPS(int id, int user_id, int number_pps_sold, Date pps_sold) {
+	public SellPPS(int id, String user_email, int number_pps_sold, String pps_sold) {
 		this.id = id;
-		this.user_id = user_id;
+		this.user_email = user_email;
 		this.number_pps_sold = number_pps_sold;
 		this.pps_sold_date = pps_sold;
 	}
 	
-	public SellPPS(int user_id, int number_pps_sold, Date pps_sold) {
-		this.user_id = user_id;
+	public SellPPS(String user_email, int number_pps_sold, String pps_sold) {
+		this.user_email = user_email;
 		this.number_pps_sold = number_pps_sold;
 		this.pps_sold_date = pps_sold;
 	}
@@ -44,12 +44,12 @@ public class SellPPS {
 		this.id = id;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public String getUser_email() {
+		return user_email;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
 	}
 
 	public int getNumber_pps_sold() {
@@ -60,11 +60,11 @@ public class SellPPS {
 		this.number_pps_sold = number_pps_sold;
 	}
 
-	public Date getPps_sold_date() {
+	public String getPps_sold_date() {
 		return pps_sold_date;
 	}
 
-	public void setPps_sold_date(Date pps_sold_date) {
+	public void setPps_sold_date(String pps_sold_date) {
 		this.pps_sold_date = pps_sold_date;
 	}
 

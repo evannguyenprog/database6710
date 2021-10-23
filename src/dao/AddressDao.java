@@ -83,15 +83,13 @@ public class AddressDao {
         ResultSet resultSet = statement.executeQuery(sql);
          
         while (resultSet.next()) {
-            int user_id = resultSet.getInt("user_id");
+            String user_id = resultSet.getString("user_email");
             String street = resultSet.getString("street");
             String city = resultSet.getString("city");
             String state = resultSet.getString("state");
             int zipcode = resultSet.getInt("zipcode");
-           
-            
              
-            Address address = new Address(user_id, street, city, state, zipcode);
+			Address address = new Address(user_email, street, city, state, zipcode);
             listAddress.add(address);
         }        
         resultSet.close();
@@ -106,12 +104,13 @@ public class AddressDao {
     	
     	connect_func();
     	// Preparing the sql statement to insert into 'Address' table.
-    	String sql = "insert into  address (street, city, state, zipcode) values (?, ?, ?, ?)";
+    	String sql = "insert into  address (user_email, street, city, state, zipcode) values (?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, address.getStreet());
-		preparedStatement.setString(2, address.getCity());
-		preparedStatement.setString(3, address.getState());
-		preparedStatement.setInt(4, address.getZipcode());
+		preparedStatement.setString(1, address.getUser_email());
+		preparedStatement.setString(2, address.getStreet());
+		preparedStatement.setString(3, address.getCity());
+		preparedStatement.setString(4, address.getState());
+		preparedStatement.setInt(5, address.getZipcode());
 	
 
 		preparedStatement.executeUpdate();
@@ -123,19 +122,35 @@ public class AddressDao {
  		try {
  			connect_func();
  			String s = "CREATE TABLE Address (" +
- 					"user_id INT NOT NULL," +
+ 					"user_email VARCHAR(100) NOT NULL," +
  					"street VARCHAR(100) NOT NULL," +
  					"city CHAR(20) NOT NULL," +
- 					"state CHAR(20) NOT NULL," +
+ 					"state CHAR(10) NOT NULL," +
  					"zipcode INT NOT NULL," +
- 					"PRIMARY KEY(user_id)," +
- 					"FOREIGN_KEY(user_id) REFERRENCES Users(id);";
+ 					"PRIMARY KEY(user_email)," +
+ 					"FOREIGN_KEY(user_email) REFERRENCES Users(email);";
  			
  			//ToDo: add an insert statement below. 
  			// The insertion in 'Address' table has a foreign key attribute of 
  			// user_id referring to users(id). 
  			
-   
+ 			
+ 			String s2 = "INSERT INTO ADDRESS(user_email, street, city, state, zipcode) VALUES\r\n"
+ 					+ "('evan@gmail.com', '567 Brooke Street', 'Akshardham', 'AK', 56565), \r\n"
+ 					+ "('smit@gmail.com', '899 Akshar Street', 'Saginaw', 'MI', 48189), \r\n"
+ 					+ "('john@gmail.com', '899 Random Street', 'Saginaw', 'MI', 48189), \r\n"
+ 					+ "('mihir@gmail.com', '1 Aksharadhipati', 'Saginaw', 'MI', 48189),\r\n"
+ 					+ "('varun@gmail.com', '2424 Canterburry Circle', 'Canton', 'MI', 48185), \r\n"
+ 					+ "('Tej@gmail.com', '5656 Canterburry Circle', 'Jersey', 'NJ', 48190),\r\n"
+ 					+ "('mike@gmail.com', '8989 Canterburry Circle', 'Mt. Laurel', 'NJ', 48196),\r\n"
+ 					+ "('tenisee@gmail.com', '8909 Philips St.', 'Mt. Laurel', 'NJ', 48196),\r\n"
+ 					+ "('Ghanu@gmail.com', 'Akshardham Sihasan', 'Akshardham', 'PN', 11111),\r\n"
+ 					+ "('trott@gmail.com', '89 Philips St.', 'Mt. City', 'NJ', 48156);";
+ 			
+ 			statement.executeUpdate(s);
+ 		    System.out.println("The Address table is created.");
+ 		    statement.execute(s2);
+ 		    System.out.println("The Addresses of all the Users are added.");
  			
  			
  		} catch (Exception e) {

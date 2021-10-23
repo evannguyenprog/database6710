@@ -6,25 +6,25 @@ import java.util.Date;
 
 public class Users {
 	
-	private int id;
 	private String email;
 	private String firstName;
 	private String lastName;
-	private Date birthday;
+	private String birthday;
 	private double ppsBalance;
 	
 	
 	public Users() {
     }
-	public Users(int id) {
-        this.id = id;
-    }
-	public Users(int id, String email, String firstName, String lastName, Date birthday, double ppsBalance) {
-		this(email, firstName, lastName, birthday, ppsBalance);
-		this.id = id;
-	}
-	public Users(String email, String firstName, String lastName, Date birthday, double ppsBalance) {
+	
+	public Users(String email, String firstName, String lastName, String birthday, double ppsBalance) {
 		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.ppsBalance = ppsBalance;
+		
+	}
+	public Users(String firstName, String lastName, String birthday, double ppsBalance) {
 		this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -32,12 +32,7 @@ public class Users {
         
     }
     
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -56,10 +51,10 @@ public class Users {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 	

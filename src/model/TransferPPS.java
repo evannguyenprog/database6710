@@ -6,69 +6,105 @@ import java.util.Date;
 public class TransferPPS {
     
 	// 'id' below will be a primary_key. It is to be auto_incremented.
-	int id;
+	private int id;
 	
-	int transfering_user_id;
+    private String transfering_user_email;
 	
-	int receiving_user_id;
+	private String receiving_user_email;
 	
-	Date transfer_date;
+	private String transfer_date;
+	
+	private int number_pps_transfered;
 	
 	
+	
+
+
+	
+	/**
+	 * @return the number_pps_transfered
+	 */
+	public int getNumber_pps_transfered() {
+		return number_pps_transfered;
+	}
+
+	/**
+	 * @param number_pps_transfered the number_pps_transfered to set
+	 */
+	public void setNumber_pps_transfered(int number_pps_transfered) {
+		this.number_pps_transfered = number_pps_transfered;
+	}
+
 	// Constructor defining :
 	public TransferPPS() {
 		
 	}
 	
-	public TransferPPS(int id, int transfering_user_id,  int receiving_user_id,   Date transfer_date) {
+	public TransferPPS(int id, String transfering_user_email,  String receiving_user_email,   String transfer_date, int number_pps_transfered) {
 		this.id = id;
-		this.transfering_user_id = transfering_user_id;
-		this.receiving_user_id = receiving_user_id;
+		this.transfering_user_email = transfering_user_email;
+		this.receiving_user_email = receiving_user_email;
 		this.transfer_date = transfer_date;
+		this.number_pps_transfered = number_pps_transfered;
 	}
 	
-	public TransferPPS(int transfering_user_id,  int receiving_user_id,   Date transfer_date) {
-		this.transfering_user_id = transfering_user_id;
-		this.receiving_user_id = receiving_user_id;
+	public TransferPPS(String transfering_user_id,  String receiving_user_id,   String transfer_date, int number_pps_transfered) {
+		this.transfering_user_email = transfering_user_id;
+		this.receiving_user_email = receiving_user_id;
 		this.transfer_date = transfer_date;
+		this.number_pps_transfered = number_pps_transfered;
 	}
+
 	
 	
-	
-	
-	
-	
-   // Getter and Setter methods for Transfer_PPS attributes :
-	
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @return the transfering_user_email
+	 */
+	public String getTransfering_user_email() {
+		return transfering_user_email;
+	}
+
+	/**
+	 * @return the receiving_user_email
+	 */
+	public String getReceiving_user_email() {
+		return receiving_user_email;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public int getTransfering_user_id() {
-		return transfering_user_id;
+	/**
+	 * @param transfering_user_email the transfering_user_email to set
+	 */
+	public void setTransfering_user_email(String transfering_user_email) {
+		this.transfering_user_email = transfering_user_email;
 	}
 
-	public void setTransfering_user_id(int transfering_user_id) {
-		this.transfering_user_id = transfering_user_id;
+	/**
+	 * @param receiving_user_email the receiving_user_email to set
+	 */
+	public void setReceiving_user_email(String receiving_user_email) {
+		this.receiving_user_email = receiving_user_email;
 	}
 
-	public int getReceiving_user_id() {
-		return receiving_user_id;
-	}
 
-	public void setReceiving_user_id(int receiving_user_id) {
-		this.receiving_user_id = receiving_user_id;
-	}
-
-	public Date getTransfer_date() {
+	public String getTransfer_date() {
 		return transfer_date;
 	}
 
-	public void setTransfer_date(Date transfer_date) {
+	public void setTransfer_date(String transfer_date) {
 		this.transfer_date = transfer_date;
 	}
 	

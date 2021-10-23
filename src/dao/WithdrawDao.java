@@ -25,21 +25,20 @@ import javax.servlet.http.HttpServletResponse;
 
 // Importing the Users class from model package
 // to perform various operations for the Users table :
-import model.Users;
+import model.Withdraw;
 
+@WebServlet("/WithdrawDao")
 
-
-@WebServlet("/UsersDao")
-
-public class UsersDao {
-
+public class WithdrawDao {
+	
+	
 	private static final long serialVersionUID = 1L;
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public UsersDao() {
+	public WithdrawDao() {
 		
 	}
 	
@@ -70,10 +69,10 @@ public class UsersDao {
     
     // Function "listAllUsers()" is for printing all the rows/records
     // of 'Users' table(i.e User model/class in Java terminology.)
-    public List<Users> listAllUsers() throws SQLException {
-        List<Users> listUsers = new ArrayList<Users>();  
+    public List<Withdraw> listAllWithdraw() throws SQLException {
+        List<Withdraw> listWithdraw = new ArrayList<Withdraw>();  
         // A string 'sql' storing a sql query. 
-        String sql = "SELECT * FROM Users"; 
+        String sql = "SELECT * FROM Withdraw"; 
         // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
@@ -82,33 +81,32 @@ public class UsersDao {
          
         while (resultSet.next()) {
            
-            String email = resultSet.getString("email");
-            String firstName = resultSet.getString("firstName");
-            String lastName = resultSet.getString("lastName");
-            String birthday = resultSet.getString("birthday");
-            double ppsBalance = resultSet.getDouble("ppsBalance");
+            int withdraw_id = resultSet.getInt("withdraw_id");
+            String user_email = resultSet.getString("user_email");
+            double withdraw_amount = resultSet.getDouble("withdraw_amount");
+            String withdrawal_date = resultSet.getString("withdrawal_date");
+            
             
              
-            Users users = new Users(email, firstName, lastName, birthday, ppsBalance);
-            listUsers.add(users);
+            Withdraw withdraw = new Withdraw(withdraw_id, user_email, withdraw_amount, withdrawal_date);
+            listWithdraw.add(withdraw);
         }        
         resultSet.close();
         statement.close();         
         disconnect();        
-        return listUsers;
+        return listWithdraw;
     }
     
     //Function 'insert' below is to insert a row/record in the 'Users'
     // table of the PPS database in mysql.
-    public void insert(Users user) throws SQLException {
+    public void insert(Withdraw withdraw) throws SQLException {
     	connect_func();
-    	String sql = "insert into  user (email, firstName, lastName, birthday,  ppsBalance, dollarBalance) values (?, ?, ?, ?, ?, ?)";
+    	String sql = "insert into  Withdraw (user_email, withdraw_amount, withdrawal_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, user.getEmail());
-		preparedStatement.setString(2, user.getFirstName());
-		preparedStatement.setString(3, user.getLastName());
-		preparedStatement.setString(4, user.getBirthday());
-		preparedStatement.setDouble(5, user.getPpsBalance());
+		preparedStatement.setString(1, withdraw.getUser_email());
+		preparedStatement.setDouble(2, withdraw.getWithdraw_amount());
+		preparedStatement.setString(3, withdraw.getWithdrawal_date());
+		
 		
 
 		preparedStatement.executeUpdate();
@@ -116,37 +114,36 @@ public class UsersDao {
         disconnect();
     }
     
-    // create users table
+    // create table
  	public void createTable() throws SQLException {
  		try {
  			connect_func();
- 			String s = "CREATE TABLE Users "
- 					+ "( email VARCHAR(30) NOT NULL, "
- 					+ "firstName VARCHAR(20) NOT NULL, "
- 					+ "lastName VARCHAR(20) NOT NULL, "
- 					+ "birthday VARCHAR(10) NOT NULL, "
- 					+ "ppsBalance DOUBLE(10,2), "
- 					+ "PRIMARY KEY(email));";
- 			//todo: add more users here
- 			//might have to change how address is stored
- 			// Removed the address attribute and its values in then below INSERT statement of 'Users' table.
- 			// 
- 			String s2 = " INSERT INTO Users(email, firstName, lastName, birthday, ppsBalance) VALUES"
- 					+ "('evan@gmail.com', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),"
- 					+ "('smit@gmail.com', 'Smit', 'Patel', '09/10/2021',  '0.00'),"
- 					+ "('john@gmail.com', 'John', 'Holdings','09/12/2021',  '0.00'),"
- 					+ "('mihir@gmail.com', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
- 					+ "('varun@gmail.com', 'Varun', 'Sharma', '09/18/2021',  '0.00'),"
- 					+ "('Tej@gmail.com', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
- 					+ "('mike@gmail.com', 'Mike', 'Hussey', '09/12/2021',  '0.00'),"
- 					+ "('tenisee@gmail.com', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
- 					+ "('Ghanu@gmail.com', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),"
- 					+ "('trott@gmail.com', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
+ 			//Creating the table Withdraw :
+ 			String s = "CREATE TABLE Withdraw(\r\n"
+ 					+ "    withdraw_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
+ 					+ "    user_email VARCHAR(20),\r\n"
+ 					+ "    withdraw_amount DOUBLE,\r\n"
+ 					+ "    withdrawal_date VARCHAR(10),\r\n"
+ 					+ "    FOREIGN KEY(user_email) REFERENCES Users(email)   \r\n"
+ 					+ ");";
+ 			
+ 			// Inserting into the table Withdraw :
+ 			String s2 = " INSERT INTO Withdraw(user_email, withdraw_amount, withdrawal_date) VALUES\r\n"
+ 					+ " 					('evan@gmail.com',0.00,'09/01/2021'),\r\n"
+ 					+ " 					('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 					('john@gmail.com', 0.00,'09/11/2021'),\r\n"
+ 					+ " 					('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
+ 					+ " 					('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
+ 					+ " 					('Tej@gmail.com', 0.00,'09/18/2021'),\r\n"
+ 					+ " 					('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
+ 					+ " 					('tenisee@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 					('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 					('trott@gmail.com', 0.00,'09/01/2021');";
  
  			statement.executeUpdate(s);
- 			System.out.println("'Users' table created.");
+ 			System.out.println("'Withdraw' table created.");
  			statement.executeUpdate(s2);
- 			System.out.println("Multiple users added.");
+ 			System.out.println("Multiple Withdraw Rows are Added.");
  			
  		} catch (Exception e) {
  			System.out.println(e);
@@ -164,16 +161,11 @@ public class UsersDao {
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
 
-	//need to implement password functionality and store password before we can log in users and authenticate sessions
-  	//==== W I P ====
-  	public boolean isUserValid(String email, String password) throws SQLException {
-		boolean check = false;
-		return check;
-	}
-  	
-  	//add future functions below here
-  	
-  	
-}
+	
 
-//todo: refactor peopleDAO to connect to DB and call all MYSQL statements
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -2,19 +2,19 @@ package model;
 
 public class Address {
 	
-	int user_id;
-	String street;
-	String city;
-	String state;
-	int zipcode;
+	private String user_email;
+	private String street;
+	private String city;
+	private String state;
+	private int zipcode;
 	
 	// Constructors :
 	public Address() {
 		
 	}
 	
-	public Address(int user_id, String street, String city, String state, int zipcode) {
-		this.user_id = user_id;
+	public Address(String user_email, String street, String city, String state, int zipcode) {
+		this.user_email = user_email;
 		this.street = street;
 		this.city = city;
 		this.state = state;
@@ -53,6 +53,12 @@ public class Address {
 	}
 	public void setZipcode(int zipcode) {
 		this.zipcode = zipcode;
+	}
+	public String getUser_email() {
+		return user_email;
+	}
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
 	}
 	
 
