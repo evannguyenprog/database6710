@@ -1,0 +1,193 @@
+select user();
+show databases;
+use for_testing;
+CREATE DATABASE for_testing;
+create table tutorials_tbl(
+   tutorial_id INT NOT NULL AUTO_INCREMENT,
+   tutorial_title VARCHAR(100) NOT NULL,
+   tutorial_author VARCHAR(40) NOT NULL,
+   submission_date DATE,
+   PRIMARY KEY ( tutorial_id )
+);
+
+INSERT INTO tutorials_tbl(tutorial_title, tutorial_author, submission_date)
+    VALUES("Learn PHP", "John Poul", NOW());
+
+select submission_date from tutorials_tbl where tutorial_title = 'Learn PHP';
+
+create table something(
+    table_id int );
+    
+select * from tutorials_tbl;
+
+CREATE TABLE Users ( 
+    email VARCHAR(30) NOT NULL, 
+    firstName VARCHAR(20) NOT NULL, 
+    lastName VARCHAR(20) NOT NULL, 
+    birthday VARCHAR(10) NOT NULL, 
+    ppsBalance DOUBLE(10,2), 
+    PRIMARY KEY(email));
+
+
+CREATE TABLE Address (
+    user_email VARCHAR(100) NOT NULL, 
+	street VARCHAR(100) NOT NULL, 
+    city CHAR(20) NOT NULL, 
+    state CHAR(10) NOT NULL, 
+    zipcode INT NOT NULL, 
+    PRIMARY KEY(user_email), 
+    FOREIGN KEY(user_email) REFERENCES Users(email));
+
+
+CREATE TABLE BalanceOfMoney(
+    user_email VARCHAR(20) NOT NULL PRIMARY KEY, 
+    balance_in_dollars DOUBLE,
+    FOREIGN KEY(user_email) REFERENCES Users(email));
+
+CREATE TABLE TransferPPS(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    transfering_user_email VARCHAR(20),
+    receiving_user_email VARCHAR(20),
+    transfer_date VARCHAR(10),
+    FOREIGN KEY(transfering_user_email) REFERENCES Users(email),
+    FOREIGN KEY(receiving_user_email) REFERENCES Users(email)
+);
+
+CREATE TABLE TransferPPS1(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    transfering_user_email VARCHAR(20),
+    receiving_user_email VARCHAR(20),
+    transfer_date VARCHAR(10),
+    number_pps_transfered INTEGER,
+    FOREIGN KEY(transfering_user_email) REFERENCES Users(email),
+    FOREIGN KEY(receiving_user_email) REFERENCES Users(email)
+);
+
+
+CREATE TABLE Withdraw(
+    withdraw_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(20),
+    withdraw_amount DOUBLE,
+    withdrawal_date VARCHAR(10),
+    FOREIGN KEY(user_email) REFERENCES Users(email)   
+);
+
+
+CREATE TABLE Deposit(
+ 					deposit_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ 					user_email VARCHAR(20),
+ 					deposit_amount DOUBLE,
+ 					deposit_date VARCHAR(10),
+ 					FOREIGN KEY(user_email) REFERENCES Users(email)
+ 					);
+
+CREATE TABLE BuyPPS(
+ 					id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ 					user_email VARCHAR(20),
+ 					number_pps_bought INTEGER,
+ 					pps_bought_date VARCHAR(10),
+ 					FOREIGN KEY(user_email) REFERENCES Users(email)
+ 					);
+
+
+
+
+
+ INSERT INTO Users(email, firstName, lastName, birthday, ppsBalance) VALUES
+ 					('evan@gmail.com', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),
+ 					('smit@gmail.com', 'Smit', 'Patel', '09/10/2021',  '0.00'),
+ 					('john@gmail.com', 'John', 'Holdings','09/12/2021',  '0.00'),
+ 					('mihir@gmail.com', 'Mihir', 'Patel', '09/19/2021',  '0.00'),
+ 					('varun@gmail.com', 'Varun', 'Sharma', '09/18/2021',  '0.00'),
+ 					('Tej@gmail.com', 'Tej', 'Singh', '09/07/2021',  '0.00'),
+ 					('mike@gmail.com', 'Mike', 'Hussey', '09/12/2021',  '0.00'),
+ 					('tenisee@gmail.com', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),
+ 					('Ghanu@gmail.com', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),
+ 					('trott@gmail.com', 'Jonathan', 'Trott', '10/12/2021',  '0.00');
+
+
+INSERT INTO ADDRESS(user_email, street, city, state, zipcode) VALUES
+ 					('evan@gmail.com', '567 Brooke Street', 'Akshardham', 'AK', 56565), 
+ 					('smit@gmail.com', '899 Akshar Street', 'Saginaw', 'MI', 48189), 
+					('john@gmail.com', '899 Random Street', 'Saginaw', 'MI', 48189), 
+					('mihir@gmail.com', '1 Aksharadhipati', 'Saginaw', 'MI', 48189),
+ 					('varun@gmail.com', '2424 Canterburry Circle', 'Canton', 'MI', 48185), 
+ 					('Tej@gmail.com', '5656 Canterburry Circle', 'Jersey', 'NJ', 48190),
+ 					('mike@gmail.com', '8989 Canterburry Circle', 'Mt. Laurel', 'NJ', 48196),
+ 					('tenisee@gmail.com', '8909 Philips St.', 'Mt. Laurel', 'NJ', 48196),
+ 					('Ghanu@gmail.com', 'Akshardham Sihasan', 'Akshardham', 'PN', 11111),
+ 					('trott@gmail.com', '89 Philips St.', 'Mt. City', 'NJ', 48156);
+
+ INSERT INTO BalanceOfMoney(user_email, balance_in_dollars) 
+             VALUES('evan@gmail.com', 0),
+ 					('smit@gmail.com', 0),
+ 					('john@gmail.com', 0),
+ 					('mihir@gmail.com', 0),
+ 					('varun@gmail.com', 0),
+ 					('Tej@gmail.com', 0),
+ 					('mike@gmail.com', 0),
+ 					('tenisee@gmail.com', 0),
+ 					('Ghanu@gmail.com', 0),
+ 					('trott@gmail.com', 0);
+
+
+ INSERT INTO TransferPPS1(transfering_user_email, receiving_user_email, transfer_date, number_pps_transfered) VALUES
+	 					('evan@gmail.com', 'smit@gmail.com', '09/01/2021',  '0.00'),
+	 					('smit@gmail.com', 'john@gmail.com', '09/10/2021',  '0.00'),
+	 					('john@gmail.com', 'mihir@gmail.com', '09/12/2021',  '0.00'),
+	 					('mihir@gmail.com', 'varun@gmail.com','09/19/2021',  '0.00'),
+	 					('varun@gmail.com', 'Tej@gmail.com','09/18/2021',  '0.00'),
+	 					('Tej@gmail.com', 'mike@gmail.com','09/07/2021',  '0.00'),
+	 					('mike@gmail.com', 'tenisee@gmail.com', '09/12/2021',  '0.00'),
+	 					('tenisee@gmail.com', 'Ghanu@gmail.com','09/12/2021',  '0.00'),
+	 					('Ghanu@gmail.com', 'trott@gmail.com','09/12/2021',  '0.00'),
+	 					('trott@gmail.com', 'evan@gmail.com', '10/12/2021',  '0.00');
+
+
+INSERT INTO Withdraw(user_email, withdraw_amount, withdrawal_date) VALUES
+ 					('evan@gmail.com',0.00,'09/01/2021'),
+ 					('smit@gmail.com', 0.00,'09/01/2021'),
+ 					('john@gmail.com', 0.00,'09/11/2021'),
+ 					('mihir@gmail.com', 0.00,'09/24/2021'),
+ 					('varun@gmail.com', 0.00,'09/19/2021'),
+ 					('Tej@gmail.com', 0.00,'09/18/2021'),
+ 					('mike@gmail.com', 0.00,'09/05/2021'),
+ 					('tenisee@gmail.com', 0.00,'09/01/2021'),
+ 					('Ghanu@gmail.com', 0.00,'09/01/2021'),
+ 					('trott@gmail.com', 0.00,'09/01/2021');
+                    
+
+INSERT INTO Deposit(user_email, deposit_amount, deposit_date) VALUES
+ 				('evan@gmail.com',0.00,'09/01/2021'),
+			    ('smit@gmail.com', 0.00,'09/01/2021'),
+ 				('john@gmail.com', 0.00,'09/11/2021'),
+ 				('mihir@gmail.com', 0.00,'09/24/2021'),
+ 				('varun@gmail.com', 0.00,'09/19/2021'),
+ 				('Tej@gmail.com', 0.00,'09/18/2021'),
+ 				('mike@gmail.com', 0.00,'09/05/2021'),
+ 				('tenisee@gmail.com', 0.00,'09/01/2021'),
+ 				('Ghanu@gmail.com', 0.00,'09/01/2021'),
+ 				('trott@gmail.com', 0.00,'09/01/2021');
+
+
+INSERT INTO BuyPPS(user_email, number_pps_bought, pps_bought_date) VALUES
+ 				('evan@gmail.com',0.00,'09/01/2021'),
+			    ('smit@gmail.com', 0.00,'09/01/2021'),
+ 				('john@gmail.com', 0.00,'09/11/2021'),
+ 				('mihir@gmail.com', 0.00,'09/24/2021'),
+ 				('varun@gmail.com', 0.00,'09/19/2021'),
+ 				('Tej@gmail.com', 0.00,'09/18/2021'),
+ 				('mike@gmail.com', 0.00,'09/05/2021'),
+ 				('tenisee@gmail.com', 0.00,'09/01/2021'),
+ 				('Ghanu@gmail.com', 0.00,'09/01/2021'),
+ 				('trott@gmail.com', 0.00,'09/01/2021');
+
+
+
+
+select * from deposit;
+select * from Withdraw;
+select * from TransferPPS1;
+select * from users, address where users.email = address.user_email;
+
+select balance_in_dollars from BalanceOfMoney where user_email = 'varun@gmail.com'
