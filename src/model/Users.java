@@ -2,41 +2,37 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class Users {
 	
-	private int id;
 	private String email;
 	private String firstName;
 	private String lastName;
 	private String birthday;
 	private double ppsBalance;
-	private double dollarBalance;
+	
 	
 	public Users() {
     }
-	public Users(int id) {
-        this.id = id;
-    }
-	public Users(int id, String email, String firstName, String lastName, String birthday, double ppsBalance, double dollarBalance) {
-		this(email, firstName, lastName, birthday, ppsBalance, dollarBalance);
-		this.id = id;
-	}
-	public Users(String email, String firstName, String lastName, String birthday, double ppsBalance, double dollarBalance) {
+	
+	public Users(String email, String firstName, String lastName, String birthday, double ppsBalance) {
 		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.ppsBalance = ppsBalance;
+		
+	}
+	public Users(String firstName, String lastName, String birthday, double ppsBalance) {
 		this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.ppsBalance = ppsBalance;
-        this.dollarBalance = dollarBalance;
+        
     }
     
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -68,12 +64,7 @@ public class Users {
 	public void setPpsBalance(double ppsBalance) {
 		this.ppsBalance = ppsBalance;
 	}
-	public double getDollarBalance() {
-		return dollarBalance;
-	}
-	public void setDollarBalance(double dollarBalance) {
-		this.dollarBalance = dollarBalance;
-	}
+	
 	
 	
 }
