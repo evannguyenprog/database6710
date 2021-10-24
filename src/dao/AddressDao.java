@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 // to perform various operations for the Address table :
 import model.Address;
 
-@WebServlet("/AddressDao")
+//@WebServlet("/AddressDao")
 
 public class AddressDao {
 	
@@ -89,7 +89,7 @@ public class AddressDao {
             String state = resultSet.getString("state");
             int zipcode = resultSet.getInt("zipcode");
              
-			Address address = new Address(user_email, street, city, state, zipcode);
+			Address address = new Address(user_id, street, city, state, zipcode);
             listAddress.add(address);
         }        
         resultSet.close();
@@ -159,6 +159,15 @@ public class AddressDao {
  			statement.close(); 
  		}
  	}
+    
+ // drop table function
+   	public void dropTable() throws SQLException {
+  		connect_func();
+  		statement = (Statement) connect.createStatement();
+  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
+  		statement.executeUpdate("DROP TABLE IF EXISTS Address");
+  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+   	}
 	    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

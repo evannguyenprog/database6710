@@ -139,6 +139,16 @@ public class BalanceOfMoneyDao {
  		}
  	}
 
+ // drop table function
+   	public void dropTable() throws SQLException {
+  		connect_func();
+  		statement = (Statement) connect.createStatement();
+  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
+  		statement.executeUpdate("DROP TABLE IF EXISTS BalanceOfMoney");
+  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+   	}
+
+    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		

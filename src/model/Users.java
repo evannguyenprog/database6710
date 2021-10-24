@@ -7,6 +7,7 @@ import java.util.Date;
 public class Users {
 	
 	private String email;
+	private String password;
 	private String firstName;
 	private String lastName;
 	private String birthday;
@@ -16,15 +17,17 @@ public class Users {
 	public Users() {
     }
 	
-	public Users(String email, String firstName, String lastName, String birthday, double ppsBalance) {
+	public Users(String email, String password, String firstName, String lastName, String birthday, double ppsBalance) {
 		this.email = email;
+		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
 		this.ppsBalance = ppsBalance;
 		
 	}
-	public Users(String firstName, String lastName, String birthday, double ppsBalance) {
+	public Users(String password, String firstName, String lastName, String birthday, double ppsBalance) {
+		this.password = password;
 		this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -38,6 +41,12 @@ public class Users {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -57,7 +66,6 @@ public class Users {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	
 	public double getPpsBalance() {
 		return ppsBalance;
 	}

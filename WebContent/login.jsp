@@ -39,7 +39,7 @@
 						<th colspan="2"><button type="submit" id="login" value="login">Login</button></th>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><a href="index.jsp">Register a new account</a></td>
+						<td colspan="2" align="center"><a href="register_user.jsp">Register a new account</a></td>
 					</tr>
 			</table>
 		</center>

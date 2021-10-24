@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.BuyPPS;
 
 
-@WebServlet("/BuyPPSDao")
+//@WebServlet("/BuyPPSDao")
 
 public class BuyPPSDao {
 

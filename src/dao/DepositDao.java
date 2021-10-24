@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 // to perform various operations for the Users table :
 import model.Deposit;
 
-@WebServlet("/DepositDao")
+//@WebServlet("/DepositDao")
 
 public class DepositDao {
 	

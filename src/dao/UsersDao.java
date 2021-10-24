@@ -29,7 +29,7 @@ import model.Users;
 
 
 
-@WebServlet("/UsersDao")
+//@WebServlet("/UsersDao")
 
 public class UsersDao {
 
@@ -102,14 +102,14 @@ public class UsersDao {
     // table of the PPS database in mysql.
     public void insert(Users user) throws SQLException {
     	connect_func();
-    	String sql = "insert into  user (email, firstName, lastName, birthday,  ppsBalance, dollarBalance) values (?, ?, ?, ?, ?, ?)";
+    	String sql = "insert into  user (email, password, firstName, lastName, birthday,  ppsBalance) values (?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, user.getEmail());
-		preparedStatement.setString(2, user.getFirstName());
-		preparedStatement.setString(3, user.getLastName());
-		preparedStatement.setString(4, user.getBirthday());
-		preparedStatement.setDouble(5, user.getPpsBalance());
-		
+		preparedStatement.setString(2, user.getPassword());
+		preparedStatement.setString(3, user.getFirstName());
+		preparedStatement.setString(4, user.getLastName());
+		preparedStatement.setString(5, user.getBirthday());
+		preparedStatement.setDouble(6, user.getPpsBalance());
 
 		preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -122,6 +122,7 @@ public class UsersDao {
  			connect_func();
  			String s = "CREATE TABLE Users "
  					+ "( email VARCHAR(30) NOT NULL, "
+ 					+ "password VARCHAR(30) NOT NULL, "
  					+ "firstName VARCHAR(20) NOT NULL, "
  					+ "lastName VARCHAR(20) NOT NULL, "
  					+ "birthday VARCHAR(10) NOT NULL, "
@@ -131,17 +132,17 @@ public class UsersDao {
  			//might have to change how address is stored
  			// Removed the address attribute and its values in then below INSERT statement of 'Users' table.
  			// 
- 			String s2 = " INSERT INTO Users(email, firstName, lastName, birthday, ppsBalance) VALUES"
- 					+ "('evan@gmail.com', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),"
- 					+ "('smit@gmail.com', 'Smit', 'Patel', '09/10/2021',  '0.00'),"
- 					+ "('john@gmail.com', 'John', 'Holdings','09/12/2021',  '0.00'),"
- 					+ "('mihir@gmail.com', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
- 					+ "('varun@gmail.com', 'Varun', 'Sharma', '09/18/2021',  '0.00'),"
- 					+ "('Tej@gmail.com', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
- 					+ "('mike@gmail.com', 'Mike', 'Hussey', '09/12/2021',  '0.00'),"
- 					+ "('tenisee@gmail.com', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
- 					+ "('Ghanu@gmail.com', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),"
- 					+ "('trott@gmail.com', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
+ 			String s2 = " INSERT INTO Users(email, password, firstName, lastName, birthday, ppsBalance) VALUES"
+ 					+ "('evan@gmail.com', 'password1234', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),"
+ 					+ "('smit@gmail.com', 'password1234', 'Smit', 'Patel', '09/10/2021',  '0.00'),"
+ 					+ "('john@gmail.com', 'password1234', 'John', 'Holdings','09/12/2021',  '0.00'),"
+ 					+ "('mihir@gmail.com', 'password1234', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
+ 					+ "('varun@gmail.com', 'password1234', 'Varun', 'Sharma', '09/18/2021',  '0.00'),"
+ 					+ "('Tej@gmail.com', 'password1234', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
+ 					+ "('mike@gmail.com', 'password1234', 'Mike', 'Hussey', '09/12/2021',  '0.00'),"
+ 					+ "('tenisee@gmail.com', 'password1234', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
+ 					+ "('Ghanu@gmail.com', 'password1234', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),"
+ 					+ "('trott@gmail.com', 'password1234', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
  
  			statement.executeUpdate(s);
  			System.out.println("'Users' table created.");
@@ -164,12 +165,36 @@ public class UsersDao {
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
 
-	//need to implement password functionality and store password before we can log in users and authenticate sessions
-  	//==== W I P ====
-  	public boolean isUserValid(String email, String password) throws SQLException {
-		boolean check = false;
-		return check;
-	}
+  	// email and username verification function
+	// need to implement password functionality and store password before we can log in users and authenticate sessions
+  	//function done
+  	public boolean validityCheck(String email, String password) throws SQLException {
+ 		connect_func();
+ 		boolean flag = false;
+
+ 		statement = (Statement) connect.createStatement();
+ 		String s = "Select * from User where email='" + email + "' and password='" + password + "'";
+ 		ResultSet rs = statement.executeQuery(s);
+ 			
+ 		if(rs.next())
+ 			flag = true;
+ 		return flag;
+ 	}
+  	
+	  	
+ // Function to check if the username / email already exists
+ 	public boolean duplicateEmailCheck(String email) throws SQLException {
+ 		connect_func();
+ 		boolean flag = false;
+ 		statement = (Statement) connect.createStatement();
+ 		String s2 = "Select * from User where email='" + email + "'";
+ 		ResultSet rs = statement.executeQuery(s2);
+ 			
+ 		if(rs.next())
+ 			flag = true;
+ 		return flag;
+ 	}
+  	
   	
   	//add future functions below here
   	
