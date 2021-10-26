@@ -149,7 +149,7 @@ public class WithdrawDao {
  		connect_func();
  		statement = (Statement) connect.createStatement();
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
- 		statement.executeUpdate("DROP TABLE IF EXISTS Users");
+ 		statement.executeUpdate("DROP TABLE IF EXISTS Withdraw");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
 

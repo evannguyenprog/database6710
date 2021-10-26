@@ -98,9 +98,6 @@ public class BuyPPSDao {
 		preparedStatement.setString(1, buy_pps.getUser_email());
 		preparedStatement.setInt(2, buy_pps.getNumber_pps_bought());
 		preparedStatement.setString(3, buy_pps.getPps_bought_date());
-		
-		
-
 		preparedStatement.executeUpdate();
         preparedStatement.close();
         disconnect();
@@ -122,7 +119,7 @@ public class BuyPPSDao {
  			// Inserting into the table BuyPPS :
  			String s2 = "INSERT INTO BuyPPS(user_email, number_pps_bought, pps_bought_date) VALUES\r\n"
  					+ " 				('evan@gmail.com',0.00,'09/01/2021'),\r\n"
- 					+ "			    ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ "			        ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
  					+ " 				('john@gmail.com', 0.00,'09/11/2021'),\r\n"
  					+ " 				('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
  					+ " 				('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
@@ -149,7 +146,7 @@ public class BuyPPSDao {
  		connect_func();
  		statement = (Statement) connect.createStatement();
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
- 		statement.executeUpdate("DROP TABLE IF EXISTS Users");
+ 		statement.executeUpdate("DROP TABLE IF EXISTS BuyPPS");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
 

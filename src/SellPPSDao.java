@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/SellPPSDao")
+//@WebServlet("/SellPPSDao")
 
 public class SellPPSDao {
 
@@ -124,7 +124,7 @@ public class SellPPSDao {
  			// Inserting into the table SellPPS :
  			String s2 = "INSERT INTO SellPPS(user_email, number_pps_sold, pps_sold_date) VALUES\r\n"
  					+ " 				('evan@gmail.com',0.00,'09/01/2021'),\r\n"
- 					+ "			    ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ "			        ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
  					+ " 				('john@gmail.com', 0.00,'09/11/2021'),\r\n"
  					+ " 				('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
  					+ " 				('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
@@ -151,7 +151,7 @@ public class SellPPSDao {
  		connect_func();
  		statement = (Statement) connect.createStatement();
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
- 		statement.executeUpdate("DROP TABLE IF EXISTS Users");
+ 		statement.executeUpdate("DROP TABLE IF EXISTS SellPPS");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
 

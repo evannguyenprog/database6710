@@ -38,6 +38,7 @@ public class ControlServlet extends HttpServlet
     private TransferPPSDao transferPPSDao;
     private UsersDao usersDao;
     private WithdrawDao withdrawDao;
+    private SpecialUserRootDao specialUserRootDao;
     private HttpSession session = null;
     
     public void init() {
@@ -51,6 +52,7 @@ public class ControlServlet extends HttpServlet
         transferPPSDao = new TransferPPSDao();
         usersDao = new UsersDao();
         withdrawDao = new WithdrawDao();
+        specialUserRootDao = new SpecialUserRootDao();
         
     }
     
@@ -114,21 +116,25 @@ public class ControlServlet extends HttpServlet
         transferPPSDao.dropTable();
         usersDao.dropTable();
         withdrawDao.dropTable();
+        specialUserRootDao.dropTable();
+        
 
         System.out.println("====== All Tables Dropped. ======");
        
+        usersDao.createTable(); //have to create user table first otherwise error occurs where users cannot be located
         addressDao.createTable();
         balanceOfMoneyDao.createTable();
         buyPPSDao.createTable();
         depositDao.createTable();
         sellPPSDao.createTable();
         transferPPSDao.createTable();
-        usersDao.createTable();
         withdrawDao.createTable();
+        specialUserRootDao.createTable();
+
         
         System.out.println("====== Database Initalized Successfully. ====== ");
        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("root_successpage.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("rootLoggedIn.jsp");
         dispatcher.forward(request, response);
     }
     
@@ -140,24 +146,24 @@ public class ControlServlet extends HttpServlet
         Login login = new Login(email, password);
        
         RequestDispatcher dispatcher;
-        if(usersDao.validityCheck(email, password) && !email.isEmpty()) {
+        if( (usersDao.validityCheck(email, password) && !email.isEmpty()) || (specialUserRootDao.validityCheck(email, password) && !email.isEmpty())) {
         	session = request.getSession();
         	session.setAttribute("currentEmail", login.getEmail());
         	session.setAttribute("currentPassword", login.getPassword());
         	
             if(email.contentEquals("root")) {
-                dispatcher = request.getRequestDispatcher("initializepage.jsp");
+                dispatcher = request.getRequestDispatcher("rootLoggedIn.jsp");
                 dispatcher.forward(request, response);
                 System.out.println("Root User Authenticated.");
             } else {
-            	dispatcher = request.getRequestDispatcher("user_successpage.jsp");
+            	dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
                 dispatcher.forward(request, response);
                 System.out.println("User Authenticated.");
             }
         } else {
             dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
-            System.out.println("The entered credentials are not correct.");
+            System.out.println("The credentials entered are incorrect.");
         }
     }
     
@@ -176,27 +182,34 @@ public class ControlServlet extends HttpServlet
         String password2 = request.getParameter("password2");
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
-        int age = Integer.parseInt(request.getParameter("age"));
+        String birthdate= request.getParameter("birthdate");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        int zipcode = Integer.parseInt(request.getParameter("zipcode"));
        
         RequestDispatcher dispatcher;
         if(password.contentEquals(password2)) {
             if(!usersDao.duplicateEmailCheck(email)) {
-                Users newUser = new Users(email, password, firstname, lastname, age);
+                Users newUser = new Users(email, password, firstname, lastname, birthdate, 0.00); //default pps amount
                 usersDao.insert(newUser);
-                dispatcher = request.getRequestDispatcher("loginpage.jsp");
+                Address newAddress = new Address(email,street, city, state, zipcode);
+                addressDao.insert(newAddress);
+                
+                dispatcher = request.getRequestDispatcher("login.jsp");
                 dispatcher.forward(request, response);
-                System.out.println("Registration complete");
+                System.out.println("Registration Completed Successfully");
             } else {
                 request.setAttribute("registerError", "This email is already taken");
-                dispatcher = request.getRequestDispatcher("registerpage.jsp");
+                dispatcher = request.getRequestDispatcher("register_user.jsp");
                 dispatcher.forward(request, response);
-                System.out.println("Registration failed, please enter a unique email.");
+                System.out.println("Registration failed. Please enter a different email.");
             }
         } else {
             request.setAttribute("registerError", "Passwords do not match");
-            dispatcher = request.getRequestDispatcher("registerpage.jsp");
+            dispatcher = request.getRequestDispatcher("register_user.jsp");
             dispatcher.forward(request, response);
-            System.out.println("Registration failed, please make sure your passwords match.");
+            System.out.println("Registration failed. Verify your passwords match.");
         }
     }
     

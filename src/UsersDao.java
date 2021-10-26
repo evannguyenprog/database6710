@@ -74,13 +74,14 @@ public class UsersDao {
         while (resultSet.next()) {
            
             String email = resultSet.getString("email");
+            String password = resultSet.getString("password");
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
             String birthday = resultSet.getString("birthday");
             double ppsBalance = resultSet.getDouble("ppsBalance");
             
              
-            Users users = new Users(email, firstName, lastName, birthday, ppsBalance);
+            Users users = new Users(email, password, firstName, lastName, birthday, ppsBalance);
             listUsers.add(users);
         }        
         resultSet.close();
@@ -93,7 +94,7 @@ public class UsersDao {
     // table of the PPS database in mysql.
     public void insert(Users user) throws SQLException {
     	connect_func();
-    	String sql = "insert into  user (email, password, firstName, lastName, birthday,  ppsBalance) values (?, ?, ?, ?, ?, ?)";
+    	String sql = "insert into  Users (email, password, firstName, lastName, birthday,  ppsBalance) values (?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, user.getEmail());
 		preparedStatement.setString(2, user.getPassword());
@@ -124,16 +125,16 @@ public class UsersDao {
  			// Removed the address attribute and its values in then below INSERT statement of 'Users' table.
  			// 
  			String s2 = " INSERT INTO Users(email, password, firstName, lastName, birthday, ppsBalance) VALUES"
- 					+ "('evan@gmail.com', 'password1234', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),"
- 					+ "('smit@gmail.com', 'password1234', 'Smit', 'Patel', '09/10/2021',  '0.00'),"
- 					+ "('john@gmail.com', 'password1234', 'John', 'Holdings','09/12/2021',  '0.00'),"
- 					+ "('mihir@gmail.com', 'password1234', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
- 					+ "('varun@gmail.com', 'password1234', 'Varun', 'Sharma', '09/18/2021',  '0.00'),"
- 					+ "('Tej@gmail.com', 'password1234', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
- 					+ "('mike@gmail.com', 'password1234', 'Mike', 'Hussey', '09/12/2021',  '0.00'),"
- 					+ "('tenisee@gmail.com', 'password1234', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
- 					+ "('Ghanu@gmail.com', 'password1234', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),"
- 					+ "('trott@gmail.com', 'password1234', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
+ 					+ "('evan@gmail.com', 'pass1234', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),"
+ 					+ "('smit@gmail.com', 'pass1234', 'Smit', 'Patel', '09/10/2021',  '0.00'),"
+ 					+ "('john@gmail.com', 'pass1234', 'John', 'Holdings','09/12/2021',  '0.00'),"
+ 					+ "('mihir@gmail.com', 'pass1234', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
+ 					+ "('varun@gmail.com', 'pass1234', 'Varun', 'Sharma', '09/18/2021',  '0.00'),"
+ 					+ "('Tej@gmail.com', 'pass1234', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
+ 					+ "('mike@gmail.com', 'pass1234', 'Mike', 'Hussey', '09/12/2021',  '0.00'),"
+ 					+ "('tenisee@gmail.com', 'pass1234', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
+ 					+ "('Ghanu@gmail.com', 'pass1234', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),"
+ 					+ "('trott@gmail.com', 'pass1234', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
  
  			statement.executeUpdate(s);
  			System.out.println("'Users' table created.");
@@ -164,7 +165,7 @@ public class UsersDao {
  		boolean flag = false;
 
  		statement = (Statement) connect.createStatement();
- 		String s = "Select * from User where email='" + email + "' and password='" + password + "'";
+ 		String s = "Select * from Users where email='" + email + "' and password='" + password + "'";
  		ResultSet rs = statement.executeQuery(s);
  			
  		if(rs.next())
@@ -178,7 +179,7 @@ public class UsersDao {
  		connect_func();
  		boolean flag = false;
  		statement = (Statement) connect.createStatement();
- 		String s2 = "Select * from User where email='" + email + "'";
+ 		String s2 = "Select * from Users where email='" + email + "'";
  		ResultSet rs = statement.executeQuery(s2);
  			
  		if(rs.next())

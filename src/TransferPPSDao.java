@@ -127,7 +127,8 @@ public class TransferPPSDao {
 	 					+ "    receiving_user_email VARCHAR(20),\r\n"
 	 					+ "    transfer_date VARCHAR(10),\r\n"
 	 					+ "    number_pps_transfered INTEGER,\r\n"
-	 					+ "    FOREIGN KEY(transfering_user_email) REFERENCES Users(email),\r\n"
+	 					+ "    FOREIGN KEY(transfering_user_email) REFERENCES Users(email),\r\n"  //this will cause an error, need the 2 emails differentiated somehow
+	 				//	+ "    FOREIGN KEY(receiving_user_email) REFERENCES Users(email)\r\n"
 	 					+ "    FOREIGN KEY(receiving_user_email) REFERENCES Users(email)\r\n"
 	 					+ ");";
 	 			//todo: add more users here

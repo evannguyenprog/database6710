@@ -96,7 +96,7 @@ public class AddressDao {
     	
     	connect_func();
     	// Preparing the sql statement to insert into 'Address' table.
-    	String sql = "insert into  address (user_email, street, city, state, zipcode) values (?, ?, ?, ?, ?)";
+    	String sql = "insert into  Address (user_email, street, city, state, zipcode) values (?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, address.getUser_email());
 		preparedStatement.setString(2, address.getStreet());
@@ -120,14 +120,16 @@ public class AddressDao {
  					"state CHAR(10) NOT NULL," +
  					"zipcode INT NOT NULL," +
  					"PRIMARY KEY(user_email)," +
- 					"FOREIGN_KEY(user_email) REFERRENCES Users(email);";
- 			
+ 					"FOREIGN KEY(user_email) REFERENCES Users(email));";
+ 					
+				
+
  			//ToDo: add an insert statement below. 
  			// The insertion in 'Address' table has a foreign key attribute of 
  			// user_id referring to users(id). 
  			
  			
- 			String s2 = "INSERT INTO ADDRESS(user_email, street, city, state, zipcode) VALUES\r\n"
+ 			String s2 = "INSERT INTO Address(user_email, street, city, state, zipcode) VALUES\r\n"
  					+ "('evan@gmail.com', '567 Brooke Street', 'Akshardham', 'AK', 56565), \r\n"
  					+ "('smit@gmail.com', '899 Akshar Street', 'Saginaw', 'MI', 48189), \r\n"
  					+ "('john@gmail.com', '899 Random Street', 'Saginaw', 'MI', 48189), \r\n"
