@@ -1,8 +1,5 @@
-package dao;
 
-import model.Login;
-import model.Users;
-import controller.UsersServlet;
+
 
 import java.net.ConnectException;
 import java.io.IOException;
@@ -22,16 +19,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//@WebServlet("/DepositDao")
 
-// Importing the BuyPPS class from model package
-// to perform various operations for the BuyPPS table :
-import model.BuyPPS;
-
-
-//@WebServlet("/BuyPPSDao")
-
-public class BuyPPSDao {
-
+public class DepositDao {
+	
 	
 	private static final long serialVersionUID = 1L;
 	private Connection connect = null;
@@ -39,7 +30,7 @@ public class BuyPPSDao {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public BuyPPSDao() {
+	public DepositDao() {
 		
 	}
 	
@@ -68,12 +59,12 @@ public class BuyPPSDao {
         }
     }
     
-    // Function "listAllBuyPPS()" is for printing all the rows/records
-    // of 'BuyPPS' table(i.e User model/class in Java terminology.)
-    public List<BuyPPS> listAllBuyPPS() throws SQLException {
-        List<BuyPPS> listBuyPPS = new ArrayList<BuyPPS>();  
+    // Function "listAllUsers()" is for printing all the rows/records
+    // of 'Users' table(i.e User model/class in Java terminology.)
+    public List<Deposit> listAllDeposit() throws SQLException {
+        List<Deposit> listDeposit = new ArrayList<Deposit>();  
         // A string 'sql' storing a sql query. 
-        String sql = "SELECT * FROM BuyPPS"; 
+        String sql = "SELECT * FROM Deposit"; 
         // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
@@ -82,31 +73,31 @@ public class BuyPPSDao {
          
         while (resultSet.next()) {
            
-            int id = resultSet.getInt("id");
+            int deposit_id = resultSet.getInt("deposit_id");
             String user_email = resultSet.getString("user_email");
-            int number_pps_bought = resultSet.getInt("number_pps_bought");
-            String pps_bought_date = resultSet.getString("pps_bought_date");
+            double deposit_amount = resultSet.getDouble("deposit_amount");
+            String deposit_date = resultSet.getString("deposit_date");
             
             
              
-            BuyPPS buy_pps = new BuyPPS(id, user_email, number_pps_bought, pps_bought_date);
-            listBuyPPS.add(buy_pps);
+            Deposit deposit = new Deposit(deposit_id, user_email, deposit_amount, deposit_date);
+            listDeposit.add(deposit);
         }        
         resultSet.close();
         statement.close();         
         disconnect();        
-        return listBuyPPS;
+        return listDeposit;
     }
     
-    //Function 'insert' below is to insert a row/record in the 'BuyPPS'
+    //Function 'insert' below is to insert a row/record in the 'Users'
     // table of the PPS database in mysql.
-    public void insert(BuyPPS buy_pps) throws SQLException {
+    public void insert(Deposit deposit) throws SQLException {
     	connect_func();
-    	String sql = "insert into  BuyPPS (user_email, number_pps_bought, pps_bought_date) values (?, ?, ?)";
+    	String sql = "insert into  Deposit (user_email, deposit_amount, deposit_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, buy_pps.getUser_email());
-		preparedStatement.setInt(2, buy_pps.getNumber_pps_bought());
-		preparedStatement.setString(3, buy_pps.getPps_bought_date());
+		preparedStatement.setString(1, deposit.getUser_email());
+		preparedStatement.setDouble(2, deposit.getDeposit_amount());
+		preparedStatement.setString(3, deposit.getDeposit_date());
 		
 		
 
@@ -119,37 +110,37 @@ public class BuyPPSDao {
  	public void createTable() throws SQLException {
  		try {
  			connect_func();
- 			//Creating the table BuyPPS :
- 			String s = "CREATE TABLE BuyPPS(\r\n"
- 					+ " 					id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
- 					+ " 					user_email VARCHAR(20),\r\n"
- 					+ " 					number_pps_bought INTEGER,\r\n"
- 					+ " 					pps_bought_date VARCHAR(10),\r\n"
- 					+ " 					FOREIGN KEY(user_email) REFERENCES Users(email)\r\n"
- 					+ " 					);";
+ 			//Creating the table Withdraw :
+ 			String s = "CREATE TABLE Deposit(\r\n"
+ 					+ "    deposit_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
+ 					+ "    user_email VARCHAR(20),\r\n"
+ 					+ "    deposit_amount DOUBLE,\r\n"
+ 					+ "    deposit_date VARCHAR(10),\r\n"
+ 					+ "    FOREIGN KEY(user_email) REFERENCES Users(email)   \r\n"
+ 					+ ");";
  			
- 			// Inserting into the table BuyPPS :
- 			String s2 = "INSERT INTO BuyPPS(user_email, number_pps_bought, pps_bought_date) VALUES\r\n"
- 					+ " 				('evan@gmail.com',0.00,'09/01/2021'),\r\n"
- 					+ "			    ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 				('john@gmail.com', 0.00,'09/11/2021'),\r\n"
- 					+ " 				('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
- 					+ " 				('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
- 					+ " 				('Tej@gmail.com', 0.00,'09/18/2021'),\r\n"
- 					+ " 				('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
- 					+ " 				('tenisee@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 				('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 				('trott@gmail.com', 0.00,'09/01/2021');";
+ 			// Inserting into the table Withdraw :
+ 			String s2 = " INSERT INTO Deposit(user_email, deposit_amount, deposit_date) VALUES\r\n"
+ 					+ " 					('evan@gmail.com',0.00,'09/01/2021'),\r\n"
+ 					+ " 					('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 					('john@gmail.com', 0.00,'09/11/2021'),\r\n"
+ 					+ " 					('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
+ 					+ " 					('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
+ 					+ " 					('Tej@gmail.com', 0.00,'09/18/2021'),\r\n"
+ 					+ " 					('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
+ 					+ " 					('tenisee@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 					('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 					('trott@gmail.com', 0.00,'09/01/2021');";
  
  			statement.executeUpdate(s);
- 			System.out.println("'BuyPPS' table created.");
+ 			System.out.println("'Deposit' table created.");
  			statement.executeUpdate(s2);
- 			System.out.println("Multiple BuyPPS Rows are Added.");
+ 			System.out.println("Multiple Deposit Rows are Added.");
  			
  		} catch (Exception e) {
  			System.out.println(e);
  		} finally {
- 			statement.close();
+ 			statement.close(); //might cause issue, check back after testing
  		}
  	}
 
@@ -165,7 +156,7 @@ public class BuyPPSDao {
 	
 
 	public static void main(String[] args) {
-	
+		// TODO Auto-generated method stub
 
 	}
 

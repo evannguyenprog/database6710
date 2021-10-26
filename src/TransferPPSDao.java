@@ -1,8 +1,5 @@
-package dao;
 
-import model.Login;
-import model.Users;
-import controller.UsersServlet;
+
 
 import java.net.ConnectException;
 import java.io.IOException;
@@ -21,11 +18,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
-// Importing the TransferPPS class from model package
-// to perform various operations for the TransferPPS table :
-import model.TransferPPS;
 
 
 @WebServlet("/TransferPPSDao")

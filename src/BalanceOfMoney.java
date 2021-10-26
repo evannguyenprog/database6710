@@ -1,4 +1,4 @@
-package model;
+
 
 
 // This particular class refers to the Balance_of_Money(i.e. Amount_Dollars) that

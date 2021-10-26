@@ -1,10 +1,4 @@
-package dao;
 
-
-import model.BuyPPS;
-import model.Login;
-import model.Users;
-import controller.UsersServlet;
 
 import java.net.ConnectException;
 import java.io.IOException;
@@ -25,14 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-// Importing the BuyPPS class from model package
-// to perform various operations for the BuyPPS table :
-import model.SellPPS;
+//@WebServlet("/BuyPPSDao")
 
-
-@WebServlet("/SellPPSDao")
-
-public class SellPPSDao {
+public class BuyPPSDao {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -41,7 +30,7 @@ public class SellPPSDao {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public SellPPSDao() {
+	public BuyPPSDao() {
 		
 	}
 	
@@ -70,12 +59,12 @@ public class SellPPSDao {
         }
     }
     
-    // Function "listAllSellPPS()" is for printing all the rows/records
-    // of 'SellPPS' table(i.e User model/class in Java terminology.)
-    public List<SellPPS> listAllSellPPS() throws SQLException {
-        List<SellPPS> listSellPPS = new ArrayList<SellPPS>();  
+    // Function "listAllBuyPPS()" is for printing all the rows/records
+    // of 'BuyPPS' table(i.e User model/class in Java terminology.)
+    public List<BuyPPS> listAllBuyPPS() throws SQLException {
+        List<BuyPPS> listBuyPPS = new ArrayList<BuyPPS>();  
         // A string 'sql' storing a sql query. 
-        String sql = "SELECT * FROM SellPPS"; 
+        String sql = "SELECT * FROM BuyPPS"; 
         // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
@@ -86,29 +75,29 @@ public class SellPPSDao {
            
             int id = resultSet.getInt("id");
             String user_email = resultSet.getString("user_email");
-            int number_pps_sold = resultSet.getInt("number_pps_sold");
-            String pps_sold_date = resultSet.getString("pps_sold_date");
+            int number_pps_bought = resultSet.getInt("number_pps_bought");
+            String pps_bought_date = resultSet.getString("pps_bought_date");
             
             
              
-            SellPPS sell_pps = new SellPPS(id, user_email, number_pps_sold, pps_sold_date);
-            listSellPPS.add(sell_pps);
+            BuyPPS buy_pps = new BuyPPS(id, user_email, number_pps_bought, pps_bought_date);
+            listBuyPPS.add(buy_pps);
         }        
         resultSet.close();
         statement.close();         
         disconnect();        
-        return listSellPPS;
+        return listBuyPPS;
     }
     
-    //Function 'insert' below is to insert a row/record in the 'SellPPS'
+    //Function 'insert' below is to insert a row/record in the 'BuyPPS'
     // table of the PPS database in mysql.
-    public void insert(SellPPS sell_pps) throws SQLException {
+    public void insert(BuyPPS buy_pps) throws SQLException {
     	connect_func();
-    	String sql = "insert into  SellPPS (user_email, number_pps_sold, pps_sold_date) values (?, ?, ?)";
+    	String sql = "insert into  BuyPPS (user_email, number_pps_bought, pps_bought_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, sell_pps.getUser_email());
-		preparedStatement.setInt(2, sell_pps.getNumber_pps_sold());
-		preparedStatement.setString(3, sell_pps.getPps_sold_date());
+		preparedStatement.setString(1, buy_pps.getUser_email());
+		preparedStatement.setInt(2, buy_pps.getNumber_pps_bought());
+		preparedStatement.setString(3, buy_pps.getPps_bought_date());
 		
 		
 
@@ -121,17 +110,17 @@ public class SellPPSDao {
  	public void createTable() throws SQLException {
  		try {
  			connect_func();
- 			//Creating the table SellPPS :
- 			String s = "CREATE TABLE SellPPS(\r\n"
+ 			//Creating the table BuyPPS :
+ 			String s = "CREATE TABLE BuyPPS(\r\n"
  					+ " 					id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
  					+ " 					user_email VARCHAR(20),\r\n"
- 					+ " 					number_pps_sold INTEGER,\r\n"
- 					+ " 					pps_sold_date VARCHAR(10),\r\n"
+ 					+ " 					number_pps_bought INTEGER,\r\n"
+ 					+ " 					pps_bought_date VARCHAR(10),\r\n"
  					+ " 					FOREIGN KEY(user_email) REFERENCES Users(email)\r\n"
  					+ " 					);";
  			
- 			// Inserting into the table SellPPS :
- 			String s2 = "INSERT INTO SellPPS(user_email, number_pps_sold, pps_sold_date) VALUES\r\n"
+ 			// Inserting into the table BuyPPS :
+ 			String s2 = "INSERT INTO BuyPPS(user_email, number_pps_bought, pps_bought_date) VALUES\r\n"
  					+ " 				('evan@gmail.com',0.00,'09/01/2021'),\r\n"
  					+ "			    ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
  					+ " 				('john@gmail.com', 0.00,'09/11/2021'),\r\n"
@@ -144,9 +133,9 @@ public class SellPPSDao {
  					+ " 				('trott@gmail.com', 0.00,'09/01/2021');";
  
  			statement.executeUpdate(s);
- 			System.out.println("'SellPPS' table created.");
+ 			System.out.println("'BuyPPS' table created.");
  			statement.executeUpdate(s2);
- 			System.out.println("Multiple SellPPS Rows are Added.");
+ 			System.out.println("Multiple BuyPPS Rows are Added.");
  			
  		} catch (Exception e) {
  			System.out.println(e);
@@ -165,5 +154,10 @@ public class SellPPSDao {
   	}
 
 	
+
+	public static void main(String[] args) {
+	
+
+	}
 
 }

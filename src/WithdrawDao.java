@@ -1,8 +1,5 @@
-package dao;
 
-import model.Login;
-import model.Users;
-import controller.UsersServlet;
+
 
 import java.net.ConnectException;
 import java.io.IOException;
@@ -22,14 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@WebServlet("/WithdrawDao")
 
-// Importing the Users class from model package
-// to perform various operations for the Users table :
-import model.Deposit;
-
-//@WebServlet("/DepositDao")
-
-public class DepositDao {
+public class WithdrawDao {
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -38,7 +30,7 @@ public class DepositDao {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public DepositDao() {
+	public WithdrawDao() {
 		
 	}
 	
@@ -69,10 +61,10 @@ public class DepositDao {
     
     // Function "listAllUsers()" is for printing all the rows/records
     // of 'Users' table(i.e User model/class in Java terminology.)
-    public List<Deposit> listAllDeposit() throws SQLException {
-        List<Deposit> listDeposit = new ArrayList<Deposit>();  
+    public List<Withdraw> listAllWithdraw() throws SQLException {
+        List<Withdraw> listWithdraw = new ArrayList<Withdraw>();  
         // A string 'sql' storing a sql query. 
-        String sql = "SELECT * FROM Deposit"; 
+        String sql = "SELECT * FROM Withdraw"; 
         // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
@@ -81,31 +73,31 @@ public class DepositDao {
          
         while (resultSet.next()) {
            
-            int deposit_id = resultSet.getInt("deposit_id");
+            int withdraw_id = resultSet.getInt("withdraw_id");
             String user_email = resultSet.getString("user_email");
-            double deposit_amount = resultSet.getDouble("deposit_amount");
-            String deposit_date = resultSet.getString("deposit_date");
+            double withdraw_amount = resultSet.getDouble("withdraw_amount");
+            String withdrawal_date = resultSet.getString("withdrawal_date");
             
             
              
-            Deposit deposit = new Deposit(deposit_id, user_email, deposit_amount, deposit_date);
-            listDeposit.add(deposit);
+            Withdraw withdraw = new Withdraw(withdraw_id, user_email, withdraw_amount, withdrawal_date);
+            listWithdraw.add(withdraw);
         }        
         resultSet.close();
         statement.close();         
         disconnect();        
-        return listDeposit;
+        return listWithdraw;
     }
     
     //Function 'insert' below is to insert a row/record in the 'Users'
     // table of the PPS database in mysql.
-    public void insert(Deposit deposit) throws SQLException {
+    public void insert(Withdraw withdraw) throws SQLException {
     	connect_func();
-    	String sql = "insert into  Deposit (user_email, deposit_amount, deposit_date) values (?, ?, ?)";
+    	String sql = "insert into  Withdraw (user_email, withdraw_amount, withdrawal_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, deposit.getUser_email());
-		preparedStatement.setDouble(2, deposit.getDeposit_amount());
-		preparedStatement.setString(3, deposit.getDeposit_date());
+		preparedStatement.setString(1, withdraw.getUser_email());
+		preparedStatement.setDouble(2, withdraw.getWithdraw_amount());
+		preparedStatement.setString(3, withdraw.getWithdrawal_date());
 		
 		
 
@@ -119,16 +111,16 @@ public class DepositDao {
  		try {
  			connect_func();
  			//Creating the table Withdraw :
- 			String s = "CREATE TABLE Deposit(\r\n"
- 					+ "    deposit_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
+ 			String s = "CREATE TABLE Withdraw(\r\n"
+ 					+ "    withdraw_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
  					+ "    user_email VARCHAR(20),\r\n"
- 					+ "    deposit_amount DOUBLE,\r\n"
- 					+ "    deposit_date VARCHAR(10),\r\n"
+ 					+ "    withdraw_amount DOUBLE,\r\n"
+ 					+ "    withdrawal_date VARCHAR(10),\r\n"
  					+ "    FOREIGN KEY(user_email) REFERENCES Users(email)   \r\n"
  					+ ");";
  			
  			// Inserting into the table Withdraw :
- 			String s2 = " INSERT INTO Deposit(user_email, deposit_amount, deposit_date) VALUES\r\n"
+ 			String s2 = " INSERT INTO Withdraw(user_email, withdraw_amount, withdrawal_date) VALUES\r\n"
  					+ " 					('evan@gmail.com',0.00,'09/01/2021'),\r\n"
  					+ " 					('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
  					+ " 					('john@gmail.com', 0.00,'09/11/2021'),\r\n"
@@ -141,9 +133,9 @@ public class DepositDao {
  					+ " 					('trott@gmail.com', 0.00,'09/01/2021');";
  
  			statement.executeUpdate(s);
- 			System.out.println("'Deposit' table created.");
+ 			System.out.println("'Withdraw' table created.");
  			statement.executeUpdate(s2);
- 			System.out.println("Multiple Deposit Rows are Added.");
+ 			System.out.println("Multiple Withdraw Rows are Added.");
  			
  		} catch (Exception e) {
  			System.out.println(e);

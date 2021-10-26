@@ -1,8 +1,6 @@
-package dao;
 
-import model.Login;
-import model.Users;
-import controller.UsersServlet;
+
+
 
 import java.net.ConnectException;
 import java.io.IOException;
@@ -23,14 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-// Importing the Users class from model package
-// to perform various operations for the Users table :
-import model.Withdraw;
+@WebServlet("/SellPPSDao")
 
-@WebServlet("/WithdrawDao")
+public class SellPPSDao {
 
-public class WithdrawDao {
-	
 	
 	private static final long serialVersionUID = 1L;
 	private Connection connect = null;
@@ -38,7 +32,7 @@ public class WithdrawDao {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public WithdrawDao() {
+	public SellPPSDao() {
 		
 	}
 	
@@ -67,12 +61,12 @@ public class WithdrawDao {
         }
     }
     
-    // Function "listAllUsers()" is for printing all the rows/records
-    // of 'Users' table(i.e User model/class in Java terminology.)
-    public List<Withdraw> listAllWithdraw() throws SQLException {
-        List<Withdraw> listWithdraw = new ArrayList<Withdraw>();  
+    // Function "listAllSellPPS()" is for printing all the rows/records
+    // of 'SellPPS' table(i.e User model/class in Java terminology.)
+    public List<SellPPS> listAllSellPPS() throws SQLException {
+        List<SellPPS> listSellPPS = new ArrayList<SellPPS>();  
         // A string 'sql' storing a sql query. 
-        String sql = "SELECT * FROM Withdraw"; 
+        String sql = "SELECT * FROM SellPPS"; 
         // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
@@ -81,31 +75,31 @@ public class WithdrawDao {
          
         while (resultSet.next()) {
            
-            int withdraw_id = resultSet.getInt("withdraw_id");
+            int id = resultSet.getInt("id");
             String user_email = resultSet.getString("user_email");
-            double withdraw_amount = resultSet.getDouble("withdraw_amount");
-            String withdrawal_date = resultSet.getString("withdrawal_date");
+            int number_pps_sold = resultSet.getInt("number_pps_sold");
+            String pps_sold_date = resultSet.getString("pps_sold_date");
             
             
              
-            Withdraw withdraw = new Withdraw(withdraw_id, user_email, withdraw_amount, withdrawal_date);
-            listWithdraw.add(withdraw);
+            SellPPS sell_pps = new SellPPS(id, user_email, number_pps_sold, pps_sold_date);
+            listSellPPS.add(sell_pps);
         }        
         resultSet.close();
         statement.close();         
         disconnect();        
-        return listWithdraw;
+        return listSellPPS;
     }
     
-    //Function 'insert' below is to insert a row/record in the 'Users'
+    //Function 'insert' below is to insert a row/record in the 'SellPPS'
     // table of the PPS database in mysql.
-    public void insert(Withdraw withdraw) throws SQLException {
+    public void insert(SellPPS sell_pps) throws SQLException {
     	connect_func();
-    	String sql = "insert into  Withdraw (user_email, withdraw_amount, withdrawal_date) values (?, ?, ?)";
+    	String sql = "insert into  SellPPS (user_email, number_pps_sold, pps_sold_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, withdraw.getUser_email());
-		preparedStatement.setDouble(2, withdraw.getWithdraw_amount());
-		preparedStatement.setString(3, withdraw.getWithdrawal_date());
+		preparedStatement.setString(1, sell_pps.getUser_email());
+		preparedStatement.setInt(2, sell_pps.getNumber_pps_sold());
+		preparedStatement.setString(3, sell_pps.getPps_sold_date());
 		
 		
 
@@ -118,37 +112,37 @@ public class WithdrawDao {
  	public void createTable() throws SQLException {
  		try {
  			connect_func();
- 			//Creating the table Withdraw :
- 			String s = "CREATE TABLE Withdraw(\r\n"
- 					+ "    withdraw_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
- 					+ "    user_email VARCHAR(20),\r\n"
- 					+ "    withdraw_amount DOUBLE,\r\n"
- 					+ "    withdrawal_date VARCHAR(10),\r\n"
- 					+ "    FOREIGN KEY(user_email) REFERENCES Users(email)   \r\n"
- 					+ ");";
+ 			//Creating the table SellPPS :
+ 			String s = "CREATE TABLE SellPPS(\r\n"
+ 					+ " 					id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
+ 					+ " 					user_email VARCHAR(20),\r\n"
+ 					+ " 					number_pps_sold INTEGER,\r\n"
+ 					+ " 					pps_sold_date VARCHAR(10),\r\n"
+ 					+ " 					FOREIGN KEY(user_email) REFERENCES Users(email)\r\n"
+ 					+ " 					);";
  			
- 			// Inserting into the table Withdraw :
- 			String s2 = " INSERT INTO Withdraw(user_email, withdraw_amount, withdrawal_date) VALUES\r\n"
- 					+ " 					('evan@gmail.com',0.00,'09/01/2021'),\r\n"
- 					+ " 					('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 					('john@gmail.com', 0.00,'09/11/2021'),\r\n"
- 					+ " 					('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
- 					+ " 					('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
- 					+ " 					('Tej@gmail.com', 0.00,'09/18/2021'),\r\n"
- 					+ " 					('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
- 					+ " 					('tenisee@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 					('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 					('trott@gmail.com', 0.00,'09/01/2021');";
+ 			// Inserting into the table SellPPS :
+ 			String s2 = "INSERT INTO SellPPS(user_email, number_pps_sold, pps_sold_date) VALUES\r\n"
+ 					+ " 				('evan@gmail.com',0.00,'09/01/2021'),\r\n"
+ 					+ "			    ('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 				('john@gmail.com', 0.00,'09/11/2021'),\r\n"
+ 					+ " 				('mihir@gmail.com', 0.00,'09/24/2021'),\r\n"
+ 					+ " 				('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
+ 					+ " 				('Tej@gmail.com', 0.00,'09/18/2021'),\r\n"
+ 					+ " 				('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
+ 					+ " 				('tenisee@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 				('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 					+ " 				('trott@gmail.com', 0.00,'09/01/2021');";
  
  			statement.executeUpdate(s);
- 			System.out.println("'Withdraw' table created.");
+ 			System.out.println("'SellPPS' table created.");
  			statement.executeUpdate(s2);
- 			System.out.println("Multiple Withdraw Rows are Added.");
+ 			System.out.println("Multiple SellPPS Rows are Added.");
  			
  		} catch (Exception e) {
  			System.out.println(e);
  		} finally {
- 			statement.close(); //might cause issue, check back after testing
+ 			statement.close();
  		}
  	}
 
@@ -162,10 +156,5 @@ public class WithdrawDao {
   	}
 
 	
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

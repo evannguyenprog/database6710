@@ -1,4 +1,4 @@
-package model;
+
 
 public class Login {
     protected String email;
