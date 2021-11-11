@@ -4,11 +4,12 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<style><%@include file="/WEB-INF/css/style.css"%></style>
 <title>PPS Trade Site</title>
 </head>
 <body>
 
- <h4>
+<%--  <h4>
 <%
 if(session != null)
 {
@@ -25,7 +26,7 @@ if(session != null)
 	}
 }
 %>
-</h4>
+</h4> --%>
 
 
 <p align = 'right'><form method = "post" action="logout"><button type="submit" id="logout" value="logout">logout</button></form></p>

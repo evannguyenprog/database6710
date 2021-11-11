@@ -128,13 +128,13 @@ public class UsersDao {
  					+ "('evan@gmail.com', 'pass1234', 'Evan', 'Nguyen', '09/01/2021',  '0.00'),"
  					+ "('smit@gmail.com', 'pass1234', 'Smit', 'Patel', '09/10/2021',  '0.00'),"
  					+ "('john@gmail.com', 'pass1234', 'John', 'Holdings','09/12/2021',  '0.00'),"
- 					+ "('mihir@gmail.com', 'pass1234', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
+ 					+ "('mihir@yahoo.com', 'pass1234', 'Mihir', 'Patel', '09/19/2021',  '0.00'),"
  					+ "('varun@gmail.com', 'pass1234', 'Varun', 'Sharma', '09/18/2021',  '0.00'),"
- 					+ "('Tej@gmail.com', 'pass1234', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
+ 					+ "('Tej@aol.com', 'pass1234', 'Tej', 'Singh', '09/07/2021',  '0.00'),"
  					+ "('mike@gmail.com', 'pass1234', 'Mike', 'Hussey', '09/12/2021',  '0.00'),"
- 					+ "('tenisee@gmail.com', 'pass1234', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
+ 					+ "('tenisee@yahoo.com', 'pass1234', 'Tenise', 'McCullum', '09/12/2021',  '0.00'),"
  					+ "('Ghanu@gmail.com', 'pass1234', 'Ghanshyam', 'Mahaprabhu', '09/12/2021',  '0.00'),"
- 					+ "('trott@gmail.com', 'pass1234', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
+ 					+ "('trott@hotmail.com', 'pass1234', 'Jonathan', 'Trott', '10/12/2021',  '0.00');";
  
  			statement.executeUpdate(s);
  			System.out.println("'Users' table created.");

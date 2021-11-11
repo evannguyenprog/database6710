@@ -99,6 +99,11 @@ public class ControlServlet extends HttpServlet
             case "/logout":
             	logout(request, response);
             	break;
+            
+            case "/depositDollars":
+            	depositDollars(request, response);
+            	break;
+            	
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -213,6 +218,10 @@ public class ControlServlet extends HttpServlet
         }
     }
     
+    private void depositDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	RequestDispatcher dispatcher;
+    	session = request.getSession();
+   }
     
     
 }

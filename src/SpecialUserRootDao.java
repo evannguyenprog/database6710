@@ -107,7 +107,7 @@ public class SpecialUserRootDao {
 //    }
     
     // create table
- 	public void createTable() throws SQLException {
+ 	public void createTable() throws SQLException { //TO DO: Add value of pps as an attribute
  		try {
  			connect_func();
  			//Creating the table RootUser :
