@@ -95,15 +95,28 @@ public class ControlServlet extends HttpServlet
                 initializeDatabase(request, response);
                 break;
             
-                	//logout case for later = WIP =
+                //logout case
             case "/logout":
             	logout(request, response);
             	break;
             
+            	//deposit dollars into user account
             case "/depositDollars":
             	depositDollars(request, response);
             	break;
-            	
+            
+//            case "/withdrawDollars":
+//            	withdrawDollars(request, response);
+//            	break;
+//            
+//            case "/buyPPS":
+//            	buyPPS(request, response);
+//            	break;
+//            
+//            case "/sellPPS":
+//            	sellPPS(request, response);
+//            	break;
+//            	
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -219,8 +232,16 @@ public class ControlServlet extends HttpServlet
     }
     
     private void depositDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	System.out.println(request.getParameter("depositDollarAmount"));
+    	Double depositAmount = Double.parseDouble(request.getParameter("depositDollarAmount"));
     	RequestDispatcher dispatcher;
-    	session = request.getSession();
+    	//getting current user information
+        session = request.getSession();
+        String currentUser = (String) session.getAttribute("currentEmail");
+        System.out.println(currentUser);
+        System.out.println(depositAmount);
+        balanceOfMoneyDao.depositAmount(depositAmount, currentUser);
+    	
    }
     
     

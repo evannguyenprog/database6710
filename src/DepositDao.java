@@ -106,6 +106,23 @@ public class DepositDao {
         disconnect();
     }
     
+
+//    public void depositAmount(double deposit) throws SQLException {
+//    	connect_func();
+//    	String sql = "UPDATE Deposit (, deposit_date) values (?, ?, ?)";
+//		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+//		preparedStatement.setString(1, deposit.getUser_email());
+//		preparedStatement.setDouble(2, deposit.getDeposit_amount());
+//		preparedStatement.setString(3, deposit.getDeposit_date());
+//		
+//		
+//
+//		preparedStatement.executeUpdate();
+//        preparedStatement.close();
+//        disconnect();
+//    }
+
+    
     // create table
  	public void createTable() throws SQLException {
  		try {

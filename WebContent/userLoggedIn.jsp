@@ -7,7 +7,6 @@
 	
 	<meta charset="ISO-8859-1">
 	<style><%@include file="/WEB-INF/css/style.css"%></style>
-
 	<title>PPS Trading Site</title>
 
 </head>
@@ -47,8 +46,8 @@ if(session != null)
 	<center>
 		<h3 align="center">Deposit Dollars</h3>
 		<form action="depositDollars" method="post">
-			<input type="text" name="depositDollarAmount" required/>
-			<div class="pad"><button type="submit" id="depositDollars" value="depositDollarAmount">Deposit</button></div>
+			<input type="number" step="0.01" name="depositDollarAmount" required/>
+			<div class="pad"><button type="submit" id="depositDollars" value="submit">Deposit</button></div>
 		</form>
 		<br>
 	</center>
@@ -58,8 +57,8 @@ if(session != null)
 	<center>
 		<h3 align="center">Withdraw Dollars</h3>
 		<form action="withdrawDollars" method="post">
-			<input type="text" name="withdrawDollarAmount" required/>
-			<div class="pad"><button type="submit" id="depositDollars" value="depositDollars">Withdraw</button></div>
+			<input type="number" step="0.01" name="withdrawDollarAmount" required/>
+			<div class="pad"><button type="submit" id="withdrawDollars" value="withdrawDollarAmount">Withdraw</button></div>
 		</form>
 		<br>
 	</center>
@@ -69,7 +68,7 @@ if(session != null)
 	<center>
 		<h3 align="center">Buy PPS</h3>
 		<form action="buyPPS" method="post">
-			<input type="text" name="buyPPSAmount" required/>
+			<input type="number" step="0.01" name="buyPPSAmount" required/>
 			<div class="pad"><button type="submit" id="buyPPS" value="buyPPSAmount">Buy</button></div>
 		</form>
 		<br>
@@ -80,7 +79,7 @@ if(session != null)
 	<center>
 		<h3 align="center">Sell PPS</h3>
 		<form action="sellPPS" method="post">
-			<input type="text" name="sellPPSAmount" required/>
+			<input type="number" step="0.01" name="sellPPSAmount" required/>
 			<div class="pad"><button type="submit" id="sellPPS" value="sellPPSAmount">Sell</button></div>
 		</form>
 		<br>

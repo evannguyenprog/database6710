@@ -5,7 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <style><%@include file="/WEB-INF/css/style.css"%></style>
-<title>Insert title here</title>
+<title>Activity Page</title>
 </head>
 <body>
 

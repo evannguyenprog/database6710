@@ -69,7 +69,6 @@ public class BalanceOfMoneyDao {
             String user_email = resultSet.getString("user_email");
             Double balance_in_dollars = resultSet.getDouble("balance_in_dollars");
           
-            
             BalanceOfMoney balance_of_money = new BalanceOfMoney(user_email, balance_in_dollars);
             listBalanceOfMoney.add(balance_of_money);
         }        
@@ -84,7 +83,6 @@ public class BalanceOfMoneyDao {
     public void insert(BalanceOfMoney balance_of_money) throws SQLException {
     	
     	connect_func();
-    	// Preparing the sql statement to insert into 'Address' table.
     	String sql = "INSERT INTO  BalanceOfMoney(user_email, balance_in_dollars) values (?, ?)";
     	
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
@@ -98,6 +96,18 @@ public class BalanceOfMoneyDao {
         disconnect();
     }
     
+    public void depositAmount(double depositAmount, String user_email) throws SQLException {
+    	connect_func();
+    	String sql = "UPDATE BalanceOfMoney SET balance_in_dollars = ? WHERE user_email = ?;";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setDouble(1, depositAmount);
+		preparedStatement.setString(2, user_email);
+
+		preparedStatement.executeUpdate();
+        preparedStatement.close();
+        disconnect();
+    }
+
     
     public void createTable() throws SQLException {
  		try {
