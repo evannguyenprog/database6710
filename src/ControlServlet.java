@@ -105,9 +105,9 @@ public class ControlServlet extends HttpServlet
             	depositDollars(request, response);
             	break;
             
-//            case "/withdrawDollars":
-//            	withdrawDollars(request, response);
-//            	break;
+            case "/withdrawDollars":
+            	withdrawDollars(request, response);
+            	break;
 //            
 //            case "/buyPPS":
 //            	buyPPS(request, response);
@@ -115,6 +115,10 @@ public class ControlServlet extends HttpServlet
 //            
 //            case "/sellPPS":
 //            	sellPPS(request, response);
+//            	break;
+            	
+//            case "/transferPPS":
+//            	transferPPS(request, response);
 //            	break;
 //            	
             }
@@ -132,9 +136,9 @@ public class ControlServlet extends HttpServlet
         depositDao.dropTable();
         sellPPSDao.dropTable();
         transferPPSDao.dropTable();
-        usersDao.dropTable();
         withdrawDao.dropTable();
         specialUserRootDao.dropTable();
+        usersDao.dropTable();
         
 
         System.out.println("====== All Tables Dropped. ======");
@@ -243,6 +247,22 @@ public class ControlServlet extends HttpServlet
         balanceOfMoneyDao.depositAmount(depositAmount, currentUser);
     	
    }
+   
+    private void withdrawDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	System.out.println(request.getParameter("withdrawDollarAmount"));
+    	Double withdrawAmount = Double.parseDouble(request.getParameter("withdrawDollarAmount"));
+    	RequestDispatcher dispatcher;
+    	
+        session = request.getSession();
+        
+        String currentUser = (String) session.getAttribute("currentEmail");
+        System.out.println(currentUser);
+        System.out.println(withdrawAmount);
+        balanceOfMoneyDao.withdrawAmount(withdrawAmount, currentUser);
+    	
+   }
+    
+    
     
     
 }
