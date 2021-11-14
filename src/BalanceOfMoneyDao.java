@@ -101,19 +101,24 @@ public class BalanceOfMoneyDao {
 // Please verify the below function 
     public double existingBalance(String user_email) throws SQLException {
         connect_func();
-    	String sql = "SELECT balance_in_dollars from BalanceOfMoney WHERE user_email = ?";
-    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, user_email);
+        
+        statement = (Statement) connect.createStatement();
+    	String sql = "SELECT balance_in_dollars from BalanceOfMoney WHERE user_email = "+user_email+";";
+    	ResultSet rs = statement.executeQuery(sql);
+    	
 		
-		ResultSet resultSet = preparedStatement.executeQuery(); 
+		double already_existing_balance = rs.getDouble("balance_in_dollars");
 		
-		double already_existing_balance = resultSet.getDouble("balance_in_dollars");
 		
 		disconnect();
 		
 		return already_existing_balance;	
     	
     }
+    
+//    statement = (Statement) connect.createStatement();
+//    String s = "Select * from RootUser where email='" + email + "' and password='" + password + "'";
+//	  ResultSet rs = statement.executeQuery(s);
 
     
     public void depositAmount(double depositAmount, String user_email) throws SQLException {

@@ -262,6 +262,21 @@ public class ControlServlet extends HttpServlet
     	
    }
     
+   
+    private void sellPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	System.out.println(request.getParameter("sellPPSAmount"));
+    	Double sellPPSAmount = Double.parseDouble(request.getParameter("sellPPSAmount"));
+    	RequestDispatcher dispatcher;
+    	
+        session = request.getSession();
+        
+        String currentUser = (String) session.getAttribute("currentEmail");
+        System.out.println(currentUser);
+        System.out.println(sellPPSAmount);
+        usersDao.sellPPSAmount(currentUser, sellPPSAmount);
+    	
+   }
+    
     
     
     

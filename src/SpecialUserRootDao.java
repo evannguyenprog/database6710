@@ -118,16 +118,20 @@ public class SpecialUserRootDao {
  					+ "lastName VARCHAR(20) NOT NULL, "
  					+ "birthday VARCHAR(10) NOT NULL, "
  					+ "ppsBalance DOUBLE(10,2), "
+ 					+ "ppsPrice DOUBLE(10,2), " //ADDed
+ 					+ "balanceOfMoneyRoot DOUBLE(10,2), " 
  					+ "PRIMARY KEY(email));";
  			// Inserting into the table SellPPS :
- 			String s2 = "INSERT INTO RootUser(email, password, firstName, lastName, birthday, ppsBalance) VALUES\r\n"
- 					+ "('root', 'pass1234', 'root', 'root', '10/12/2021',  '10000000.00');";
- 
+ 			String s2 = "INSERT INTO RootUser(email, password, firstName, lastName, birthday, ppsBalance, ppsPrice, balanceOfMoneyRoot) VALUES\r\n"
+ 					+ "('root', 'pass1234', 'root', 'root', '10/12/2021',  '10000000.00', '1000000.00', '10000000.00');";
+ 			
+ 		
  			statement.executeUpdate(s);
  			System.out.println("'SellPPS' table created.");
  			statement.executeUpdate(s2);
  			System.out.println("Root User and table Added.");
  			
+
  		} catch (Exception e) {
  			System.out.println(e);
  		} finally {

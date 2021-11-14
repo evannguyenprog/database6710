@@ -189,6 +189,126 @@ public class UsersDao {
   	
   	
   	//add future functions below here
+ 	
+ 	
+ 	
+ 	// Function to obtain the current ppsBalance of the 'user' : (TO BE VERIFIED!!)
+ 	public double currentPPSBalance(String user_email) throws SQLException{
+ 		
+ 		connect_func();
+ 		
+ 		// SQL query to get the current ppsBalance of the user :
+ 		String sql = "select ppsBalance from users where email = ?";
+ 		
+ 		// Preparing the above statement below :
+ 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+ 		preparedStatement.setString(1, user_email);
+ 		
+ 		// Executing the prepared query in the database (THIS NEEDS TO BE CHECKED !!!!!!!!!!)
+ 		resultSet = preparedStatement.executeQuery();
+ 		
+ 		preparedStatement.close();
+ 		
+ 		// Extracting the "ppsBalance" from the resultSet :
+ 		double currentPPSBalance = resultSet.getDouble("ppsBalance");
+ 		
+ 		disconnect();
+ 		
+ 		// returning the PPSBalance
+		return currentPPSBalance;	
+ 	}
+ 	
+ 	
+ 	public double currentPPSBalanceRoot() throws SQLException {
+ 		
+ 		connect_func();
+ 		
+ 		statement = (Statement) connect.createStatement();
+ 		String sql = "select ppsBalance from rootuser where email='root'";
+ 		ResultSet rs = statement.executeQuery(sql);
+ 		
+ 		double currentPPSBalanceRoot = rs.getDouble("ppsBalance");
+ 		
+ 		disconnect();
+ 		
+ 		return currentPPSBalanceRoot;
+ 	}
+ 	
+ 	
+    public double currentPPSPrice() throws SQLException {
+ 		
+ 		connect_func();
+ 		
+ 		statement = (Statement) connect.createStatement();
+ 		String sql = "select ppsPrice from rootuser where email='root'";
+ 		ResultSet rs = statement.executeQuery(sql);
+ 		
+ 		double currentPPSPrice = rs.getDouble("ppsPrice");
+ 		
+ 		disconnect();
+ 		
+ 		return currentPPSPrice;
+ 	}
+ 	
+ 	
+    
+ 	// Function to sell the PPS to the rootuser :
+ 	public void sellPPSAmount(String seller, double numberPpsToSell) throws SQLException  {
+ 	    
+ 		// Connecting with the database :
+ 		connect_func();
+ 		
+ 		// First of all we need to check if the seller has enough PPS that he/she
+ 		// wants to sell from his/her PPSbalance.
+ 		
+ 		// i.e. Get the PPSbalance of the seller and check if it's more than or equal to 
+ 		// the number of PPS he/she wants to sell.
+ 		
+ 		//currentPPSBalance of the seller :
+ 		double currentPPSBalance = currentPPSBalance(seller);
+ 		
+ 		//currentPPSBalanceRoot :
+ 		double currentPPSBalanceRoot = currentPPSBalanceRoot();
+ 		
+ 		if(numberPpsToSell > currentPPSBalance) { // Cannot sellPPS in this condition
+ 			System.out.println("Sorry, but you cannot sell the number of PPS entered as "
+ 					+ "it is greater than your current PPS balance. You can either sell less than or equal to "+ currentPPSBalance);
+ 		}
+ 		else {// A seller/user can sellPPS in this condition (i.e. numberPpsToSell <= currentPPSBalance)
+ 			
+ 			
+ 			// Firstly, we have to perform the deduction of the PPS to sell from the seller's account and 
+ 			// addition of the same into the rootuser's account.
+ 			String sqlSellerPPSBalanceChange = "update users set ppsBalance=? where email=? ;";
+ 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlSellerPPSBalanceChange);
+ 	 		preparedStatement.setDouble(1, currentPPSBalance-numberPpsToSell);
+ 	 		preparedStatement.setString(2, seller);
+ 	 		
+ 	 		preparedStatement.executeUpdate();
+ 	 		preparedStatement.close();
+ 	 		
+ 	 		// Addition of the deducted number of PPS from the seller's account to the rootuser's ppsBalance :-
+ 	 		String sqlRootUserPPSAddition = "update rootuser set ppsBalance=? where email='root';";
+ 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSAddition);
+ 			preparedStatement.setDouble(1, currentPPSBalanceRoot+numberPpsToSell);
+ 			
+ 			preparedStatement.executeUpdate();
+ 			preparedStatement.close();
+ 			
+ 			
+ 			//Change in the price of pps :
+ 			String sqlRootUserPPSPriceChange = "update rootuser set ppsPrice=? where email='root';";
+ 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSPriceChange);
+ 			preparedStatement.setDouble(1, currentPPSPrice()+1);
+ 			
+ 			preparedStatement.executeUpdate();
+ 			preparedStatement.close();
+ 		
+ 		disconnect();	
+
+ 	 		
+ 		}	
+ 	}
   	
   	
 }
