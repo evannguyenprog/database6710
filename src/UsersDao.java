@@ -249,6 +249,41 @@ public class UsersDao {
  		
  		return currentPPSPrice;
  	}
+    
+    
+    public double currentBalanceOfMoney(String user_email) throws SQLException{
+    	
+        connect_func();
+ 		
+ 		statement = (Statement) connect.createStatement();
+ 		String sql = "select balance_in_dollars from balanceOfMoney where user_email="+user_email+";";
+ 		ResultSet rs = statement.executeQuery(sql);
+ 		
+ 		double balance_in_dollars = rs.getDouble("balance_in_dollars");
+ 		
+ 		disconnect();
+ 		
+ 		
+    	return balance_in_dollars;
+    	
+    }
+    
+     public double currentBalanceOfMoneyRoot() throws SQLException{
+    	
+        connect_func();
+ 		
+ 		statement = (Statement) connect.createStatement();
+ 		String sql = "select balanceOfMoneyRoot from rootuser where email='root';";
+ 		ResultSet rs = statement.executeQuery(sql);
+ 		
+ 		double balanceOfMoneyRoot = rs.getDouble("balanceOfMoneyRoot");
+ 		
+ 		disconnect();
+ 		
+ 		
+    	return balanceOfMoneyRoot;
+    	
+    }
  	
  	
     
@@ -291,6 +326,26 @@ public class UsersDao {
  	 		String sqlRootUserPPSAddition = "update rootuser set ppsBalance=? where email='root';";
  			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSAddition);
  			preparedStatement.setDouble(1, currentPPSBalanceRoot+numberPpsToSell);
+ 			
+ 			preparedStatement.executeUpdate();
+ 			preparedStatement.close();
+ 			
+ 			
+ 			
+ 			// Addition of money in seller's account due to selling PPS :
+ 			String sqlAdditionMoneyToSeller = "update balanceOfMoney set balance_in_dollars=? where user_email=?;";
+ 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlAdditionMoneyToSeller);
+ 			preparedStatement.setDouble(1, currentBalanceOfMoney(seller) + (((double)numberPpsToSell)/1000000.0) );
+ 			preparedStatement.setString(2, seller);
+ 			
+ 			preparedStatement.executeUpdate();
+ 			preparedStatement.close();
+ 			
+ 			
+ 		    // Reduction of money in seller's account due to selling PPS :
+ 			String sqlReductionMoneyRootuser = "update rootuser set balanceOfMoneyRoot=? where email='root';";
+ 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlReductionMoneyRootuser);
+ 			preparedStatement.setDouble(1, currentBalanceOfMoneyRoot() - (((double)numberPpsToSell)/1000000.0) );
  			
  			preparedStatement.executeUpdate();
  			preparedStatement.close();
