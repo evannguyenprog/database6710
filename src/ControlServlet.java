@@ -124,6 +124,20 @@ public class ControlServlet extends HttpServlet
 //            	transferPPS(request, response);
 //            	break;
 //            	
+              case "/displayDeposits":
+	            System.out.println("Displaying...");
+	            displayDeposits(request, response);
+	            break;
+              
+              case "/DisplayWithdrawals":
+                System.out.println("Displaying...");
+            	withdrawDollars(request, response);
+            	break;
+              
+              case "/DisplayPPSBought":
+                System.out.println("Displaying...");
+            	withdrawDollars(request, response);
+            	break;
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -303,6 +317,18 @@ public class ControlServlet extends HttpServlet
         usersDao.sellPPSAmount(currentUser, sellPPSAmount);
    }
     
+    private void displayDeposits(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	System.out.println(request.getParameter("sellPPSAmount"));
+    	Double sellPPSAmount = Double.parseDouble(request.getParameter("sellPPSAmount"));
+    	RequestDispatcher dispatcher;
+    	
+        session = request.getSession();
+        
+        String currentUser = (String) session.getAttribute("currentEmail");
+        System.out.println(currentUser);
+        System.out.println(sellPPSAmount);
+        usersDao.sellPPSAmount(currentUser, sellPPSAmount);
+   }
     
     
     

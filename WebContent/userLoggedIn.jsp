@@ -26,6 +26,19 @@
 
 <body>
 
+
+<div class="tagtable center">
+    <ul class="tabs">
+        <li><a href="userLoggedIn.jsp">Account</a></li>
+        <li><a href="depositsPage.jsp">Deposits</a></li>
+        <li><a href="withdrawalsPage.jsp">Withdrawals</a></li>
+        <li><a href="PPSBoughtPage.jsp">PPS Purchases</a></li>
+        <li><a href="PPSSoldPage.jsp">PPS Sales</a></li>
+        <li><a href="PPSTransfers.jsp">PPS Transfers</a></li>   
+        <li class="liRight"><a>PPS TRADE SITE</a></li>       
+    </ul>
+</div>
+    
 	<h1 align="center">Account Page</h1>
 
 <h4 align="center">

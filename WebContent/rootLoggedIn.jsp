@@ -9,7 +9,22 @@
 </head>
 <body>
 
-<%--  <h4>
+<div class="tagtable center">
+    <ul class="tabs">
+		<li><a href="userLoggedIn.jsp">Account</a></li>
+        <li><a href="depositsPage.jsp">Deposits</a></li>
+        <li><a href="withdrawalsPage.jsp">Withdrawals</a></li>
+        <li><a href="PPSBoughtPage.jsp">PPS Purchases</a></li>
+        <li><a href="PPSSoldPage.jsp">PPS Sales</a></li>
+        <li><a href="PPSTransfersPage.jsp">PPS Transfers</a></li>   
+        <li class="liRight"><a>PPS TRADE SITE</a></li>       
+    </ul>
+</div>
+
+
+	<h1 align="center">Root User Session</h1>
+	
+	<h4 align="center">
 <%
 if(session != null)
 {
@@ -26,12 +41,12 @@ if(session != null)
 	}
 }
 %>
-</h4> --%>
+</h4>
+<div align="center"><form method = "post" action="logout"><button type="submit" id="logout" value="logout">Logout</button></form></div>
 
-
-<p align = 'right'><form method = "post" action="logout"><button type="submit" id="logout" value="logout">logout</button></form></p>
-
-	<h2 align="center">Root User Session</h1>
+		<br>
+		<h2 align="center">== Account Actions ==</h2>
+	
 	
 	<center>
 		<form action="initialize" method="post">
