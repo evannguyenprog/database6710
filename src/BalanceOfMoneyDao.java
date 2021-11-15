@@ -97,11 +97,36 @@ public class BalanceOfMoneyDao {
         disconnect();
     }
     
- 
+    
+// Please verify the below function 
+// verified. changed the mysql syntax so it adds at time of deposit -evan
+
+    public double returnBalance(String user_email) throws SQLException {
+        connect_func();
+
+        statement = (Statement) connect.createStatement();
+        String sql = "SELECT balance_in_dollars from BalanceOfMoney WHERE user_email = '" + user_email + "'";
+        ResultSet rs = statement.executeQuery(sql);
+        double current_balance = 0;
+        while (rs.next())
+		{
+	        current_balance = rs.getDouble("balance_in_dollars");
+		}
+		
+//        rs.close();
+// might need to disconnect here later. not sure
+//		disconnect();
+		return current_balance;	
+    	
+    }
+    
+
     
     public void depositAmount(double depositAmount, String user_email) throws SQLException {
     	connect_func();
     	
+		System.out.println("Deposit Started!!");
+
     	String sql1 = "UPDATE BalanceOfMoney SET balance_in_dollars = balance_in_dollars+? WHERE user_email = ?;";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql1);
 		preparedStatement.setDouble(1, depositAmount);
@@ -109,39 +134,41 @@ public class BalanceOfMoneyDao {
 		preparedStatement.executeUpdate();
         preparedStatement.close();
         disconnect();
+
+        System.out.println("Deposit Done!!");
+
     }
     
     
-//    public void withdrawAmount(double withdrawAmount, String user_email) throws SQLException {
-//  
-//    	// First of all checking if the withdrawal amount is less than the balance, the user possesses :
-//    	
-//    	double existingBalance = existingBalance(user_email);
-//    	
-//    	if(existingBalance >= withdrawAmount) { // Withdrawal is possible
-//    		
-//    		connect_func();
-//    		
-//    		System.out.println("Withdrawal Started!!");
-//    		
-//    		String sql = "UPDATE BalanceOfMoney SET balance_in_dollars = ? WHERE user_email = ?;";
-//    		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-//    		preparedStatement.setDouble(1, existingBalance - withdrawAmount);
-//    		preparedStatement.setString(2, user_email);
-//
-//    		preparedStatement.executeUpdate();
-//            preparedStatement.close();
-//            disconnect();
-//    		
-//    		System.out.println("Withdrawal Done!!");
-//    	}
-//    	else { // Withdrawal is not possible
-//    		System.out.println("Sorry, the amount of withdrawal is exceeding the existing balance. "
-//    				+ "You can only withdraw less than or equal to $"+ existingBalance);
-//    	}
-//    }
-//    
-//    
+    public void withdrawAmount(double withdrawAmount, String user_email) throws SQLException {
+  
+    	// First of all checking if the withdrawal amount is less than the balance, the user possesses :
+    	
+    	double currentBalance = returnBalance(user_email);
+    	if(currentBalance >= withdrawAmount) { // Withdrawal is possible
+    		
+    		connect_func();
+    		
+    		System.out.println("Withdrawal Started!!");
+    		
+    		String sql = "UPDATE BalanceOfMoney SET balance_in_dollars = balance_in_dollars-? WHERE user_email = ?;";
+    		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+    		preparedStatement.setDouble(1, withdrawAmount);
+    		preparedStatement.setString(2, user_email);
+
+    		preparedStatement.executeUpdate();
+            preparedStatement.close();
+            disconnect();
+    		
+    		System.out.println("Withdrawal Done!!");
+    	}
+    	else { // Withdrawal is not possible
+    		System.out.println("Sorry, the amount of withdrawal exceeds the existing balance. "
+    				+ "You can only withdraw less than or equal to $"+ currentBalance);
+    	}
+    }
+    
+    
     
 
     

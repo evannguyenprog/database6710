@@ -109,7 +109,7 @@ public class ControlServlet extends HttpServlet
             
             case "/withdrawDollars":
                 System.out.println("Withdrawing...");
-//            	withdrawDollars(request, response);
+            	withdrawDollars(request, response);
             	break;
 //            
 //            case "/buyPPS":
@@ -265,25 +265,28 @@ public class ControlServlet extends HttpServlet
 //    	pw.println("<script type=\"text/javascript\">");
 //    	pw.println("alert('Deposit Successful');");
 //    	pw.println("</script>");   
-        System.out.println("Deposit Successful");
         dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
     	dispatcher.forward(request, response);
 
    }
    
-//    private void withdrawDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-//    	System.out.println(request.getParameter("withdrawDollarAmount"));
-//    	Double withdrawAmount = Double.parseDouble(request.getParameter("withdrawDollarAmount"));
-//    	RequestDispatcher dispatcher;
-//    	
-//        session = request.getSession();
-//        
-//        String currentUser = (String) session.getAttribute("currentEmail");
-//        System.out.println(currentUser);
-//        System.out.println(withdrawAmount);
-//        balanceOfMoneyDao.withdrawAmount(withdrawAmount, currentUser);
-//    	
-//   }
+    private void withdrawDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	System.out.println(request.getParameter("withdrawDollarAmount"));
+    	Double withdrawAmount = Double.parseDouble(request.getParameter("withdrawDollarAmount"));
+    	RequestDispatcher dispatcher;
+    	
+        session = request.getSession();
+        
+        String currentUser = (String) session.getAttribute("currentEmail");
+        System.out.println(currentUser);
+        System.out.println(withdrawAmount);
+        balanceOfMoneyDao.withdrawAmount(withdrawAmount, currentUser);
+        String transactionDate = returnDate();
+        Withdraw newWithdrawl = new Withdraw(currentUser, withdrawAmount, transactionDate);
+        withdrawDao.insert(newWithdrawl);
+        dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
+    	dispatcher.forward(request, response);
+   }
     
    
 
