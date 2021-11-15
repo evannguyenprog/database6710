@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.io.PrintWriter;
 
 
 
@@ -102,11 +103,13 @@ public class ControlServlet extends HttpServlet
             
             	//deposit dollars into user account
             case "/depositDollars":
+                System.out.println("Depositing...");
             	depositDollars(request, response);
             	break;
             
             case "/withdrawDollars":
-            	withdrawDollars(request, response);
+                System.out.println("Withdrawing...");
+//            	withdrawDollars(request, response);
             	break;
 //            
 //            case "/buyPPS":
@@ -160,6 +163,15 @@ public class ControlServlet extends HttpServlet
         dispatcher.forward(request, response);
     }
     
+    //function to return the date in the correct format as it appears in the database.
+    //dont use the Date datatype because project structure already uses String and it is easier here
+    private String returnDate() {  
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+        Date transactionDate = new Date();
+		String strTransactionDate = formatter.format(transactionDate);
+        return strTransactionDate;  
+    }  
+  
     
  // log in user functionality
     private void login(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
@@ -245,24 +257,36 @@ public class ControlServlet extends HttpServlet
         System.out.println(currentUser);
         System.out.println(depositAmount);
         balanceOfMoneyDao.depositAmount(depositAmount, currentUser);
-    	
+        String transactionDate = returnDate();
+        Deposit newDeposit = new Deposit(currentUser, depositAmount, transactionDate);
+        depositDao.insert(newDeposit);
+//      response.setContentType("text/html");
+//    	PrintWriter pw = response.getWriter();
+//    	pw.println("<script type=\"text/javascript\">");
+//    	pw.println("alert('Deposit Successful');");
+//    	pw.println("</script>");   
+        System.out.println("Deposit Successful");
+        dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
+    	dispatcher.forward(request, response);
+
    }
    
-    private void withdrawDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-    	System.out.println(request.getParameter("withdrawDollarAmount"));
-    	Double withdrawAmount = Double.parseDouble(request.getParameter("withdrawDollarAmount"));
-    	RequestDispatcher dispatcher;
-    	
-        session = request.getSession();
-        
-        String currentUser = (String) session.getAttribute("currentEmail");
-        System.out.println(currentUser);
-        System.out.println(withdrawAmount);
-        balanceOfMoneyDao.withdrawAmount(withdrawAmount, currentUser);
-    	
-   }
+//    private void withdrawDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+//    	System.out.println(request.getParameter("withdrawDollarAmount"));
+//    	Double withdrawAmount = Double.parseDouble(request.getParameter("withdrawDollarAmount"));
+//    	RequestDispatcher dispatcher;
+//    	
+//        session = request.getSession();
+//        
+//        String currentUser = (String) session.getAttribute("currentEmail");
+//        System.out.println(currentUser);
+//        System.out.println(withdrawAmount);
+//        balanceOfMoneyDao.withdrawAmount(withdrawAmount, currentUser);
+//    	
+//   }
     
    
+
     private void sellPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	System.out.println(request.getParameter("sellPPSAmount"));
     	Double sellPPSAmount = Double.parseDouble(request.getParameter("sellPPSAmount"));
@@ -274,7 +298,6 @@ public class ControlServlet extends HttpServlet
         System.out.println(currentUser);
         System.out.println(sellPPSAmount);
         usersDao.sellPPSAmount(currentUser, sellPPSAmount);
-    	
    }
     
     

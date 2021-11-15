@@ -9,5 +9,8 @@
 </head>
 <body>
 
+<!-- List all attributes from the different tables for each user. Select the transactions based on the user -->
+<!-- And display them in a table or something similar -->
+
 </body>
 </html>

@@ -8,7 +8,20 @@
 	<meta charset="ISO-8859-1">
 	<style><%@include file="/WEB-INF/css/style.css"%></style>
 	<title>PPS Trading Site</title>
+	<!-- <script>
+	function customAlert(msg)
+    {
+      $('.alert').html(msg);
+        
+        $('.alert').slideDown();
+        $('html, body').animate({
+          scrollTop: 0
+        }, 800, function(){
 
+        });
+        setTimeout(function () {$('.alert').slideUp();}, 3000)
+    }
+	</script> -->
 </head>
 
 <body>
@@ -40,7 +53,16 @@ if(session != null)
 
 	<br>
 		<h2 align="center">== Account Actions ==</h2>
-	<br>
+	
+	<center>
+		<p align="center">Current Balance (Dollars): </p>
+		
+		<p align="center">Current Balance (PPS): </p>
+	</center>
+	
+	
+		<br>
+		<br>
 	
 	
 	<center>
