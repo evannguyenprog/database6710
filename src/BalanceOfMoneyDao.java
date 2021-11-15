@@ -115,7 +115,7 @@ public class BalanceOfMoneyDao {
 		
 //        rs.close();
 // might need to disconnect here later. not sure
-//		disconnect();
+		disconnect();
 		return current_balance;	
     	
     }
