@@ -126,15 +126,15 @@ public class ControlServlet extends HttpServlet
 //            	
               case "/displayDeposits":
 	            System.out.println("Displaying...");
-	            displayDeposits(request, response);
+	            //displayDeposits(request, response);
 	            break;
               
-              case "/DisplayWithdrawals":
+              case "/displayWithdrawals":
                 System.out.println("Displaying...");
             	withdrawDollars(request, response);
             	break;
               
-              case "/DisplayPPSBought":
+              case "/displayPPSBought":
                 System.out.println("Displaying...");
             	withdrawDollars(request, response);
             	break;

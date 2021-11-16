@@ -8,20 +8,7 @@
 	<meta charset="ISO-8859-1">
 	<style><%@include file="/WEB-INF/css/style.css"%></style>
 	<title>PPS Trading Site</title>
-	<!-- <script>
-	function customAlert(msg)
-    {
-      $('.alert').html(msg);
-        
-        $('.alert').slideDown();
-        $('html, body').animate({
-          scrollTop: 0
-        }, 800, function(){
-
-        });
-        setTimeout(function () {$('.alert').slideUp();}, 3000)
-    }
-	</script> -->
+	
 </head>
 
 <body>
@@ -29,7 +16,7 @@
 
 <div class="tagtable center">
     <ul class="tabs">
-        <li><a href="userLoggedIn.jsp">Account</a></li>
+        <li><a href="userLoggedIn.jsp ">Account</a></li>
         <li><a href="depositsPage.jsp">Deposits</a></li>
         <li><a href="withdrawalsPage.jsp">Withdrawals</a></li>
         <li><a href="PPSBoughtPage.jsp">PPS Purchases</a></li>
