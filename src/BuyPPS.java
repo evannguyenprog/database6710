@@ -9,7 +9,7 @@ public class BuyPPS {
 	
 	private String user_email;
 	
-	private int number_pps_bought;
+	private double number_pps_bought;
 	
 	private String pps_bought_date;
 	
@@ -20,13 +20,13 @@ public class BuyPPS {
 		
 	}
 	
-	public BuyPPS(int id, String user_email, int number_pps_bought, String pps_bought_date) {
+	public BuyPPS(int id, String user_email, double number_pps_bought, String pps_bought_date) {
 		this.id = id;
 		this.user_email = user_email;
 		this.number_pps_bought = number_pps_bought;
 		this.pps_bought_date = pps_bought_date;
 	}
-	public BuyPPS(String user_email, int number_pps_bought, String pps_bought_date) {
+	public BuyPPS(String user_email, double number_pps_bought, String pps_bought_date) {
 		this.user_email = user_email;
 		this.number_pps_bought = number_pps_bought;
 		this.pps_bought_date = pps_bought_date;
@@ -49,7 +49,7 @@ public class BuyPPS {
 	/**
 	 * @return the number_pps_bought
 	 */
-	public int getNumber_pps_bought() {
+	public double getNumber_pps_bought() {
 		return number_pps_bought;
 	}
 
@@ -77,7 +77,7 @@ public class BuyPPS {
 	/**
 	 * @param number_pps_bought the number_pps_bought to set
 	 */
-	public void setNumber_pps_bought(int number_pps_bought) {
+	public void setNumber_pps_bought(double number_pps_bought) {
 		this.number_pps_bought = number_pps_bought;
 	}
 

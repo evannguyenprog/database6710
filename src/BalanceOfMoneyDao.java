@@ -52,7 +52,12 @@ public class BalanceOfMoneyDao {
         }
     }
 	
-	
+	private void close() throws SQLException {
+		if (resultSet != null)
+			resultSet.close();
+		if (statement != null)
+			statement.close();
+	}
 	
 	// Function "listAllAddress()" is for printing all the rows/records
     // of 'Users' table(i.e User model/class in Java terminology.)

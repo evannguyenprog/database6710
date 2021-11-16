@@ -89,6 +89,34 @@ public class BuyPPSDao {
         return listBuyPPS;
     }
     
+ // Function "listAllBuyPPS()" is for printing all the rows/records
+    // of 'BuyPPS' table(i.e User model/class in Java terminology.)
+    public List<BuyPPS> listAllBuyPPSByUser(String current_user) throws SQLException {
+        List<BuyPPS> listBuyPPS = new ArrayList<BuyPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "SELECT * FROM BuyPPS WHERE user_email = '" + current_user + "';"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+           
+            int id = resultSet.getInt("id");
+            String user_email = resultSet.getString("user_email");
+            int number_pps_bought = resultSet.getInt("number_pps_bought");
+            String pps_bought_date = resultSet.getString("pps_bought_date");
+            
+           
+            BuyPPS buy_pps = new BuyPPS(id, user_email, number_pps_bought, pps_bought_date);
+            listBuyPPS.add(buy_pps);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listBuyPPS;
+    }
+    
     //Function 'insert' below is to insert a row/record in the 'BuyPPS'
     // table of the PPS database in mysql.
     public void insert(BuyPPS buy_pps) throws SQLException {
@@ -96,7 +124,7 @@ public class BuyPPSDao {
     	String sql = "insert into  BuyPPS (user_email, number_pps_bought, pps_bought_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, buy_pps.getUser_email());
-		preparedStatement.setInt(2, buy_pps.getNumber_pps_bought());
+		preparedStatement.setDouble(2, buy_pps.getNumber_pps_bought());
 		preparedStatement.setString(3, buy_pps.getPps_bought_date());
 		preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -111,7 +139,7 @@ public class BuyPPSDao {
  			String s = "CREATE TABLE BuyPPS(\r\n"
  					+ " 					id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
  					+ " 					user_email VARCHAR(20),\r\n"
- 					+ " 					number_pps_bought INTEGER,\r\n"
+ 					+ " 					number_pps_bought DOUBLE(10,2),\r\n"
  					+ " 					pps_bought_date VARCHAR(10),\r\n"
  					+ " 					FOREIGN KEY(user_email) REFERENCES Users(email)\r\n"
  					+ " 					);";

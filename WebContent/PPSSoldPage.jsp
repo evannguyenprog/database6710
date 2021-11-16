@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,15 +22,29 @@
     </ul>
 </div>
 
-<h2> PPS Sold History </h2>
+<h1 align="center"> PPS Sold History </h1>
+	<form action="displayPPSSold" method="post">
+			<div class="pad" align="center"><button type="submit" id="displayPPSSold" value="submit">Display</button></div>
+	</form>
 
+	<div align="center">
 
-<%
-
-	
-
-
-%>
+		<table border="1" width="70%" align="center">
+            <caption><h2>Deposits</h2></caption>
+            
+            <c:forEach var="listSellPPS" items="${listSellPPS}">
+                <tr>
+                    <td><c:out value="${listSellPPS.id}" /></td>
+                    <td><c:out value="${listSellPPS.user_email}" /></td>
+                    <td>$<c:out value="${listSellPPS.number_pps_sold}" /></td>
+                    <td><c:out value="${listSellPPS.pps_sold_date}" /></td>
+                          	
+                </tr>
+           	</c:forEach>
+           	           	
+        </table>
+         	
+	</div>
 
 </body>
 </html>

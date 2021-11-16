@@ -98,6 +98,36 @@ public class TransferPPSDao {
 	    }
 	    
 	    
+		// Function "listAllTransferPPS()" is for printing all the rows/records
+	    // of 'TransferPPS' table(i.e TransferPPS model/class in Java terminology.)
+	    public List<TransferPPS> listAllTransferPPSByUser(String current_email) throws SQLException {
+	        List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();  
+	        // A string 'sql' storing a sql query. 
+	        String sql = "SELECT * FROM TransferPPS WHERE user_email='"+ current_email +"';"; 
+	        // connecting with the database.
+	        connect_func();      
+	        statement =  (Statement) connect.createStatement();
+	        // executing the 'sql' query :
+	        ResultSet resultSet = statement.executeQuery(sql);
+	         
+	        while (resultSet.next()) {
+	           
+	            int id = resultSet.getInt("id");
+	            String transfering_user_email = resultSet.getString("transfering_user_email");
+	            String receiving_user_email = resultSet.getString("receiving_user_email");
+	            String transfer_date = resultSet.getString("transfer_date");
+	            int number_pps_transfered = resultSet.getInt("number_pps_transfered");
+	      
+	            
+				TransferPPS transferPPS = new TransferPPS(id, transfering_user_email, receiving_user_email, transfer_date, number_pps_transfered);
+	            listTransferPPS.add(transferPPS);
+	        }        
+	        resultSet.close();
+	        statement.close();         
+	        return listTransferPPS;
+	    }
+	    
+	    
 	  //Function 'insert' below is to insert a row/record in the 'Users'
 	    // table of the PPS database in mysql.
 	    public void insert(TransferPPS transferPPS) throws SQLException {

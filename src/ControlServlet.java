@@ -139,10 +139,10 @@ public class ControlServlet extends HttpServlet
                 System.out.println("Withdrawing...");
             	withdrawDollars(request, response);
             	break;
-//            
-//            case "/buyPPS":
-//            	buyPPS(request, response);
-//            	break;
+            
+            	case "/buyPPS":
+            	buyPPS(request, response);
+            	break;
 //            
 //            case "/sellPPS":
 //            	sellPPS(request, response);
@@ -164,8 +164,18 @@ public class ControlServlet extends HttpServlet
               
               case "/displayPPSBought":
                 System.out.println("Displaying...");
-            	withdrawDollars(request, response);
+            	displayBuyPPS(request, response);
             	break;
+            	
+              case "/displayPPSSold":
+                  System.out.println("Displaying...");
+                  displaySellPPS(request, response);
+              	break;
+              	
+              case "/displayPPSTransfered":
+                  System.out.println("Displaying...");
+              	displayTransferPPS(request, response);
+              	break;
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -290,6 +300,64 @@ public class ControlServlet extends HttpServlet
         }
     }
     
+//    private double calculatePPSValue(Double ppsAmount) throws SQLException {
+//    	String sql = "SELECT ppsPrice FROM rootuser"; 
+//        connect_func();      
+//        statement =  (Statement) connect.createStatement();
+//        ResultSet resultSet = statement.executeQuery(sql);
+//    	double ppsPrice = resultSet.getDouble("ppsPrice");
+//    	for(double i = 0; i <= ppsAmount; i++) {
+//    		ppsPrice -= 1; 	
+//        }
+//    	return ppsPrice;
+//    }
+//    
+//    private double calculatePPSBalance(Double ppsAmount) throws SQLException {
+//    	String sql = "SELECT ppsBalance FROM rootuser"; 
+//        connect_func();      
+//        statement =  (Statement) connect.createStatement();
+//        ResultSet resultSet = statement.executeQuery(sql);
+//    	double ppsBalance = resultSet.getDouble("ppsPrice");
+//    	for(double i = 0; i < ppsAmount; i++) {
+//    		ppsBalance -= 1000000; 	
+//        }
+//    	return ppsBalance;
+//    }
+//    
+    private void close() throws SQLException {
+		if (resultSet != null)
+			resultSet.close();
+		if (statement != null)
+			statement.close();
+	}
+    
+    private double ppsAmountBought(Double ppsAmount) throws SQLException {
+    	double totalPPS = 0;
+    	String sql = "SELECT ppsBalance, ppsPrice FROM rootuser"; 
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+    	double ppsPrice = 0;
+    	double ppsBalance = 0;
+    	
+    	 while (resultSet.next())
+ 		{
+    		 ppsPrice = resultSet.getDouble("ppsPrice");
+    		 ppsBalance = resultSet.getDouble("ppsBalance");
+ 		}
+    	 
+    	for(double i = 0; i < ppsAmount; i++) {
+    		totalPPS += ppsPrice;
+    		ppsPrice -= 1;
+    		ppsBalance -= totalPPS; 	
+        }
+        resultSet.close();
+        statement.close();         
+    	//update values in database after for loop is complete
+        specialUserRootDao.updatePPS(ppsAmount, ppsPrice, ppsBalance);
+    	return totalPPS;
+    }
+    
     private void depositDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	System.out.println(request.getParameter("depositDollarAmount"));
     	Double depositAmount = Double.parseDouble(request.getParameter("depositDollarAmount"));
@@ -331,7 +399,38 @@ public class ControlServlet extends HttpServlet
     	dispatcher.forward(request, response);
    }
     
-   
+    private void buyPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	System.out.println(request.getParameter("buyPPSAmount"));
+    	Double buyPPSAmount = Double.parseDouble(request.getParameter("buyPPSAmount"));
+    	RequestDispatcher dispatcher;
+    	
+        session = request.getSession();
+        
+        //add amount purchased in pps to buypps table
+        String currentUser = (String) session.getAttribute("currentEmail");
+        System.out.println(currentUser);
+        String transactionDate = returnDate();
+        
+//        double newPPSValue = calculatePPSValue(buyPPSAmount);
+//        double newPPSBalance = calculatePPSBalance(buyPPSAmount);
+        double ppsAmountBought = ppsAmountBought(buyPPSAmount);
+        System.out.println(ppsAmountBought);
+
+        BuyPPS newSale = new BuyPPS(currentUser, ppsAmountBought, transactionDate);
+        buyPPSDao.insert(newSale);
+        //add balancemoney to root
+//        specialUserRootDao.addBalance(buyPPSAmount);
+        //subtract balancemoney from user
+        balanceOfMoneyDao.withdrawAmount(buyPPSAmount, currentUser);
+       
+        //add ppsbalance in users
+        usersDao.addPPS(ppsAmountBought, currentUser);
+    
+        dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
+    	dispatcher.forward(request, response);
+        
+    }
+    
 
     private void sellPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	System.out.println(request.getParameter("sellPPSAmount"));
@@ -346,6 +445,11 @@ public class ControlServlet extends HttpServlet
         usersDao.sellPPSAmount(currentUser, sellPPSAmount);
    }
     
+   
+    private void transferPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    }
+    
+    
     private void displayDeposits(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	String currentUser = (String) session.getAttribute("currentEmail");
     	List<Deposit> depositList = new ArrayList<Deposit>();
@@ -355,6 +459,7 @@ public class ControlServlet extends HttpServlet
     	dispatcher = request.getRequestDispatcher("depositsPage.jsp");
     	dispatcher.forward(request,  response);
    }
+    
     
     private void displayWithdrawals(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	String currentUser = (String) session.getAttribute("currentEmail");
@@ -366,5 +471,33 @@ public class ControlServlet extends HttpServlet
     	dispatcher.forward(request,  response);
    }
     
+    private void displayBuyPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<BuyPPS> listBuyPPS = new ArrayList<BuyPPS>();
+    	listBuyPPS = buyPPSDao.listAllBuyPPSByUser(currentUser);
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listBuyPPS", listBuyPPS);
+    	dispatcher = request.getRequestDispatcher("PPSBoughtPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
     
+    private void displaySellPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<SellPPS> listSellPPS = new ArrayList<SellPPS>();
+    	listSellPPS = sellPPSDao.listAllSellPPSByUser(currentUser);
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listSellPPS", listSellPPS);
+    	dispatcher = request.getRequestDispatcher("PPSSoldPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+    
+    private void displayTransferPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();
+    	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listTransferPPS", listTransferPPS);
+    	dispatcher = request.getRequestDispatcher("PPSTransfer.jsp");
+    	dispatcher.forward(request,  response);
+    }
 }

@@ -59,6 +59,13 @@ public class UsersDao {
         }
     }
     
+    private void close() throws SQLException {
+		if (resultSet != null)
+			resultSet.close();
+		if (statement != null)
+			statement.close();
+	}
+    
     // Function "listAllUsers()" is for printing all the rows/records
     // of 'Users' table(i.e User model/class in Java terminology.)
     public List<Users> listAllUsers() throws SQLException {
@@ -107,6 +114,20 @@ public class UsersDao {
         preparedStatement.close();
         disconnect();
     }
+    
+    //Function 'insert' below is to insert a row/record in the 'Users'
+    // table of the PPS database in mysql.
+    public void addPPS(Double pps, String user_email) throws SQLException {
+    	connect_func();
+  		statement = (Statement) connect.createStatement();
+  		String sql = "UPDATE users SET ppsBalance = ? WHERE email=?;";
+  		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setDouble(1, pps);
+		preparedStatement.setString(2, user_email);
+		preparedStatement.executeUpdate();
+        preparedStatement.close();
+    }
+    
     
     // create users table
  	public void createTable() throws SQLException {

@@ -147,6 +147,21 @@ public class SpecialUserRootDao {
  		statement.executeUpdate("DROP TABLE IF EXISTS RootUser");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
+  	
+  	public void updatePPS(Double balance, Double ppsPrice, Double ppsBalance) throws SQLException {
+  		connect_func();
+
+  		statement = (Statement) connect.createStatement();
+  		String sql = "UPDATE rootuser SET balanceOfMoneyRoot = balanceOfMoneyRoot+? AND ppsPrice=? AND ppsBalance-? WHERE email='root';";
+  		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setDouble(1, balance);
+		preparedStatement.setDouble(2, ppsPrice);
+		preparedStatement.setDouble(3, ppsBalance);
+		preparedStatement.executeUpdate();
+        preparedStatement.close();
+        disconnect();
+  	}
+  	
 
  // email and username verification function
  	// need to implement password functionality and store password before we can log in users and authenticate sessions

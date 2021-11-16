@@ -91,6 +91,36 @@ public class SellPPSDao {
         return listSellPPS;
     }
     
+    // Function "listAllSellPPS()" is for printing all the rows/records
+    // of 'SellPPS' table(i.e User model/class in Java terminology.)
+    public List<SellPPS> listAllSellPPSByUser(String current_user) throws SQLException {
+        List<SellPPS> listSellPPS = new ArrayList<SellPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "SELECT * FROM SellPPS WHERE user_email = '"+ current_user +"';"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+           
+            int id = resultSet.getInt("id");
+            String user_email = resultSet.getString("user_email");
+            int number_pps_sold = resultSet.getInt("number_pps_sold");
+            String pps_sold_date = resultSet.getString("pps_sold_date");
+            
+            
+             
+            SellPPS sell_pps = new SellPPS(id, user_email, number_pps_sold, pps_sold_date);
+            listSellPPS.add(sell_pps);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listSellPPS;
+    }
+    
+    
     //Function 'insert' below is to insert a row/record in the 'SellPPS'
     // table of the PPS database in mysql.
     public void insert(SellPPS sell_pps) throws SQLException {
