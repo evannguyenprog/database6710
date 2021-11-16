@@ -138,14 +138,14 @@ public class TransferPPSDao {
 	 			String s2 = " INSERT INTO TransferPPS(transfering_user_email, receiving_user_email, transfer_date, number_pps_transfered) VALUES\r\n"
 	 					+ "	 					('evan@gmail.com', 'smit@gmail.com', '09/01/2021',  '0.00'),\r\n"
 	 					+ "	 					('smit@gmail.com', 'john@gmail.com', '09/10/2021',  '0.00'),\r\n"
-	 					+ "	 					('john@gmail.com', 'mihir@gmail.com', '09/12/2021',  '0.00'),\r\n"
-	 					+ "	 					('mihir@gmail.com', 'varun@gmail.com','09/19/2021',  '0.00'),\r\n"
-	 					+ "	 					('varun@gmail.com', 'Tej@gmail.com','09/18/2021',  '0.00'),\r\n"
-	 					+ "	 					('Tej@gmail.com', 'mike@gmail.com','09/07/2021',  '0.00'),\r\n"
-	 					+ "	 					('mike@gmail.com', 'tenisee@gmail.com', '09/12/2021',  '0.00'),\r\n"
-	 					+ "	 					('tenisee@gmail.com', 'Ghanu@gmail.com','09/12/2021',  '0.00'),\r\n"
-	 					+ "	 					('Ghanu@gmail.com', 'trott@gmail.com','09/12/2021',  '0.00'),\r\n"
-	 					+ "	 					('trott@gmail.com', 'evan@gmail.com', '10/12/2021',  '0.00');";
+	 					+ "	 					('john@gmail.com', 'mihir@yahoo.com', '09/12/2021',  '0.00'),\r\n"
+	 					+ "	 					('mihir@yahoo.com', 'varun@gmail.com','09/19/2021',  '0.00'),\r\n"
+	 					+ "	 					('varun@gmail.com', 'Tej@aol.com','09/18/2021',  '0.00'),\r\n"
+	 					+ "	 					('Tej@aol.com', 'mike@gmail.com','09/07/2021',  '0.00'),\r\n"
+	 					+ "	 					('mike@gmail.com', 'tenisee@yahoo.com', '09/12/2021',  '0.00'),\r\n"
+	 					+ "	 					('tenisee@yahoo.com', 'Ghanu@gmail.com','09/12/2021',  '0.00'),\r\n"
+	 					+ "	 					('Ghanu@gmail.com', 'trott@hotmail.com','09/12/2021',  '0.00'),\r\n"
+	 					+ "	 					('trott@hotmail.com', 'evan@gmail.com', '10/12/2021',  '0.00');";
 	 
 	 			statement.executeUpdate(s);
 	 			System.out.println("'TransferPPS' table created.");

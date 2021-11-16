@@ -189,13 +189,13 @@ public class BalanceOfMoneyDao {
  					+ "             VALUES('evan@gmail.com', 0),\r\n"
  					+ " 					('smit@gmail.com', 0),\r\n"
  					+ " 					('john@gmail.com', 0),\r\n"
- 					+ " 					('mihir@gmail.com', 0),\r\n"
+ 					+ " 					('mihir@yahoo.com', 0),\r\n"
  					+ " 					('varun@gmail.com', 0),\r\n"
- 					+ " 					('Tej@gmail.com', 0),\r\n"
+ 					+ " 					('Tej@aol.com', 0),\r\n"
  					+ " 					('mike@gmail.com', 0),\r\n"
- 					+ " 					('tenisee@gmail.com', 0),\r\n"
+ 					+ " 					('tenisee@yahoo.com', 0),\r\n"
  					+ " 					('Ghanu@gmail.com', 0),\r\n"
- 					+ " 					('trott@gmail.com', 0);";
+ 					+ " 					('trott@hotmail.com', 0);";
  			
  			statement.executeUpdate(s);
  		    System.out.println("The BalanceOfMoney table is created.");

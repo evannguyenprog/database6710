@@ -133,13 +133,13 @@ public class AddressDao {
  					+ "('evan@gmail.com', '567 Brooke Street', 'Akshardham', 'AK', 56565), \r\n"
  					+ "('smit@gmail.com', '899 Akshar Street', 'Saginaw', 'MI', 48189), \r\n"
  					+ "('john@gmail.com', '899 Random Street', 'Saginaw', 'MI', 48189), \r\n"
- 					+ "('mihir@gmail.com', '1 Aksharadhipati', 'Saginaw', 'MI', 48189),\r\n"
+ 					+ "('mihir@yahoo.com', '1 Aksharadhipati', 'Saginaw', 'MI', 48189),\r\n"
  					+ "('varun@gmail.com', '2424 Canterburry Circle', 'Canton', 'MI', 48185), \r\n"
- 					+ "('Tej@gmail.com', '5656 Canterburry Circle', 'Jersey', 'NJ', 48190),\r\n"
+ 					+ "('Tej@aol.com', '5656 Canterburry Circle', 'Jersey', 'NJ', 48190),\r\n"
  					+ "('mike@gmail.com', '8989 Canterburry Circle', 'Mt. Laurel', 'NJ', 48196),\r\n"
- 					+ "('tenisee@gmail.com', '8909 Philips St.', 'Mt. Laurel', 'NJ', 48196),\r\n"
+ 					+ "('tenisee@yahoo.com', '8909 Philips St.', 'Mt. Laurel', 'NJ', 48196),\r\n"
  					+ "('Ghanu@gmail.com', 'Akshardham Sihasan', 'Akshardham', 'PN', 11111),\r\n"
- 					+ "('trott@gmail.com', '89 Philips St.', 'Mt. City', 'NJ', 48156);";
+ 					+ "('trott@hotmail.com', '89 Philips St.', 'Mt. City', 'NJ', 48156);";
  			
  			statement.executeUpdate(s);
  		    System.out.println("The Address table is created.");

@@ -127,7 +127,7 @@ public class SpecialUserRootDao {
  			
  		
  			statement.executeUpdate(s);
- 			System.out.println("'SellPPS' table created.");
+ 			System.out.println("'RootUser' table created.");
  			statement.executeUpdate(s2);
  			System.out.println("Root User and table Added.");
  			

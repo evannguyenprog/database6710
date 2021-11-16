@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.io.PrintWriter;
 
 
@@ -42,6 +43,12 @@ public class ControlServlet extends HttpServlet
     private SpecialUserRootDao specialUserRootDao;
     private HttpSession session = null;
     
+	private Connection connect = null;
+	private Statement statement = null;
+	private PreparedStatement preparedStatement = null;
+	private ResultSet resultSet = null;
+	
+	
     public void init() {
         System.out.println("Servlet Connected.");
         
@@ -57,6 +64,27 @@ public class ControlServlet extends HttpServlet
         
     }
     
+	protected void connect_func() throws SQLException {
+        if (connect == null || connect.isClosed()) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                throw new SQLException(e);
+            }
+            connect = (Connection) DriverManager
+            		.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?"
+            			    + "user=john&password=john1234");
+            System.out.println(connect);
+        }
+    }
+    
+	//The below function disconnect(), is used for disconnecting with the 
+	// mySQL database.
+    protected void disconnect() throws SQLException {
+        if (connect != null && !connect.isClosed()) {
+        	connect.close();
+        }
+    }
     
  // doPost declaration
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -160,7 +188,9 @@ public class ControlServlet extends HttpServlet
 
         System.out.println("====== All Tables Dropped. ======");
        
+        
         usersDao.createTable(); //have to create user table first otherwise error occurs where users cannot be located
+        specialUserRootDao.createTable();
         addressDao.createTable();
         balanceOfMoneyDao.createTable();
         buyPPSDao.createTable();
@@ -168,9 +198,8 @@ public class ControlServlet extends HttpServlet
         sellPPSDao.createTable();
         transferPPSDao.createTable();
         withdrawDao.createTable();
-        specialUserRootDao.createTable();
 
-        
+
         System.out.println("====== Database Initalized Successfully. ====== ");
        
         RequestDispatcher dispatcher = request.getRequestDispatcher("rootLoggedIn.jsp");
