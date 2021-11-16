@@ -219,22 +219,25 @@ public class UsersDao {
  		connect_func();
  		
  		// SQL query to get the current ppsBalance of the user :
- 		String sql = "select ppsBalance from users where email = ?";
+ 		String sql = "select ppsBalance from users where email = '"+ user_email +"';";
  		
  		// Preparing the above statement below :
- 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
- 		preparedStatement.setString(1, user_email);
- 		
+// 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+// 		preparedStatement.setString(1, user_email);
+// 		
  		// Executing the prepared query in the database (THIS NEEDS TO BE CHECKED !!!!!!!!!!)
- 		resultSet = preparedStatement.executeQuery();
+        statement =  (Statement) connect.createStatement();
+ 		resultSet = statement.executeQuery(sql);
+ 		double currentPPSBalance = 0;
  		
- 		preparedStatement.close();
- 		
- 		// Extracting the "ppsBalance" from the resultSet :
- 		double currentPPSBalance = resultSet.getDouble("ppsBalance");
- 		
- 		disconnect();
- 		
+        while (resultSet.next()) {
+	 		// Extracting the "ppsBalance" from the resultSet :
+	 		currentPPSBalance = resultSet.getDouble("ppsBalance");
+        }        
+
+        //resultSet.close();
+        statement.close();  
+        //disconnect();
  		// returning the PPSBalance
 		return currentPPSBalance;	
  	}
@@ -248,9 +251,16 @@ public class UsersDao {
  		String sql = "select ppsBalance from rootuser where email='root'";
  		ResultSet rs = statement.executeQuery(sql);
  		
- 		double currentPPSBalanceRoot = rs.getDouble("ppsBalance");
+ 		double currentPPSBalanceRoot = 0;
  		
- 		disconnect();
+ 		while (rs.next()) {
+	 		// Extracting the "ppsBalance" from the resultSet :
+ 			currentPPSBalanceRoot = rs.getDouble("ppsBalance");
+        }        
+
+        //resultSet.close();
+        statement.close();  
+        //disconnect();
  		
  		return currentPPSBalanceRoot;
  	}
@@ -264,9 +274,14 @@ public class UsersDao {
  		String sql = "select ppsPrice from rootuser where email='root'";
  		ResultSet rs = statement.executeQuery(sql);
  		
- 		double currentPPSPrice = rs.getDouble("ppsPrice");
+ 		double currentPPSPrice = 0;
+ 		while (rs.next()) {
+ 			currentPPSPrice = rs.getDouble("ppsPrice");
+ 		}
  		
- 		disconnect();
+ 		//resultSet.close();
+        statement.close();  
+ 		//disconnect();
  		
  		return currentPPSPrice;
  	}
@@ -277,12 +292,18 @@ public class UsersDao {
         connect_func();
  		
  		statement = (Statement) connect.createStatement();
- 		String sql = "select balance_in_dollars from balanceOfMoney where user_email="+user_email+";";
+ 		String sql = "select balance_in_dollars from balanceOfMoney where user_email='"+user_email+"';";
  		ResultSet rs = statement.executeQuery(sql);
  		
- 		double balance_in_dollars = rs.getDouble("balance_in_dollars");
+ 		double balance_in_dollars = 0;
+ 		while (rs.next()) {
+ 			 balance_in_dollars = rs.getDouble("balance_in_dollars");
+ 		}
  		
- 		disconnect();
+ 		//resultSet.close();
+        statement.close();  
+ 		//disconnect();
+ 		
  		
  		
     	return balance_in_dollars;
@@ -297,9 +318,16 @@ public class UsersDao {
  		String sql = "select balanceOfMoneyRoot from rootuser where email='root';";
  		ResultSet rs = statement.executeQuery(sql);
  		
- 		double balanceOfMoneyRoot = rs.getDouble("balanceOfMoneyRoot");
+ 		double balanceOfMoneyRoot = 0;
  		
- 		disconnect();
+        while (rs.next()) {
+
+        	balanceOfMoneyRoot = rs.getDouble("balanceOfMoneyRoot");
+        }
+        
+        //resultSet.close();
+        statement.close();  
+ 		//disconnect();
  		
  		
     	return balanceOfMoneyRoot;
@@ -332,7 +360,9 @@ public class UsersDao {
  		}
  		else {// A seller/user can sellPPS in this condition (i.e. numberPpsToSell <= currentPPSBalance)
  			
- 			
+ 	 		//connect_func();
+
+ 			System.out.println("in the else");
  			// Firstly, we have to perform the deduction of the PPS to sell from the seller's account and 
  			// addition of the same into the rootuser's account.
  			String sqlSellerPPSBalanceChange = "update users set ppsBalance=? where email=? ;";
@@ -341,7 +371,7 @@ public class UsersDao {
  	 		preparedStatement.setString(2, seller);
  	 		
  	 		preparedStatement.executeUpdate();
- 	 		preparedStatement.close();
+ 	 		//preparedStatement.close();
  	 		
  	 		// Addition of the deducted number of PPS from the seller's account to the rootuser's ppsBalance :-
  	 		String sqlRootUserPPSAddition = "update rootuser set ppsBalance=? where email='root';";
@@ -349,7 +379,7 @@ public class UsersDao {
  			preparedStatement.setDouble(1, currentPPSBalanceRoot+numberPpsToSell);
  			
  			preparedStatement.executeUpdate();
- 			preparedStatement.close();
+ 			//preparedStatement.close();
  			
  			
  			
@@ -360,7 +390,7 @@ public class UsersDao {
  			preparedStatement.setString(2, seller);
  			
  			preparedStatement.executeUpdate();
- 			preparedStatement.close();
+ 			//preparedStatement.close();
  			
  			
  		    // Reduction of money in seller's account due to selling PPS :
@@ -369,7 +399,7 @@ public class UsersDao {
  			preparedStatement.setDouble(1, currentBalanceOfMoneyRoot() - (((double)numberPpsToSell)/1000000.0) );
  			
  			preparedStatement.executeUpdate();
- 			preparedStatement.close();
+ 			//preparedStatement.close();
  			
  			
  			//Change in the price of pps :
@@ -378,7 +408,7 @@ public class UsersDao {
  			preparedStatement.setDouble(1, currentPPSPrice()+1);
  			
  			preparedStatement.executeUpdate();
- 			preparedStatement.close();
+ 			//preparedStatement.close();
  		
  		disconnect();	
 
@@ -386,6 +416,85 @@ public class UsersDao {
  		}	
  	}
   	
+ 	
+ 	
+	public void buyPPSAmount(String buyer, double numberPpsToBuy) throws SQLException  {
+	 	    
+	 		// Connecting with the database :
+	 		connect_func();
+	 		double currentBalanceOfMoney = currentBalanceOfMoney(buyer);
+	 		double currentPPSBalanceRoot = currentPPSBalanceRoot();
+	 		double currentPPSPrice = currentPPSPrice();
+	 		double currentBalanceOfPPS = currentPPSBalance(buyer);
+	 		double currentBalanceOfMoneyRoot = currentBalanceOfMoneyRoot();
+	 		
+	 		System.out.println("in buy function");
+
+	 		
+	 		if( currentBalanceOfMoney < ((1/currentPPSPrice)*((double)numberPpsToBuy))) { // Cannot sellPPS in this condition
+	 			
+	 			System.out.println("Sorry, but you cannot buy the number of PPS entered as it is greater than your current balance of money. You can either buy less than or equal to "+ currentBalanceOfMoney);
+	 			
+//	 			if(currentPPSBalanceRoot < numberPpsToBuy) {
+//	 				System.out.println("Sorry, but you cannot buy the number of PPS entered as "
+//		 					+ "it is greater than the current global balance of PPS the root owns." 
+//		 					+ " You can either buy less than or equal to "+ currentPPSBalanceRoot);
+	 			}
+	 			else
+	 			{
+	 				
+	 				System.out.println("in the else");
+	 				//add ppsvalue to user
+	 				String sqlBuyerPPSBalanceAddition = "update users set ppsBalance=? where email=? ;";
+	 	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlBuyerPPSBalanceAddition);
+	 	 			System.out.println(currentBalanceOfPPS+numberPpsToBuy);
+	 	 			preparedStatement.setDouble(1, currentBalanceOfPPS+numberPpsToBuy);
+	 	 	 		preparedStatement.setString(2, buyer);
+	 				preparedStatement.executeUpdate();
+	 	 	 		
+	 				//sub from root user
+	 				String sqlRootUserPPSBalanceSubtraction = "update rootuser set ppsBalance=? where email='root' ;";
+	 	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSBalanceSubtraction);
+	 	 			System.out.println(currentPPSBalanceRoot-numberPpsToBuy);
+	 	 			preparedStatement.setDouble(1, currentPPSBalanceRoot-numberPpsToBuy);
+	 				preparedStatement.executeUpdate();
+	 				
+	 				//subtract balance from user
+	 				String sqlBuyerBalanceSubtraction = "update balanceofmoney set balance_in_dollars=? where user_email=? ;";
+	 	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlBuyerBalanceSubtraction);
+	 	 			System.out.println(currentBalanceOfMoney);
+	 	 			System.out.println(((1/currentPPSPrice)*((double)numberPpsToBuy)));
+	 	 			System.out.println(1/currentPPSPrice);
+	 	 			preparedStatement.setDouble(1, currentBalanceOfMoney - ((1/currentPPSPrice)*((double)numberPpsToBuy)));
+	 	 	 		preparedStatement.setString(2, buyer);
+	 				preparedStatement.executeUpdate();
+	 				
+	 				//add balance to root
+	 				String sqlRootUserBalanceAddition = "update rootuser set balanceOfMoneyRoot=? where email='root' ;";
+	 	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserBalanceAddition);
+	 	 			System.out.println(currentBalanceOfMoneyRoot + ((1/currentPPSPrice)*((double)numberPpsToBuy)));
+	 	 			preparedStatement.setDouble(1, currentBalanceOfMoneyRoot + ((1/currentPPSPrice)*((double)numberPpsToBuy)));
+	 				preparedStatement.executeUpdate();
+	 				
+	 				//update pps price
+	 				//Change in the price of pps :
+	 	 			String sqlRootUserPPSPriceChange = "update rootuser set ppsPrice=? where email='root';";
+	 	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSPriceChange);
+	 	 			System.out.println(currentPPSPrice()-1);
+	 	 			preparedStatement.setDouble(1, currentPPSPrice()-1);
+	 	 			preparedStatement.executeUpdate();
+	 				
+	 			}
+	 			
+
+	 		}
+	 		//else
+	 			
+	 			//redirect
+	 		
+	 			
+	 		
+		
   	
 }
 

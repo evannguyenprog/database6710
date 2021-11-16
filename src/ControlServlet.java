@@ -143,10 +143,10 @@ public class ControlServlet extends HttpServlet
             	case "/buyPPS":
             	buyPPS(request, response);
             	break;
-//            
-//            case "/sellPPS":
-//            	sellPPS(request, response);
-//            	break;
+            
+            case "/sellPPS":
+            	sellPPS(request, response);
+            	break;
             	
 //            case "/transferPPS":
 //            	transferPPS(request, response);
@@ -331,32 +331,6 @@ public class ControlServlet extends HttpServlet
 			statement.close();
 	}
     
-    private double ppsAmountBought(Double ppsAmount) throws SQLException {
-    	double totalPPS = 0;
-    	String sql = "SELECT ppsBalance, ppsPrice FROM rootuser"; 
-        connect_func();      
-        statement =  (Statement) connect.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-    	double ppsPrice = 0;
-    	double ppsBalance = 0;
-    	
-    	 while (resultSet.next())
- 		{
-    		 ppsPrice = resultSet.getDouble("ppsPrice");
-    		 ppsBalance = resultSet.getDouble("ppsBalance");
- 		}
-    	 
-    	for(double i = 0; i < ppsAmount; i++) {
-    		totalPPS += ppsPrice;
-    		ppsPrice -= 1;
-    		ppsBalance -= totalPPS; 	
-        }
-        resultSet.close();
-        statement.close();         
-    	//update values in database after for loop is complete
-        specialUserRootDao.updatePPS(ppsAmount, ppsPrice, ppsBalance);
-    	return totalPPS;
-    }
     
     private void depositDollars(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	System.out.println(request.getParameter("depositDollarAmount"));
@@ -409,23 +383,15 @@ public class ControlServlet extends HttpServlet
         //add amount purchased in pps to buypps table
         String currentUser = (String) session.getAttribute("currentEmail");
         System.out.println(currentUser);
-        String transactionDate = returnDate();
-        
-//        double newPPSValue = calculatePPSValue(buyPPSAmount);
-//        double newPPSBalance = calculatePPSBalance(buyPPSAmount);
-        double ppsAmountBought = ppsAmountBought(buyPPSAmount);
-        System.out.println(ppsAmountBought);
 
-        BuyPPS newSale = new BuyPPS(currentUser, ppsAmountBought, transactionDate);
+        usersDao.buyPPSAmount(currentUser, buyPPSAmount);
+
+        Integer buyPPSAmountInt = buyPPSAmount.intValue();
+        String transactionDate = returnDate();
+        BuyPPS newSale = new BuyPPS(currentUser, buyPPSAmountInt, transactionDate);
         buyPPSDao.insert(newSale);
-        //add balancemoney to root
-//        specialUserRootDao.addBalance(buyPPSAmount);
-        //subtract balancemoney from user
-        balanceOfMoneyDao.withdrawAmount(buyPPSAmount, currentUser);
-       
-        //add ppsbalance in users
-        usersDao.addPPS(ppsAmountBought, currentUser);
-    
+
+        System.out.println("Transaction Successful!");
         dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
     	dispatcher.forward(request, response);
         
@@ -442,8 +408,20 @@ public class ControlServlet extends HttpServlet
         String currentUser = (String) session.getAttribute("currentEmail");
         System.out.println(currentUser);
         System.out.println(sellPPSAmount);
+        
         usersDao.sellPPSAmount(currentUser, sellPPSAmount);
-   }
+        
+        Integer sellPPSAmountInt = sellPPSAmount.intValue();
+        //insert the transaction into the sellPPS table
+        String transactionDate = returnDate();
+    	SellPPS newSale = new SellPPS(currentUser, sellPPSAmountInt, transactionDate );
+    	sellPPSDao.insert(newSale);
+    
+    	System.out.println("Sale Successful!");
+        dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
+    	dispatcher.forward(request, response);
+    	
+    }
     
    
     private void transferPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
