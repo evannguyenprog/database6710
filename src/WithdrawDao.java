@@ -89,6 +89,36 @@ public class WithdrawDao {
         return listWithdraw;
     }
     
+ // Function "listAllWithdrawByUser()" is for printing all the rows/records
+    // of a specific user
+    public List<Withdraw> listAllWithdrawByUser(String current_user) throws SQLException {
+        List<Withdraw> listWithdraw = new ArrayList<Withdraw>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "SELECT * FROM Withdraw WHERE user_email =  '"+ current_user +"';";
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+           
+            int withdraw_id = resultSet.getInt("withdraw_id");
+            String user_email = resultSet.getString("user_email");
+            double withdraw_amount = resultSet.getDouble("withdraw_amount");
+            String withdrawal_date = resultSet.getString("withdrawal_date");
+            
+            
+             
+            Withdraw withdraw = new Withdraw(withdraw_id, user_email, withdraw_amount, withdrawal_date);
+            listWithdraw.add(withdraw);
+        }        
+        resultSet.close();
+        statement.close();         
+        disconnect();        
+        return listWithdraw;
+    }
+    
     //Function 'insert' below is to insert a row/record in the 'Users'
     // table of the PPS database in mysql.
     public void insert(Withdraw withdraw) throws SQLException {

@@ -78,8 +78,7 @@ public class DepositDao {
             double deposit_amount = resultSet.getDouble("deposit_amount");
             String deposit_date = resultSet.getString("deposit_date");
             
-            
-             
+           
             Deposit deposit = new Deposit(deposit_id, user_email, deposit_amount, deposit_date);
             listDeposit.add(deposit);
         }        
@@ -89,6 +88,34 @@ public class DepositDao {
         return listDeposit;
     }
     
+ // Function "listAllDepositByUser()" is for printing all the rows/records
+    // of a specific user
+    public List<Deposit> listAllDepositByUser(String current_user) throws SQLException {
+        List<Deposit> listDeposit = new ArrayList<Deposit>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "SELECT * FROM Deposit WHERE user_email = '"+ current_user +"';"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+           
+            int deposit_id = resultSet.getInt("deposit_id");
+            String user_email = resultSet.getString("user_email");
+            double deposit_amount = resultSet.getDouble("deposit_amount");
+            String deposit_date = resultSet.getString("deposit_date");
+            
+           
+            Deposit deposit = new Deposit(deposit_id, user_email, deposit_amount, deposit_date);
+            listDeposit.add(deposit);
+        }        
+        resultSet.close();
+        statement.close();         
+        disconnect();        
+        return listDeposit;
+    }
     //Function 'insert' below is to insert a row/record in the 'Users'
     // table of the PPS database in mysql.
     public void insert(Deposit deposit) throws SQLException {
@@ -106,21 +133,6 @@ public class DepositDao {
         disconnect();
     }
     
-
-//    public void depositAmount(double deposit) throws SQLException {
-//    	connect_func();
-//    	String sql = "UPDATE Deposit (, deposit_date) values (?, ?, ?)";
-//		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-//		preparedStatement.setString(1, deposit.getUser_email());
-//		preparedStatement.setDouble(2, deposit.getDeposit_amount());
-//		preparedStatement.setString(3, deposit.getDeposit_date());
-//		
-//		
-//
-//		preparedStatement.executeUpdate();
-//        preparedStatement.close();
-//        disconnect();
-//    }
 
     
     // create table

@@ -126,12 +126,12 @@ public class ControlServlet extends HttpServlet
 //            	
               case "/displayDeposits":
 	            System.out.println("Displaying...");
-	            //displayDeposits(request, response);
+	            displayDeposits(request, response);
 	            break;
               
               case "/displayWithdrawals":
                 System.out.println("Displaying...");
-            	withdrawDollars(request, response);
+            	displayWithdrawals(request, response);
             	break;
               
               case "/displayPPSBought":
@@ -318,18 +318,24 @@ public class ControlServlet extends HttpServlet
    }
     
     private void displayDeposits(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-    	System.out.println(request.getParameter("sellPPSAmount"));
-    	Double sellPPSAmount = Double.parseDouble(request.getParameter("sellPPSAmount"));
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<Deposit> depositList = new ArrayList<Deposit>();
+    	depositList = depositDao.listAllDepositByUser(currentUser);
     	RequestDispatcher dispatcher;
-    	
-        session = request.getSession();
-        
-        String currentUser = (String) session.getAttribute("currentEmail");
-        System.out.println(currentUser);
-        System.out.println(sellPPSAmount);
-        usersDao.sellPPSAmount(currentUser, sellPPSAmount);
+    	request.setAttribute("depositList", depositList);
+    	dispatcher = request.getRequestDispatcher("depositsPage.jsp");
+    	dispatcher.forward(request,  response);
    }
     
+    private void displayWithdrawals(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<Withdraw> withdrawalList = new ArrayList<Withdraw>();
+    	withdrawalList = withdrawDao.listAllWithdrawByUser(currentUser);
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("withdrawalList", withdrawalList);
+    	dispatcher = request.getRequestDispatcher("withdrawalsPage.jsp");
+    	dispatcher.forward(request,  response);
+   }
     
     
 }

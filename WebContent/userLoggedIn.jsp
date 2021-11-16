@@ -13,6 +13,7 @@
 
 <body>
 
+<div class="backgroundField">
 
 <div class="tagtable center">
     <ul class="tabs">
@@ -25,6 +26,8 @@
         <li class="liRight"><a>PPS TRADE SITE</a></li>       
     </ul>
 </div>
+    
+
     
 	<h1 align="center">Account Page</h1>
 
@@ -121,7 +124,7 @@ if(session != null)
 		<br>
 	</center>
 
-
+</div>
 
 </body>
 
