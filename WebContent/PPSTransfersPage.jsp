@@ -32,15 +32,15 @@
 	<div align="center">
 
 		<table border="1" width="70%" align="center">
-            <caption><h2>Deposits</h2></caption>
+            <caption><h2>Transfers</h2></caption>
             
             <c:forEach var="listTransferPPS" items="${listTransferPPS}">
                 <tr>
                     <td><c:out value="${listTransferPPS.id}" /></td>
                     <td><c:out value="${listTransferPPS.transfering_user_email}" /></td>
 					<td><c:out value="${listTransferPPS.receiving_user_email}" /></td>
-                    <td>$<c:out value="${listTransferPPS.transfer_date}" /></td>
-                    <td><c:out value="${listTransferPPS.number_pps_transfered}" /></td>
+                    <td><c:out value="${listTransferPPS.transfer_date}" /></td>
+                    <td>$<c:out value="${listTransferPPS.number_pps_transfered}" /></td>
                           	
                 </tr>
            	</c:forEach>

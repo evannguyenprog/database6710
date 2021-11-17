@@ -32,7 +32,7 @@
 	<div align="center">
 
 		<table border="1" width="70%" align="center">
-            <caption><h2>Deposits</h2></caption>
+            <caption><h2>Purchases</h2></caption>
             
             <c:forEach var="listBuyPPS" items="${listBuyPPS}">
                 <tr>

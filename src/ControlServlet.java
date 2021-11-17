@@ -148,10 +148,10 @@ public class ControlServlet extends HttpServlet
             	sellPPS(request, response);
             	break;
             	
-//            case "/transferPPS":
-//            	transferPPS(request, response);
-//            	break;
-//            	
+            case "/transferPPS":
+            	transferPPS(request, response);
+            	break;
+            	
               case "/displayDeposits":
 	            System.out.println("Displaying...");
 	            displayDeposits(request, response);
@@ -425,6 +425,28 @@ public class ControlServlet extends HttpServlet
     
    
     private void transferPPS(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        
+    	RequestDispatcher dispatcher;
+        session = request.getSession();
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	String transferToUser = request.getParameter("transferToUser");
+    	System.out.println(transferToUser);
+
+    	Double transferAmount = Double.parseDouble(request.getParameter("transferPPSAmount"));
+    	System.out.println(transferAmount);
+
+    	//call transfer function
+    	usersDao.transferPPSAmount(currentUser, transferToUser, transferAmount);
+    	//add to transfers table
+    	
+    	Integer transferPPSAmountInt = transferAmount.intValue();
+         //insert the transaction into the sellPPS table
+        String transactionDate = returnDate();
+     	TransferPPS newTransfer = new TransferPPS(currentUser, transferToUser, transactionDate, transferPPSAmountInt);
+     	transferPPSDao.insert(newTransfer);
+     	System.out.println("Transfer Successful!");
+        dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
+    	dispatcher.forward(request, response);
     }
     
     
@@ -475,7 +497,7 @@ public class ControlServlet extends HttpServlet
     	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
     	RequestDispatcher dispatcher;
     	request.setAttribute("listTransferPPS", listTransferPPS);
-    	dispatcher = request.getRequestDispatcher("PPSTransfer.jsp");
+    	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
     	dispatcher.forward(request,  response);
     }
 }

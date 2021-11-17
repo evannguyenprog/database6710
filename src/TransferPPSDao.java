@@ -103,7 +103,7 @@ public class TransferPPSDao {
 	    public List<TransferPPS> listAllTransferPPSByUser(String current_email) throws SQLException {
 	        List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();  
 	        // A string 'sql' storing a sql query. 
-	        String sql = "SELECT * FROM TransferPPS WHERE user_email='"+ current_email +"';"; 
+	        String sql = "SELECT * FROM TransferPPS WHERE transfering_user_email='"+ current_email +"';"; 
 	        // connecting with the database.
 	        connect_func();      
 	        statement =  (Statement) connect.createStatement();
@@ -132,13 +132,12 @@ public class TransferPPSDao {
 	    // table of the PPS database in mysql.
 	    public void insert(TransferPPS transferPPS) throws SQLException {
 	    	connect_func();
-	    	String sql = "insert into  transferPPS(id, transfering_user_email, receiving_user_email, transfer_date, number_pps_transfered) values (?, ?, ?, ?)";
+	    	String sql = "insert into  transferPPS(transfering_user_email, receiving_user_email, transfer_date, number_pps_transfered) values (?, ?, ?, ?)";
 			preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-			preparedStatement.setInt(1, transferPPS.getId());
-			preparedStatement.setString(2, transferPPS.getTransfering_user_email());
-			preparedStatement.setString(3, transferPPS.getReceiving_user_email());
-			preparedStatement.setString(4, transferPPS.getTransfer_date());
-			preparedStatement.setInt(5, transferPPS.getNumber_pps_transfered());
+			preparedStatement.setString(1, transferPPS.getTransfering_user_email());
+			preparedStatement.setString(2, transferPPS.getReceiving_user_email());
+			preparedStatement.setString(3, transferPPS.getTransfer_date());
+			preparedStatement.setInt(4, transferPPS.getNumber_pps_transfered());
 			
 			
 

@@ -405,7 +405,7 @@ public class UsersDao {
  			//Change in the price of pps :
  			String sqlRootUserPPSPriceChange = "update rootuser set ppsPrice=? where email='root';";
  			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSPriceChange);
- 			preparedStatement.setDouble(1, currentPPSPrice()+1);
+ 			preparedStatement.setDouble(1, currentPPSPrice()-1);
  			
  			preparedStatement.executeUpdate();
  			//preparedStatement.close();
@@ -431,17 +431,9 @@ public class UsersDao {
 	 		System.out.println("in buy function");
 
 	 		
-	 		if( currentBalanceOfMoney < ((1/currentPPSPrice)*((double)numberPpsToBuy))) { // Cannot sellPPS in this condition
-	 			
-	 			System.out.println("Sorry, but you cannot buy the number of PPS entered as it is greater than your current balance of money. You can either buy less than or equal to "+ currentBalanceOfMoney);
-	 			
-//	 			if(currentPPSBalanceRoot < numberPpsToBuy) {
-//	 				System.out.println("Sorry, but you cannot buy the number of PPS entered as "
-//		 					+ "it is greater than the current global balance of PPS the root owns." 
-//		 					+ " You can either buy less than or equal to "+ currentPPSBalanceRoot);
-	 			}
-	 			else
-	 			{
+	 		if(!( currentBalanceOfMoney < ((1/currentPPSPrice)*((double)numberPpsToBuy)))) { // Cannot sellPPS in this condition
+	 				 			
+	 			if(!(currentPPSBalanceRoot < numberPpsToBuy)) {
 	 				
 	 				System.out.println("in the else");
 	 				//add ppsvalue to user
@@ -480,21 +472,54 @@ public class UsersDao {
 	 				//Change in the price of pps :
 	 	 			String sqlRootUserPPSPriceChange = "update rootuser set ppsPrice=? where email='root';";
 	 	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRootUserPPSPriceChange);
-	 	 			System.out.println(currentPPSPrice()-1);
-	 	 			preparedStatement.setDouble(1, currentPPSPrice()-1);
+	 	 			System.out.println(currentPPSPrice()+1);
+	 	 			preparedStatement.setDouble(1, currentPPSPrice()+1);
 	 	 			preparedStatement.executeUpdate();
 	 				
 	 			}
-	 			
-
+	 			else {
+	 				System.out.println("in check");
+ 				System.out.println("Sorry, but you cannot buy the number of PPS entered as "
+	 					+ "it is greater than the current global balance of PPS the root owns." 
+	 					+ " You can either buy less than or equal to "+ currentPPSBalanceRoot);
+	 			}
 	 		}
-	 		//else
+	 		else
+	 			System.out.println("Sorry, but you cannot buy the number of PPS entered as it is greater than your current balance of money. You can either buy less than or equal to "+ currentBalanceOfMoney);
+
 	 			
-	 			//redirect
+	 			 		
+	}
 	 		
-	 			
-	 		
+	public void transferPPSAmount(String sender, String receiver, double sentAmountPPS) throws SQLException  {
 		
+		connect_func();
+		//check if user balanceofPPS < sentAMountpps
+ 		double currentBalanceOfPPS = currentPPSBalance(sender);
+ 		double currentBalanceOfPPSReceiver = currentPPSBalance(receiver);
+ 		
+ 		if(currentBalanceOfPPS < sentAmountPPS)
+ 			System.out.println("Sorry, but you cannot send the desired amount of PPS to this user, as your current balance of PPS is smaller than the transfer amount of: "+ sentAmountPPS);
+ 		else {
+ 			
+ 				String sqlSenderPPSSubtraction = "update users set ppsBalance=? where email=? ;";
+	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlSenderPPSSubtraction);
+	 			preparedStatement.setDouble(1, currentBalanceOfPPS-sentAmountPPS);
+	 	 		preparedStatement.setString(2, sender);
+				preparedStatement.executeUpdate();
+	 	 		
+				String sqlRecieverPPSAddition = "update users set ppsBalance=? where email=? ;";
+	 			preparedStatement = (PreparedStatement) connect.prepareStatement(sqlRecieverPPSAddition);
+	 			preparedStatement.setDouble(1, currentBalanceOfPPSReceiver+sentAmountPPS);
+	 	 		preparedStatement.setString(2, receiver);
+				preparedStatement.executeUpdate();
+				
+			
+ 		}
+ 			
+
+		
+	}
   	
 }
 

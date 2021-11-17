@@ -22,7 +22,7 @@
         <li><a href="withdrawalsPage.jsp">Withdrawals</a></li>
         <li><a href="PPSBoughtPage.jsp">PPS Purchases</a></li>
         <li><a href="PPSSoldPage.jsp">PPS Sales</a></li>
-        <li><a href="PPSTransfers.jsp">PPS Transfers</a></li>   
+        <li><a href="PPSTransfersPage.jsp">PPS Transfers</a></li>   
         <li class="liRight"><a>PPS TRADE SITE</a></li>       
     </ul>
 </div>
@@ -57,13 +57,13 @@ if(session != null)
 	<br>
 		<h2 align="center">== Account Actions ==</h2>
 	
-	<center>
+<!-- 	<center>
 		<p align="center">Current Balance (Dollars): </p>
 		
 		<p align="center">Current Balance (PPS): </p>
 	</center>
 	
-	
+	 -->
 		<br>
 		<br>
 	
@@ -116,7 +116,7 @@ if(session != null)
 		<h2 align="center">Transfer PPS</h2>
 		<form action="transferPPS" method="post">
 		    <span id="transferToEmail" align = "center">Transfer to : 
-		    <input type="number" step="0.01" name="transferToUser" required/></span> <br> <br>
+		    <input type="email" name="transferToUser" required/></span> <br> <br>
 		    <span id = "transferredAmount" align="center">Transfer Amount : 
 			<input type="number" step="0.01" name="transferPPSAmount" required/></span>
 			<div class="pad"><button type="submit" id="transferPPS" value="transferPPSAmount">Transfer</button></div>
