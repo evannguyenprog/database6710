@@ -176,6 +176,11 @@ public class ControlServlet extends HttpServlet
                   System.out.println("Displaying...");
               	displayTransferPPS(request, response);
               	break;
+              
+              case "/displayNeverBoughtUsers":
+                  System.out.println("Displaying...");
+              	displayNeverBuyUsers(request, response);
+              	break;
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -500,4 +505,18 @@ public class ControlServlet extends HttpServlet
     	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
     	dispatcher.forward(request,  response);
     }
+    
+    
+    private void displayNeverBuyUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();
+    	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listTransferPPS", listTransferPPS);
+    	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+    
+    
+    
 }

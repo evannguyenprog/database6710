@@ -149,21 +149,21 @@ public class DepositDao {
  					+ ");";
  			
  			// Inserting into the table Withdraw :
- 			String s2 = " INSERT INTO Deposit(user_email, deposit_amount, deposit_date) VALUES\r\n"
- 					+ " 					('evan@gmail.com',0.00,'09/01/2021'),\r\n"
- 					+ " 					('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 					('john@gmail.com', 0.00,'09/11/2021'),\r\n"
- 					+ " 					('mihir@yahoo.com', 0.00,'09/24/2021'),\r\n"
- 					+ " 					('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
- 					+ " 					('Tej@aol.com', 0.00,'09/18/2021'),\r\n"
- 					+ " 					('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
- 					+ " 					('tenisee@yahoo.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 					('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
- 					+ " 					('trott@hotmail.com', 0.00,'09/01/2021');";
+ 		//	String s2 = " INSERT INTO Deposit(user_email, deposit_amount, deposit_date) VALUES\r\n"
+ 		//			+ " 					('evan@gmail.com',0.00,'09/01/2021'),\r\n"
+ 		//			+ " 					('smit@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 		//			+ " 					('john@gmail.com', 0.00,'09/11/2021'),\r\n"
+ 		//			+ " 					('mihir@yahoo.com', 0.00,'09/24/2021'),\r\n"
+ 		//			+ " 					('varun@gmail.com', 0.00,'09/19/2021'),\r\n"
+ 		//			+ " 					('Tej@aol.com', 0.00,'09/18/2021'),\r\n"
+ 		//			+ " 					('mike@gmail.com', 0.00,'09/05/2021'),\r\n"
+ 		//			+ " 					('tenisee@yahoo.com', 0.00,'09/01/2021'),\r\n"
+ 		//			+ " 					('Ghanu@gmail.com', 0.00,'09/01/2021'),\r\n"
+ 		//			+ " 					('trott@hotmail.com', 0.00,'09/01/2021');";
  
  			statement.executeUpdate(s);
  			System.out.println("'Deposit' table created.");
- 			statement.executeUpdate(s2);
+ 		//	statement.executeUpdate(s2);
  			System.out.println("Multiple Deposit Rows are Added.");
  			
  		} catch (Exception e) {
