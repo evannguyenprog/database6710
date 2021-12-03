@@ -41,6 +41,7 @@ public class ControlServlet extends HttpServlet
     private UsersDao usersDao;
     private WithdrawDao withdrawDao;
     private SpecialUserRootDao specialUserRootDao;
+    private FollowUserDao followUserDao;
     private HttpSession session = null;
     
 	private Connection connect = null;
@@ -181,6 +182,10 @@ public class ControlServlet extends HttpServlet
                   System.out.println("Displaying...");
               	displayNeverBuyUsers(request, response);
               	break;
+              	
+             // case "/followAnotherUser":     
+             //	    followAnotherUser(request, response);
+            // 	    break;
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -194,11 +199,13 @@ public class ControlServlet extends HttpServlet
         balanceOfMoneyDao.dropTable();
         buyPPSDao.dropTable();
         depositDao.dropTable();
+        followUserDao.dropTable();
         sellPPSDao.dropTable();
         transferPPSDao.dropTable();
         withdrawDao.dropTable();
         specialUserRootDao.dropTable();
         usersDao.dropTable();
+        
         
 
         System.out.println("====== All Tables Dropped. ======");
@@ -213,6 +220,7 @@ public class ControlServlet extends HttpServlet
         sellPPSDao.createTable();
         transferPPSDao.createTable();
         withdrawDao.createTable();
+        followUserDao.createTable();
 
 
         System.out.println("====== Database Initalized Successfully. ====== ");
