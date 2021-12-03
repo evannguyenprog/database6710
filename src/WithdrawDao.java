@@ -59,8 +59,8 @@ public class WithdrawDao {
         }
     }
     
-    // Function "listAllUsers()" is for printing all the rows/records
-    // of 'Users' table(i.e User model/class in Java terminology.)
+    // Function "listAllWithdraw()" is for printing all the rows/records
+    // of 'Withdraw' table(i.e User model/class in Java terminology.)
     public List<Withdraw> listAllWithdraw() throws SQLException {
         List<Withdraw> listWithdraw = new ArrayList<Withdraw>();  
         // A string 'sql' storing a sql query. 

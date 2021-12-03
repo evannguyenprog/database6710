@@ -13,7 +13,7 @@ public class FollowUser {
 	// It is also a foreign_key referring to the 'Id' column of 'Users' table.
 	private String followed_user_email;
 	// Date when the follow happens.
-	private String followed_date;
+	
 	
 	
 	// Constructor :
@@ -21,17 +21,17 @@ public class FollowUser {
 		
 	}
 	
-	public FollowUser(int id, String following_user_email, String followed_user_email, String followed_date) {
+	public FollowUser(int id, String following_user_email, String followed_user_email) {
 		this.id = id;
 		this.following_user_email = following_user_email;
 		this.followed_user_email = followed_user_email;
-		this.followed_date = followed_date;
+		
 	}
 	
-	public FollowUser(String following_user_email, String followed_user_email, String followed_date) {
+	public FollowUser(String following_user_email, String followed_user_email) {
 		this.following_user_email = following_user_email;
 		this.followed_user_email = followed_user_email;
-		this.followed_date = followed_date;
+
 	}
 	
 	
@@ -54,12 +54,5 @@ public class FollowUser {
 	public void setFollowed_user_email(String followed_user_email) {
 		this.followed_user_email = followed_user_email;
 	}
-	public String getFollowed_date() {
-		return followed_date;
-	}
-	public void setFollowed_date(String followed_date) {
-		this.followed_date = followed_date;
-	}
-	
 	
 }

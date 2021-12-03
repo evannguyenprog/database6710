@@ -124,6 +124,17 @@ if(session != null)
 		<br>
 	</center>
 
+
+<center>
+		<h2 align="center">Follow Another User</h2>
+		
+		<form action="followAnotherUser" method="post">
+		    <span id="transferToEmail" align = "center">Whom To Follow : 
+		    <input type="email" name="theUserFollowed" required/></span>
+			<div class="pad"><button type="submit" id="transferPPS" value="theUserFollowed">Follow</button></div>
+		</form>
+		<br>
+	</center>
 </div>
 
 </body>
