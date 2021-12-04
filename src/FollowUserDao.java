@@ -103,6 +103,23 @@ public class FollowUserDao {
      		statement.executeUpdate("DROP TABLE IF EXISTS Follow");
      		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
       	}
+    
+    
+    
+    public void insert(String Follower, String Following) throws SQLException {
+    	connect_func();
+    	String sql = "insert into  follow (follower_user_email, followed_user_email) values (?, ?)";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, Follower);
+		preparedStatement.setString(2, Following);
+		
+		
+		preparedStatement.executeUpdate();
+        preparedStatement.close();
+        disconnect();
+    }
+    
+    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

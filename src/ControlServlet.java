@@ -62,6 +62,7 @@ public class ControlServlet extends HttpServlet
         usersDao = new UsersDao();
         withdrawDao = new WithdrawDao();
         specialUserRootDao = new SpecialUserRootDao();
+        followUserDao = new FollowUserDao();
         
     }
     
@@ -183,9 +184,9 @@ public class ControlServlet extends HttpServlet
               	displayNeverBuyUsers(request, response);
               	break;
               	
-             // case "/followAnotherUser":     
-             //	    followAnotherUser(request, response);
-            // 	    break;
+             case "/followAnotherUser":     
+                 followAnotherUser(request, response);
+                break;
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -512,6 +513,34 @@ public class ControlServlet extends HttpServlet
     	request.setAttribute("listTransferPPS", listTransferPPS);
     	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
     	dispatcher.forward(request,  response);
+    }
+    
+    // So that a user can follow another user :-
+    private void followAnotherUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        
+    	RequestDispatcher dispatcher;
+        session = request.getSession();
+        
+        // The current user's string will be stored in the string declared below :-
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	
+    	// The user followed's email address will be stored in the string below :-
+    	String theUserFollowed = request.getParameter("theUserFollowed");
+    	System.out.println(theUserFollowed);
+
+    	
+
+    	//call the insert() function from FollowUserDao class. It will insert the record of "follower" and the user who is
+    	// getting followed into the table 'follow'.
+    	followUserDao.insert(currentUser, theUserFollowed);
+    	
+    	
+        // After insertion above, we want to come back to the userLoggedIn.jsp page. Hence, the 
+    	// below statements :-
+        dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
+    	dispatcher.forward(request, response);
+    	
+    	System.out.print("The user followed.");
     }
     
     
