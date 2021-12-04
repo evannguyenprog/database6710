@@ -20,6 +20,10 @@ public class BuyPPS {
 		
 	}
 	
+    public BuyPPS(String user_email) {
+		this.user_email = user_email;
+	}
+	
 	public BuyPPS(int id, String user_email, double number_pps_bought, String pps_bought_date) {
 		this.id = id;
 		this.user_email = user_email;

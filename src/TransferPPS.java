@@ -36,7 +36,8 @@ public class TransferPPS {
 	}
 
 	// Constructor defining :
-	public TransferPPS() {
+	public TransferPPS(String receiving_user_email) {
+		this.receiving_user_email = receiving_user_email;
 		
 	}
 	

@@ -177,6 +177,40 @@ public class BuyPPSDao {
  		statement.executeUpdate("DROP TABLE IF EXISTS BuyPPS");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
+  	
+  	
+  	
+ // Function "listNeverBuyUsers()" is for listing all the users who have never bought PPS
+  	// But, just have received the PPS from other users via transfer.
+    public List<BuyPPS> listNeverBuyUsers() throws SQLException {
+        List<BuyPPS> listNeverBuyUsers = new ArrayList<BuyPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "\r\n"
+        		+ "select distinct t.receiving_user_email\r\n"
+        		+ "from transferpps as t\r\n"
+        		+ "where t.receiving_user_email \r\n"
+        		+ "NOT IN\r\n"
+        		+ "(select user_email \r\n"
+        		+ "from buypps);"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String receiving_user_email = resultSet.getString("receiving_user_email");
+            System.out.print("ends .........................");
+           
+            BuyPPS buy_pps = new BuyPPS(receiving_user_email);
+            listNeverBuyUsers.add(buy_pps);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listNeverBuyUsers;
+    }
 
 	
 

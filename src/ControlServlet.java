@@ -26,6 +26,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.io.PrintWriter;
 
+import java.lang.NumberFormatException;
+
 
 
 public class ControlServlet extends HttpServlet
@@ -179,14 +181,37 @@ public class ControlServlet extends HttpServlet
               	displayTransferPPS(request, response);
               	break;
               
-              case "/displayNeverBoughtUsers":
-                  System.out.println("Displaying...");
-              	displayNeverBuyUsers(request, response);
-              	break;
+              
               	
              case "/followAnotherUser":     
                  followAnotherUser(request, response);
                 break;
+                
+             case "/displayNeverBuyUsers":
+                 System.out.println("Displaying...");
+             	displayNeverBuyUsers(request, response);
+             	break;
+             
+             
+             case "/displayNeverSellUsers":
+                 System.out.println("Displaying...");
+             	displayNeverSellUsers(request, response);
+             	break;
+             	
+             case "/displayLuckyUsers":
+                 System.out.println("Displaying...");
+             	displayLuckyUsers(request, response);
+             	break;
+             	
+             case "/displayInactiveUsers":
+                 System.out.println("Displaying...");
+             	displayInactiveUsers(request, response);
+             	break;
+             	
+             case "/displayStatistics":
+                 System.out.println("Displaying...");
+             	displayStatistics(request, response);
+             	break;
             }
         } catch (SQLException ex) { throw new ServletException(ex); }
 
@@ -540,11 +565,42 @@ public class ControlServlet extends HttpServlet
         dispatcher = request.getRequestDispatcher("userLoggedIn.jsp");
     	dispatcher.forward(request, response);
     	
-    	System.out.print("The user followed.");
+    	System.out.print("The user has successfully followed.");
+    }
+    
+    //Done
+    private void displayNeverBuyUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
+    	
+    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
+    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
+    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+    
+    //Done
+    private void displayNeverSellUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	List<Users> listNeverSellUsers = new ArrayList<Users>();
+    	listNeverSellUsers = usersDao.listNeverSellUsers();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listNeverSellUsers", listNeverSellUsers);
+    	dispatcher = request.getRequestDispatcher("NeverSellPage.jsp");
+    	dispatcher.forward(request,  response);
     }
     
     
-    private void displayNeverBuyUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    private void displayLuckyUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	
+    	List<FollowUser> listLuckyUsers = new ArrayList<FollowUser>();
+    	listLuckyUsers = followUserDao.listLuckyUsers();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listLuckyUsers", listLuckyUsers);
+    	dispatcher = request.getRequestDispatcher("LuckyUsersPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+    
+    private void displayInactiveUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
     	String currentUser = (String) session.getAttribute("currentEmail");
     	List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();
     	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
@@ -554,6 +610,14 @@ public class ControlServlet extends HttpServlet
     	dispatcher.forward(request,  response);
     }
     
-    
+    private void displayStatistics(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    	String currentUser = (String) session.getAttribute("currentEmail");
+    	List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();
+    	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listTransferPPS", listTransferPPS);
+    	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
     
 }

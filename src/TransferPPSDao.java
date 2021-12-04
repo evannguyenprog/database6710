@@ -198,7 +198,39 @@ public class TransferPPSDao {
 	  	}
 	
 	
-	
+		
+		// Function "listNeverBuyUsers()" is for listing all the users who have never bought PPS
+		  	// But, just have received the PPS from other users via transfer.
+		    public List<TransferPPS> listNeverBuyUsers() throws SQLException {
+		        List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();  
+		        // A string 'sql' storing a sql query. 
+		        String sql = "\r\n"
+		        		+ "select distinct t.receiving_user_email\r\n"
+		        		+ "from transferpps as t\r\n"
+		        		+ "where t.receiving_user_email \r\n"
+		        		+ "NOT IN\r\n"
+		        		+ "(select user_email \r\n"
+		        		+ "from buypps);"; 
+		        // connecting with the database.
+		        connect_func();      
+		        statement =  (Statement) connect.createStatement();
+		        // executing the 'sql' query :
+		        ResultSet resultSet = statement.executeQuery(sql);
+		         
+		        while (resultSet.next()) {
+		        	
+		           System.out.print("starts .........................");
+		            String receiving_user_email = resultSet.getString("receiving_user_email");
+		            System.out.print("ends .........................");
+		           
+		            TransferPPS transferpps = new TransferPPS(receiving_user_email);
+		            listNeverBuyUsers.add(transferpps);
+		        }        
+		        resultSet.close();
+		        statement.close();         
+		        return listNeverBuyUsers;
+		    }
+	  	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

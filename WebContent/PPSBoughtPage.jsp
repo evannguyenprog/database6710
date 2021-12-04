@@ -38,7 +38,7 @@
                 <tr>
                     <td><c:out value="${listBuyPPS.id}" /></td>
                     <td><c:out value="${listBuyPPS.user_email}" /></td>
-                    <td>$<c:out value="${listBuyPPS.number_pps_bought}" /></td>
+                    <td><c:out value="${listBuyPPS.number_pps_bought}" /></td>
                     <td><c:out value="${listBuyPPS.pps_bought_date}" /></td>
                           	
                 </tr>

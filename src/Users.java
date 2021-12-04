@@ -14,7 +14,8 @@ public class Users {
 	private double ppsBalance;
 	
 	
-	public Users() {
+	public Users(String receiving_user_email) {
+		this.email = receiving_user_email;
     }
 	
 	public Users(String email, String password, String firstName, String lastName, String birthday, double ppsBalance) {
