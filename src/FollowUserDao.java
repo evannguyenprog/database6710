@@ -119,6 +119,37 @@ public class FollowUserDao {
         disconnect();
     }
     
+ // Function "listNeverBuyUsers()" is for listing all the users who have never bought PPS
+  	// But, just have received the PPS from other users via transfer.
+    public List<FollowUser> listLuckyUsers() throws SQLException {
+        List<FollowUser> listLuckyUsers = new ArrayList<FollowUser>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select distinct followed_user_email\r\n"
+        		+ "from follow\r\n"
+        		+ "where follower_user_email in (\r\n"
+        		+ "select transfering_user_email\r\n"
+        		+ "from transferpps\r\n"
+        		+ "where receiving_user_email = followed_user_email);"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String followed_user_email = resultSet.getString("followed_user_email");
+            System.out.print("ends .........................");
+           
+            FollowUser followUser = new FollowUser(followed_user_email);
+            listLuckyUsers.add(followUser);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listLuckyUsers;
+    }
+    
     
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

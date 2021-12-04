@@ -35,6 +35,13 @@ public class FollowUser {
 	}
 	
 	
+	public FollowUser(String followed_user_email) {
+		this.followed_user_email = followed_user_email;
+		
+	}
+	
+	
+
 	// Getters and Setters :
 	public int getId() {
 		return id;

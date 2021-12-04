@@ -54,6 +54,89 @@ if(session != null)
 		</form>
 		<br>
 	</center>
+	
+	
+	<center>
+		<form action="frequentBuyers" method="post">
+			<button type="submit" id="frequentBuyers" value="frequentBuyers"><a>Display Frequent Buyers</a></button>
+		</form>
+		<br>
+	</center>
+	
+	
+	<center>
+		<form action="displayBiggestBuy" method="post">
+			<button type="submit" id="displayBiggestBuy" value="displayBiggestBuy">Display Biggest Buy</button>
+		</form>
+		<br>
+	</center>
+	
+	
+	<center>
+		<form action="displayBiggestBuyers" method="post">
+			<button type="submit" id="displayBiggestBuyers" value="displayBiggestBuyers">Display Biggest Buyers</button>
+		</form>
+		<br>
+	</center>
+	
+	
+	<center>
+		<form action="displayPopularUsers" method="post">
+			<button type="submit" id="displayPopularUsers" value="displayPopularUsers">Display Popular Users</button>
+		</form>
+		<br>
+	</center>
+	
+	
+	<center>
+		<form action="displayCommonUsers" method="post">
+			<button type="submit" id="displayCommonUsers" value="displayCommonUsers">Display Common Users</button>
+		</form>
+		<br>
+	</center>
+	
+	
+	<center>
+		<form action="displayNeverBuyUsers" method="post">
+			<button type="submit" id="displayNeverBuyUsers" value="displayNeverBuyUsers">Display Never Buy Users</button>
+		</form>
+		<br>
+	</center>
+	
+	<center>
+		<form action="displayNeverSellUsers" method="post">
+			<button type="submit" id="displayNeverSellUsers" value="displayNeverSellUsers">Display Never Sell Users</button>
+		</form>
+		<br>
+	</center>
+	
+	
+	<center>
+		<form action="displayLuckyUsers" method="post">
+			<button type="submit" id="displayLuckyUsers" value="displayLuckyUsers">Display Lucky Users</button>
+		</form>
+		<br>
+	</center>
+	
+	<center>
+		<form action="displayInactiveUsers" method="post">
+			<button type="submit" id="displayInactiveUsers" value="displayInactiveUsers">Display Inactive Users</button>
+		</form>
+		<br>
+	</center>
+	
+	<center>
+		<form action="displayStatistics" method="post">
+			<button type="submit" id="displayStatistics" value="displayStatistics">Display Statistics</button>
+		</form>
+		<br>
+	</center>
+	
+	
+	
+	
+	
+</div>
 
 </body>
 </html>

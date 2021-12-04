@@ -30,9 +30,7 @@ public class UsersDao {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public UsersDao() {
-		
-	}
+	
 	
 	//The below function connect_func(), is used for connecting with the 
 	// mySQL database.
@@ -520,7 +518,37 @@ public class UsersDao {
 
 		
 	}
+	
+	// Function "listNeverSellUsers()" is for listing all the users who have never sold PPS
   	
+    public List<Users> listNeverSellUsers() throws SQLException {
+        List<Users> listNeverSellUsers = new ArrayList<Users>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select u.email \r\n"
+        		+ "from users as u\r\n"
+        		+ "where u.email not in\r\n"
+        		+ "    (select distinct user_email\r\n"
+        		+ "    from sellpps);\r\n"
+        		+ ""; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String email = resultSet.getString("email");
+            System.out.print("ends .........................");
+           
+            Users transferpps = new Users(email);
+            listNeverSellUsers.add(transferpps);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listNeverSellUsers;
+    }
 }
 
 //todo: refactor peopleDAO to connect to DB and call all MYSQL statements
