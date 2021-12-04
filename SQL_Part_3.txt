@@ -1,0 +1,96 @@
+SQL Query for NO. 6 :- (Users who have PPS but have never bought it, Just received it via transfer from other users. )
+
+
+select distinct t.receiving_user_email
+from transferpps as t
+where t.receiving_user_email 
+NOT IN
+(select user_email 
+from buypps);
+
+
+OR 
+
+select firstName, email 
+from users
+where email in
+(select distinct t.receiving_user_email
+from transferpps as t
+where t.receiving_user_email 
+NOT IN
+(select user_email 
+from buypps));
+
+
+
+
+
+SQL Query for No. 7  :- (Users who have never sold any PPS)
+
+select u.firstName, u.email 
+from users as u
+where u.email not in
+    (select distinct user_email
+    from sellpps);
+
+OR 
+
+select u.email 
+from users as u
+where u.email not in
+    (select distinct user_email
+    from sellpps);
+
+
+
+
+
+SQL Query for No. 8  :- (Lucky Users : Who have been receiving pps from all the users who are following him/her.)
+
+
+select distinct followed_user_email
+from follow
+where follower_user_email in (
+select transfering_user_email
+from transferpps
+where receiving_user_email = followed_user_email);
+
+
+
+
+SQL Query for No. 9 :-	[Inactive users].   List those users who have never performed any financial activites at all (no deposit, transfer, withdraw, buy and sell). 
+
+select email from users
+where email not in(
+	select email 
+	from users 
+	where email in(
+		(select distinct user_email
+		from deposit)
+		UNION
+		(select distinct user_email
+		from withdraw)
+		UNION
+		select distinct user_email
+		from buypps
+		UNION
+		(select distinct user_email
+		from sellpps)
+		UNION
+		(select distinct transfering_user_email
+		from transferpps)));
+
+
+
+SQL Query or No. 10 :- 
+
+
+select count(*) from deposit;
+select count(*) from withdraw;
+select count(*) from buypps;
+select count(*) from sellpps;
+select count(*) from transferpps;
+
+
+
+
