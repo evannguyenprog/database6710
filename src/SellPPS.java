@@ -10,7 +10,7 @@ public class SellPPS {
 	// The user who sells the PPS :
 	private String user_email;
 	// Number of PPS sold :
-	private int number_pps_sold;
+	private double number_pps_sold;
 	// Date on which the PPS is sold :
 	private String pps_sold_date;
 	
@@ -36,6 +36,11 @@ public class SellPPS {
 	
 	// Getters and Setters :
 
+	public SellPPS(double total_sellpps) {
+		// TODO Auto-generated constructor stub
+		this.number_pps_sold = total_sellpps;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -52,7 +57,7 @@ public class SellPPS {
 		this.user_email = user_email;
 	}
 
-	public int getNumber_pps_sold() {
+	public double getNumber_pps_sold() {
 		return number_pps_sold;
 	}
 

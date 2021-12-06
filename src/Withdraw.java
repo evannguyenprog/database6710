@@ -36,10 +36,20 @@ public class Withdraw {
 		this.user_email = user_email;
 		this.withdraw_amount = withdraw_amount;
 		this.withdrawal_date = withdrawal_date;
+	}		
+	
+	public Withdraw(int abcd) {
+		// TODO Auto-generated constructor stub
+		this.withdraw_id = abcd;
 	}
+
 	
 	
-	
+	public Withdraw(double withdraw) {
+		// TODO Auto-generated constructor stub
+		this.withdraw_amount = withdraw;
+	}
+
 	// Getters and Setters for 'Withdraw' class :
 	public String getWithdrawal_date() {
 		return withdrawal_date;

@@ -36,6 +36,11 @@ public class Deposit {
 	
 	// Getters and Setters for setting and getting the values above :
 	
+	public Deposit(double total_deposits) {
+		// TODO Auto-generated constructor stub
+		this.deposit_amount = total_deposits;
+	}
+
 	public String getDeposit_date() {
 		return deposit_date;
 	}
