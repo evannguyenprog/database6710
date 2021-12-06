@@ -655,11 +655,10 @@ LIMIT 1;
 
 2. largest buy
 
-SELECT * 
-FROM buypps WHERE (user_email, number_pps_bought) IN 
-( SELECT user_email, MAX(number_pps_bought)
-  FROM buypps
-  GROUP BY user_email
+ SELECT tbl.user_email,tbl.number_pps_bought from buypps tbl
+   join ( select MAX(number_pps_bought) as maxBought from buypps) tbl1
+   on tbl1.maxBought=tbl.number_pps_bought;
+   
 )
 
 3. 
