@@ -116,6 +116,8 @@ public class DepositDao {
         disconnect();        
         return listDeposit;
     }
+    
+    
     //Function 'insert' below is to insert a row/record in the 'Users'
     // table of the PPS database in mysql.
     public void insert(Deposit deposit) throws SQLException {
@@ -181,6 +183,33 @@ public class DepositDao {
  		statement.executeUpdate("DROP TABLE IF EXISTS Deposit");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
   	}
+  	
+  	
+  	
+ // Function "listTotalDeposits()" is for total number of deposits occurred.
+    public List<Deposit> listTotalDeposits() throws SQLException {
+        List<Deposit> listTotalDeposits = new ArrayList<Deposit>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select count(*) as deposit_amount from deposit;"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+           
+            double total_deposits = resultSet.getDouble("deposit_amount");
+           
+            Deposit deposit = new Deposit(total_deposits);
+            listTotalDeposits.add(deposit);
+        }        
+        resultSet.close();
+        statement.close();         
+        disconnect();        
+        return listTotalDeposits;
+    }
+    
 
 	
 

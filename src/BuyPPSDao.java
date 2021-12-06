@@ -212,6 +212,33 @@ public class BuyPPSDao {
         return listNeverBuyUsers;
     }
 
+    
+    
+    // Function "listTotalBuyPPS()" is for listing total number of counts of pps bought overall.
+
+    public List<BuyPPS> listTotalBuyPPS() throws SQLException {
+        List<BuyPPS> listTotalBuyPPS = new ArrayList<BuyPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select count(*) as number_pps_bought from buypps;"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            double total_buypps = resultSet.getDouble("number_pps_bought");
+            System.out.print("ends .........................");
+           
+            BuyPPS buy_pps = new BuyPPS(total_buypps);
+            listTotalBuyPPS.add(buy_pps);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listTotalBuyPPS;
+    }
 	
 
 	public static void main(String[] args) {

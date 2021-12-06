@@ -36,6 +36,11 @@ public class BuyPPS {
 		this.pps_bought_date = pps_bought_date;
 	}
 
+	public BuyPPS(double total_buypps) {
+		// TODO Auto-generated constructor stub
+		this.number_pps_bought = total_buypps;
+	}
+
 	/**
 	 * @return the id
 	 */

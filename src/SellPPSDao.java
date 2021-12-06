@@ -128,7 +128,7 @@ public class SellPPSDao {
     	String sql = "insert into  SellPPS (user_email, number_pps_sold, pps_sold_date) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, sell_pps.getUser_email());
-		preparedStatement.setInt(2, sell_pps.getNumber_pps_sold());
+		preparedStatement.setDouble(2, sell_pps.getNumber_pps_sold());
 		preparedStatement.setString(3, sell_pps.getPps_sold_date());
 		
 		
@@ -175,6 +175,32 @@ public class SellPPSDao {
  			statement.close();
  		}
  	}
+ 	
+ 	 // Function "listTotalSellPPS()" is for listing total number of counts of pps bought overall.
+
+    public List<SellPPS> listTotalSellPPS() throws SQLException {
+        List<SellPPS> listTotalSellPPS = new ArrayList<SellPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select count(*) as number_pps_sold from sellpps;"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            double total_sellpps = resultSet.getDouble("number_pps_sold");
+            System.out.print("ends .........................");
+           
+            SellPPS sell_pps = new SellPPS(total_sellpps);
+            listTotalSellPPS.add(sell_pps);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listTotalSellPPS;
+    }
 
  	// drop table function
   	public void dropTable() throws SQLException {

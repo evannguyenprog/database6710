@@ -37,6 +37,10 @@ public class Users {
     }
     
 
+	public Users() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getEmail() {
 		return email;
 	}

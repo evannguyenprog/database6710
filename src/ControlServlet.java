@@ -601,22 +601,43 @@ public class ControlServlet extends HttpServlet
     }
     
     private void displayInactiveUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-    	String currentUser = (String) session.getAttribute("currentEmail");
-    	List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();
-    	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
+    	
+    	List<Users> listInactiveUsers = new ArrayList<Users>();
+    	listInactiveUsers = usersDao.listInactiveUsers();
     	RequestDispatcher dispatcher;
-    	request.setAttribute("listTransferPPS", listTransferPPS);
-    	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
+    	request.setAttribute("listInactiveUsers", listInactiveUsers);
+    	dispatcher = request.getRequestDispatcher("InactiveUsersPage.jsp");
     	dispatcher.forward(request,  response);
     }
     
     private void displayStatistics(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-    	String currentUser = (String) session.getAttribute("currentEmail");
-    	List<TransferPPS> listTransferPPS = new ArrayList<TransferPPS>();
-    	listTransferPPS = transferPPSDao.listAllTransferPPSByUser(currentUser);
+    	
     	RequestDispatcher dispatcher;
-    	request.setAttribute("listTransferPPS", listTransferPPS);
-    	dispatcher = request.getRequestDispatcher("PPSTransfersPage.jsp");
+    	
+    	List<Deposit> listTotalDeposits = new ArrayList<Deposit>();
+    	listTotalDeposits = depositDao.listTotalDeposits();
+    	request.setAttribute("listTotalDeposits", listTotalDeposits);
+    	
+    	List<Withdraw> listTotalWithdraws = new ArrayList<Withdraw>();
+    	listTotalWithdraws = withdrawDao.listTotalWithdraws();
+    	request.setAttribute("listTotalWithdraws", listTotalWithdraws);
+    
+    	
+    	List<BuyPPS> listTotalBuyPPS = new ArrayList<BuyPPS>();
+    	listTotalBuyPPS = buyPPSDao.listTotalBuyPPS();
+    	request.setAttribute("listTotalBuyPPS", listTotalBuyPPS);
+    	
+    	    	
+    	List<SellPPS> listTotalSellPPS = new ArrayList<SellPPS>();
+    	listTotalSellPPS = sellPPSDao.listTotalSellPPS();
+    	request.setAttribute("listTotalSellPPS", listTotalSellPPS);
+    	
+    	
+    	List<TransferPPS> listTotalTransferPPS = new ArrayList<TransferPPS>();
+    	listTotalTransferPPS = transferPPSDao.listTotalTransferPPS();
+    	request.setAttribute("listTotalTransferPPS", listTotalTransferPPS);
+    	
+    	dispatcher = request.getRequestDispatcher("StatisticsPage.jsp");
     	dispatcher.forward(request,  response);
     }
     

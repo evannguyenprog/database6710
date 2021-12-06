@@ -58,6 +58,11 @@ public class TransferPPS {
 
 	
 	
+	public TransferPPS(int number_pps_transfered2) {
+		// TODO Auto-generated constructor stub
+		this.number_pps_transfered = number_pps_transfered2;
+	}
+
 	/**
 	 * @return the id
 	 */

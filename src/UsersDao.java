@@ -549,6 +549,56 @@ public class UsersDao {
         statement.close();         
         return listNeverSellUsers;
     }
+ 
+    
+    
+   // Function "listInactiveUsers()" is for listing all the inactive users who have never performed
+    // any financial activity on the PPS transaction page.
+
+    public List<Users> listInactiveUsers() throws SQLException {
+        List<Users> listInactiveUsers = new ArrayList<Users>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select email from users\r\n"
+        		+ "where email not in(\r\n"
+        		+ "	select email \r\n"
+        		+ "	from users \r\n"
+        		+ "	where email in(\r\n"
+        		+ "		(select distinct user_email\r\n"
+        		+ "		from deposit)\r\n"
+        		+ "		UNION\r\n"
+        		+ "		(select distinct user_email\r\n"
+        		+ "		from withdraw)\r\n"
+        		+ "		UNION\r\n"
+        		+ "		select distinct user_email\r\n"
+        		+ "		from buypps\r\n"
+        		+ "		UNION\r\n"
+        		+ "		(select distinct user_email\r\n"
+        		+ "		from sellpps)\r\n"
+        		+ "		UNION\r\n"
+        		+ "		(select distinct transfering_user_email\r\n"
+        		+ "		from transferpps)));"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           
+            String email = resultSet.getString("email");
+            
+           
+            Users inactive_users = new Users(email);
+            listInactiveUsers.add(inactive_users);
+        }        
+        resultSet.close();
+        statement.close();         
+        return listInactiveUsers;
+    }
+    
+    
+    
 }
 
 //todo: refactor peopleDAO to connect to DB and call all MYSQL statements

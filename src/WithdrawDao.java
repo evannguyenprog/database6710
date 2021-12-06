@@ -173,6 +173,31 @@ public class WithdrawDao {
  			statement.close(); //might cause issue, check back after testing
  		}
  	}
+ 	
+ 	
+ 	// Function "listTotalWithdraws()" is for total number of withdraws occurred.
+    public List<Withdraw> listTotalWithdraws() throws SQLException {
+        List<Withdraw> listTotalWithdraws = new ArrayList<Withdraw>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "select count(*) as withdraw_amount from withdraw;"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+           
+            double withdraw = resultSet.getDouble("withdraw_amount");
+           
+            Withdraw total_withdraws = new Withdraw(withdraw);
+            listTotalWithdraws.add(total_withdraws);
+        }        
+        resultSet.close();
+        statement.close();         
+        disconnect();        
+        return listTotalWithdraws;
+    }
 
  	// drop table function
   	public void dropTable() throws SQLException {

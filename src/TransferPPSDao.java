@@ -230,6 +230,32 @@ public class TransferPPSDao {
 		        statement.close();         
 		        return listNeverBuyUsers;
 		    }
+		    
+		    
+		 // Function "listTotalTransferPPS()" is for listing the count of the number of transfer of pps occurred
+		    // overall between the users.
+		    public List<TransferPPS> listTotalTransferPPS() throws SQLException {
+		        List<TransferPPS> listTotalTransferPPS = new ArrayList<TransferPPS>();  
+		        // A string 'sql' storing a sql query. 
+		        String sql = "select count(*) as number_pps_transfered from transferpps;"; 
+		        // connecting with the database.
+		        connect_func();      
+		        statement =  (Statement) connect.createStatement();
+		        // executing the 'sql' query :
+		        ResultSet resultSet = statement.executeQuery(sql);
+		         
+		        while (resultSet.next()) {
+		        	
+		           
+		            int number_pps_transfered = resultSet.getInt("number_pps_transfered");
+		           
+		            TransferPPS transferpps = new TransferPPS(number_pps_transfered);
+		            listTotalTransferPPS.add(transferpps);
+		        }        
+		        resultSet.close();
+		        statement.close();         
+		        return listTotalTransferPPS;
+		    }
 	  	
 	
 	public static void main(String[] args) {
