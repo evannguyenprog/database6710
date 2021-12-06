@@ -642,3 +642,50 @@ public class ControlServlet extends HttpServlet
     }
     
 }
+
+/*
+
+1. most buys
+SELECT user_email, count(user_email) AS occurances
+FROM buypps
+GROUP BY user_email
+ORDER BY 
+occurances DESC
+LIMIT 1;
+
+2. largest buy
+
+SELECT * 
+FROM buypps WHERE (user_email, number_pps_bought) IN 
+( SELECT user_email, MAX(number_pps_bought)
+  FROM buypps
+  GROUP BY user_email
+)
+
+3. 
+
+CREATE VIEW sum AS
+	SELECT user_email, SUM(number_pps_bought) as sum
+	FROM buypps
+	GROUP BY user_email;
+
+SELECT * 
+FROM sum
+WHERE (user_email, sum) IN 
+( SELECT user_email, MAX(sum)
+  FROM sum
+  GROUP BY user_email
+)
+ORDER BY sum DESC;
+
+4. popular users
+
+SELECT followed_user_email, count(*) AS count
+FROM follow
+GROUP BY followed_user_email
+HAVING COUNT(followed_user_email) >= 5
+
+
+
+
+*/
