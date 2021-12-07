@@ -618,7 +618,7 @@ public class ControlServlet extends HttpServlet
     	dispatcher.forward(request,  response);
     }
     
-	//WIP
+	//DONE
 	private void displayBiggestBuyers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
     	
     	List<BuyPPS> listBiggestBuyer = new ArrayList<BuyPPS>();
@@ -629,14 +629,14 @@ public class ControlServlet extends HttpServlet
     	dispatcher.forward(request,  response);
     }
 	
-	//WIP 
+	//DONE
 	private void displayPopularUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
     	
-    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
-    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+    	List<FollowUser> listPopularUsers = new ArrayList<FollowUser>();
+    	listPopularUsers = followUserDao.displayPopularUsers();
     	RequestDispatcher dispatcher;
-    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
-    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	request.setAttribute("listPopularUsers", listPopularUsers);
+    	dispatcher = request.getRequestDispatcher("PopularUsersPage.jsp");
     	dispatcher.forward(request,  response);
     }
 	

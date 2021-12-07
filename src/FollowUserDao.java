@@ -119,6 +119,38 @@ public class FollowUserDao {
         disconnect();
     }
     
+ // Function "listFrequentBuyers()" lists users with most amount of buys
+    public List<FollowUser> displayPopularUsers() throws SQLException {
+        List<FollowUser> listPopularUsers = new ArrayList<FollowUser>();  
+        // A string 'sql' storing a sql query. 
+        
+        String sql = "\r\n"
+        	
+        		+ "SELECT followed_user_email, count(*) AS count\r\n"
+        		+ "FROM follow\r\n"
+        		+ "GROUP BY followed_user_email\r\n"
+        		+ "HAVING COUNT(followed_user_email) >= 5;"; 
+        
+        // connecting with the database.
+        connect_func();
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String user_email = resultSet.getString("followed_user_email");
+            System.out.print("ends .........................");
+
+            FollowUser popularUsers = new FollowUser(user_email);
+            listPopularUsers.add(popularUsers);
+        }
+        resultSet.close();
+        statement.close();         
+        return listPopularUsers;
+    }
+    
  // Function "listNeverBuyUsers()" is for listing all the users who have never bought PPS
   	// But, just have received the PPS from other users via transfer.
     public List<FollowUser> listLuckyUsers() throws SQLException {
