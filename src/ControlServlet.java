@@ -181,7 +181,34 @@ public class ControlServlet extends HttpServlet
               	displayTransferPPS(request, response);
               	break;
               
+//==== WIP
+              	
+              case "/frequentBuyers":
+                  System.out.println("Displaying...");
+              	displayFrequentBuyers(request, response);
+              	break;
               
+              case "/displayBiggestBuy":
+                  System.out.println("Displaying...");
+              	displayBiggestBuy(request, response);
+              	break;
+              	
+              case "/displayBiggestBuyers":
+                  System.out.println("Displaying...");
+              	displayBiggestBuyers(request, response);
+              	break;
+              	
+              case "/displayPopularUsers":
+                  System.out.println("Displaying...");
+              	displayPopularUsers(request, response);
+              	break;
+              	
+              case "/displayCommonUsers":
+                  System.out.println("Displaying...");
+              	displayCommonUsers(request, response);
+              	break;
+              	
+//==== WIP
               	
              case "/followAnotherUser":     
                  followAnotherUser(request, response);
@@ -568,6 +595,61 @@ public class ControlServlet extends HttpServlet
     	System.out.print("The user has successfully followed.");
     }
     
+    //WIP
+	private void displayFrequentBuyers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
+	    	
+	    	List<BuyPPS> listFrequentBuyers = new ArrayList<BuyPPS>();
+	    	listFrequentBuyers = buyPPSDao.listFrequentBuyers();
+	    	RequestDispatcher dispatcher;
+	    	request.setAttribute("listFrequentBuyers", listFrequentBuyers);
+	    	dispatcher = request.getRequestDispatcher("frequentBuyersPage.jsp");
+	    	dispatcher.forward(request,  response);
+	    }
+	   
+    //WIP
+	private void displayBiggestBuy(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
+    	
+    	List<BuyPPS> listBiggestBuy = new ArrayList<BuyPPS>();
+    	listBiggestBuy = buyPPSDao.listBiggestBuy();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listBiggestBuy", listBiggestBuy);
+    	dispatcher = request.getRequestDispatcher("BiggestBuyPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+    
+	//WIP
+	private void displayBiggestBuyers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
+    	
+    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
+    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
+    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+	
+	//WIP 
+	private void displayPopularUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
+    	
+    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
+    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
+    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+	
+	//WIP
+	private void displayCommonUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
+    	
+    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
+    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+    	RequestDispatcher dispatcher;
+    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
+    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	dispatcher.forward(request,  response);
+    }
+	
     //Done
     private void displayNeverBuyUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
     	
@@ -649,13 +731,12 @@ public class ControlServlet extends HttpServlet
 SELECT user_email, count(user_email) AS occurances
 FROM buypps
 GROUP BY user_email
-ORDER BY 
-occurances DESC
+ORDER BY occurances DESC
 LIMIT 1;
 
 2. largest buy
 
- SELECT tbl.user_email,tbl.number_pps_bought from buypps tbl
+ SELECT tbl.user_email,tbl.number_pps_bought,tbl.pps_bought_date from buypps tbl
    join ( select MAX(number_pps_bought) as maxBought from buypps) tbl1
    on tbl1.maxBought=tbl.number_pps_bought;
    

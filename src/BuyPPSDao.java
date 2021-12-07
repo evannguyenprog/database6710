@@ -89,6 +89,71 @@ public class BuyPPSDao {
         return listBuyPPS;
     }
     
+    
+ // Function "listFrequentBuyers()" lists users with most amount of buys
+    public List<BuyPPS> listFrequentBuyers() throws SQLException {
+        List<BuyPPS> listFrequentBuyers = new ArrayList<BuyPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "\r\n"
+        		+ "select user_email, count(user_email) AS occurances\r\n"
+        		+ "FROM buypps\r\n"
+        		+ "GROUP BY user_email\r\n"
+        		+ "ORDER BY occurances DESC;"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String user_email = resultSet.getString("user_email");
+            Integer occurances = resultSet.getInt("occurances");
+            System.out.print("ends .........................");
+            System.out.print(occurances);
+
+            BuyPPS frequentBuyer = new BuyPPS(user_email, occurances);
+            listFrequentBuyers.add(frequentBuyer);
+        }
+        resultSet.close();
+        statement.close();         
+        return listFrequentBuyers;
+    }
+    
+    
+    // Function "listFrequentBuyers()" lists users with most amount of buys
+    public List<BuyPPS> listBiggestBuy() throws SQLException {
+        List<BuyPPS> listBiggestBuy = new ArrayList<BuyPPS>();  
+        // A string 'sql' storing a sql query. 
+        String sql = "\r\n"
+        		+ " SELECT tbl.user_email,tbl.number_pps_bought,tbl.pps_bought_date from buypps tbl\r\n"
+        		+ "join ( select MAX(number_pps_bought) as maxBought from buypps) tbl1\r\n"
+        		+ "on tbl1.maxBought=tbl.number_pps_bought;;"; 
+        // connecting with the database.
+        connect_func();      
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String user_email = resultSet.getString("user_email");
+            Double number_pps_bought = resultSet.getDouble("number_pps_bought");
+            String pps_bought_date = resultSet.getString("pps_bought_date");
+
+            System.out.print("ends .........................");
+
+            BuyPPS biggestBuy = new BuyPPS(user_email, number_pps_bought, pps_bought_date);
+            listBiggestBuy.add(biggestBuy);
+        }
+        resultSet.close();
+        statement.close();         
+        return listBiggestBuy;
+    }
+    
+    
  // Function "listAllBuyPPS()" is for printing all the rows/records
     // of 'BuyPPS' table(i.e User model/class in Java terminology.)
     public List<BuyPPS> listAllBuyPPSByUser(String current_user) throws SQLException {
