@@ -13,7 +13,9 @@ public class BuyPPS {
 	
 	private String pps_bought_date;
 	
-	private Integer occurances;
+	private int occurances;
+	
+	private double total_pps_bought;
 	
 	
 	// Constructors :
@@ -44,11 +46,18 @@ public class BuyPPS {
 	}
 	
 	//constructor for email and occurances of buys
-	public BuyPPS(String user_email, Integer occurances) {
+	public BuyPPS(String user_email, int occurances) {
 		this.user_email = user_email;
 		this.occurances = occurances;
 	}
-	
+
+	//constructor for email and total pps bought
+		public BuyPPS(String user_email, double total_pps_bought) {
+			this.user_email = user_email;
+			this.total_pps_bought = total_pps_bought;
+		}
+		
+
 	
 	/**
 	 * @return the id

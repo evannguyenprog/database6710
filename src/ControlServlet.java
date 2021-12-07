@@ -274,7 +274,8 @@ public class ControlServlet extends HttpServlet
         transferPPSDao.createTable();
         withdrawDao.createTable();
         followUserDao.createTable();
-
+        
+        buyPPSDao.createView();
 
         System.out.println("====== Database Initalized Successfully. ====== ");
        
@@ -606,7 +607,7 @@ public class ControlServlet extends HttpServlet
 	    	dispatcher.forward(request,  response);
 	    }
 	   
-    //WIP
+    //DONE
 	private void displayBiggestBuy(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
     	
     	List<BuyPPS> listBiggestBuy = new ArrayList<BuyPPS>();
@@ -620,11 +621,11 @@ public class ControlServlet extends HttpServlet
 	//WIP
 	private void displayBiggestBuyers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
     	
-    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
-    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+    	List<BuyPPS> listBiggestBuyer = new ArrayList<BuyPPS>();
+    	listBiggestBuyer = buyPPSDao.listBiggestBuyer();
     	RequestDispatcher dispatcher;
-    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
-    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	request.setAttribute("listBiggestBuyer", listBiggestBuyer);
+    	dispatcher = request.getRequestDispatcher("BiggestBuyerPage.jsp");
     	dispatcher.forward(request,  response);
     }
 	
@@ -744,19 +745,15 @@ LIMIT 1;
 
 3. 
 
+Drop view if exists sum;
 CREATE VIEW sum AS
 	SELECT user_email, SUM(number_pps_bought) as sum
 	FROM buypps
 	GROUP BY user_email;
 
-SELECT * 
-FROM sum
-WHERE (user_email, sum) IN 
-( SELECT user_email, MAX(sum)
-  FROM sum
-  GROUP BY user_email
-)
-ORDER BY sum DESC;
+ SELECT tbl.user_email,tbl.sum from sum tbl
+   join ( select MAX(sum) as maxSum from sum) tbl1
+   on tbl1.maxSum=tbl.sum;
 
 4. popular users
 

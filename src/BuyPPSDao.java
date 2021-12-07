@@ -109,7 +109,7 @@ public class BuyPPSDao {
         	
            System.out.print("starts .........................");
             String user_email = resultSet.getString("user_email");
-            Integer occurances = resultSet.getInt("occurances");
+            int occurances = resultSet.getInt("occurances");
             System.out.print("ends .........................");
             System.out.print(occurances);
 
@@ -129,7 +129,7 @@ public class BuyPPSDao {
         String sql = "\r\n"
         		+ " SELECT tbl.user_email,tbl.number_pps_bought,tbl.pps_bought_date from buypps tbl\r\n"
         		+ "join ( select MAX(number_pps_bought) as maxBought from buypps) tbl1\r\n"
-        		+ "on tbl1.maxBought=tbl.number_pps_bought;;"; 
+        		+ "on tbl1.maxBought=tbl.number_pps_bought;"; 
         // connecting with the database.
         connect_func();      
         statement =  (Statement) connect.createStatement();
@@ -151,6 +151,39 @@ public class BuyPPSDao {
         resultSet.close();
         statement.close();         
         return listBiggestBuy;
+    }
+    
+    
+    // Function "listFrequentBuyers()" lists users with most amount of buys
+    public List<BuyPPS> listBiggestBuyer() throws SQLException {
+        List<BuyPPS> listBiggestBuyer = new ArrayList<BuyPPS>();  
+        // A string 'sql' storing a sql query. 
+        
+        String sql = "\r\n"
+        	
+        		+ "SELECT tbl.user_email,tbl.sum from sum tbl\r\n"
+        		+ "join ( select MAX(sum) as maxSum from sum) tbl1\r\n"
+        		+ "on tbl1.maxSum=tbl.sum;"; 
+        // connecting with the database.
+        connect_func();
+        statement =  (Statement) connect.createStatement();
+        // executing the 'sql' query :
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+        	
+           System.out.print("starts .........................");
+            String user_email = resultSet.getString("user_email");
+            Double total_pps_bought = resultSet.getDouble("sum");
+
+            System.out.print("ends .........................");
+
+            BuyPPS biggestBuyer = new BuyPPS(user_email, total_pps_bought);
+            listBiggestBuyer.add(biggestBuyer);
+        }
+        resultSet.close();
+        statement.close();         
+        return listBiggestBuyer;
     }
     
     
@@ -240,11 +273,32 @@ public class BuyPPSDao {
  		statement = (Statement) connect.createStatement();
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
  		statement.executeUpdate("DROP TABLE IF EXISTS BuyPPS");
+ 		statement.executeUpdate("DROP VIEW IF EXISTS sum");
  		statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+	
   	}
   	
+  	 // create table
+ 	public void createView() throws SQLException {
+ 		try {
+ 			connect_func();
+ 			//Creating the table BuyPPS :
+ 		     String createView = "\r\n"
+ 			    	+ "CREATE VIEW sum AS\r\n"
+ 			    	+ "SELECT user_email, SUM(number_pps_bought) as sum\r\n"
+ 			    	+ "FROM buypps\r\n"
+ 			    	+ "GROUP BY user_email;\r\n";
   	
-  	
+ 			statement.executeUpdate(createView);
+ 			System.out.println("'sum' view created.");
+ 			
+ 		} catch (Exception e) {
+ 			System.out.println(e);
+ 		} finally {
+ 			statement.close();
+ 		}
+ 	}
+ 	
  // Function "listNeverBuyUsers()" is for listing all the users who have never bought PPS
   	// But, just have received the PPS from other users via transfer.
     public List<BuyPPS> listNeverBuyUsers() throws SQLException {
