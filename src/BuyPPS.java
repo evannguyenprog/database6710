@@ -54,7 +54,7 @@ public class BuyPPS {
 	//constructor for email and total pps bought
 		public BuyPPS(String user_email, double total_pps_bought) {
 			this.user_email = user_email;
-			this.total_pps_bought = total_pps_bought;
+			this.setTotal_pps_bought(total_pps_bought);
 		}
 		
 
@@ -116,7 +116,25 @@ public class BuyPPS {
 	}	
 	
 	
+	public int getOccurances() {
+		return occurances;
+	}
 	
+	public void setOccurances(int occ) {
+		this.occurances = occ;
+	}
 	
+	public String toString()
+    {
+        return "occurances: "+ this.occurances;       
+    }
+
+	public double getTotal_pps_bought() {
+		return total_pps_bought;
+	}
+
+	public void setTotal_pps_bought(double total_pps_bought) {
+		this.total_pps_bought = total_pps_bought;
+	}
 
 }

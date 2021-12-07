@@ -24,8 +24,8 @@
                 
                 <tr>
                     <td><c:out value="${listBiggestBuyer.user_email}" /></td>
-<%-- 					<td><c:out value="${listBiggestBuyer.total_pps_bought}" /></td>
- --%>                  
+ 					<td><c:out value="${listBiggestBuyer.total_pps_bought}" /></td>
+                 
                 </tr>
            	</c:forEach>
            	           	

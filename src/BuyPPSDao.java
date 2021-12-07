@@ -107,11 +107,11 @@ public class BuyPPSDao {
          
         while (resultSet.next()) {
         	
-           System.out.print("starts .........................");
+           System.out.println("starts .........................");
             String user_email = resultSet.getString("user_email");
             int occurances = resultSet.getInt("occurances");
-            System.out.print("ends .........................");
-            System.out.print(occurances);
+            System.out.println("ends .........................");
+            System.out.println(occurances);
 
             BuyPPS frequentBuyer = new BuyPPS(user_email, occurances);
             listFrequentBuyers.add(frequentBuyer);
@@ -138,12 +138,11 @@ public class BuyPPSDao {
          
         while (resultSet.next()) {
         	
-           System.out.print("starts .........................");
+           System.out.println("starts .........................");
             String user_email = resultSet.getString("user_email");
             Double number_pps_bought = resultSet.getDouble("number_pps_bought");
             String pps_bought_date = resultSet.getString("pps_bought_date");
-
-            System.out.print("ends .........................");
+            System.out.println("ends .........................");
 
             BuyPPS biggestBuy = new BuyPPS(user_email, number_pps_bought, pps_bought_date);
             listBiggestBuy.add(biggestBuy);
@@ -172,11 +171,10 @@ public class BuyPPSDao {
          
         while (resultSet.next()) {
         	
-           System.out.print("starts .........................");
+           System.out.println("starts .........................");
             String user_email = resultSet.getString("user_email");
             Double total_pps_bought = resultSet.getDouble("sum");
-
-            System.out.print("ends .........................");
+            System.out.println("ends .........................");
 
             BuyPPS biggestBuyer = new BuyPPS(user_email, total_pps_bought);
             listBiggestBuyer.add(biggestBuyer);

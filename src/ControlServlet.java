@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.LinkedHashSet;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -181,7 +182,6 @@ public class ControlServlet extends HttpServlet
               	displayTransferPPS(request, response);
               	break;
               
-//==== WIP
               	
               case "/frequentBuyers":
                   System.out.println("Displaying...");
@@ -207,9 +207,7 @@ public class ControlServlet extends HttpServlet
                   System.out.println("Displaying...");
               	displayCommonUsers(request, response);
               	break;
-              	
-//==== WIP
-              	
+              	              	
              case "/followAnotherUser":     
                  followAnotherUser(request, response);
                 break;
@@ -601,6 +599,12 @@ public class ControlServlet extends HttpServlet
 	    	
 	    	List<BuyPPS> listFrequentBuyers = new ArrayList<BuyPPS>();
 	    	listFrequentBuyers = buyPPSDao.listFrequentBuyers();
+	    	
+	    	System.out.println(listFrequentBuyers);
+	    	for(BuyPPS i : listFrequentBuyers){
+	    		System.out.println(i);
+	    		}
+	    	
 	    	RequestDispatcher dispatcher;
 	    	request.setAttribute("listFrequentBuyers", listFrequentBuyers);
 	    	dispatcher = request.getRequestDispatcher("frequentBuyersPage.jsp");
@@ -643,11 +647,13 @@ public class ControlServlet extends HttpServlet
 	//WIP
 	private void displayCommonUsers(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException, NumberFormatException {
     	
-    	List<TransferPPS> listNeverBuyUsers = new ArrayList<TransferPPS>();
-    	listNeverBuyUsers = transferPPSDao.listNeverBuyUsers();
+		String first_email = "evan@gmail.com";
+		String second_email = "varun@gmail.com";
+    	List<FollowUser> listCommonUsers = new ArrayList<FollowUser>();
+    	listCommonUsers = followUserDao.displayCommonUsers(first_email, second_email);
     	RequestDispatcher dispatcher;
-    	request.setAttribute("listNeverBuyUsers", listNeverBuyUsers);
-    	dispatcher = request.getRequestDispatcher("NeverBuyPage.jsp");
+    	request.setAttribute("listCommonUsers", listCommonUsers);
+    	dispatcher = request.getRequestDispatcher("CommonUsersPage.jsp");
     	dispatcher.forward(request,  response);
     }
 	
@@ -762,6 +768,14 @@ FROM follow
 GROUP BY followed_user_email
 HAVING COUNT(followed_user_email) >= 5
 
+5. common users
+
+SELECT follower_user_email 
+FROM follow
+WHERE followed_user_email = "john@gmail.com" AND follower_user_email IN(
+SELECT follower_user_email 
+FROM follow
+WHERE followed_user_email = "smit@gmail.com")
 
 
 

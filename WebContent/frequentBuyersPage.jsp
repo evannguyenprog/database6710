@@ -23,9 +23,9 @@
                 
                 <tr>
                     <td><c:out value="${listFrequentBuyers.user_email}" /></td>
-					<td>occ</td>
-<%-- 					<td><c:out value="${listFrequentBuyers.occurances}" /></td>
- --%>                    
+<!-- 					<td>occ</td>
+ --> 					<td><c:out value="${listFrequentBuyers.occurances}" /></td>
+                    
                 </tr>
            	</c:forEach>
            	           	
